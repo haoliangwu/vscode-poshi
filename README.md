@@ -52,7 +52,7 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 ### Advance
 | Trigger  | Content |
 | -------: | ------- |
-| **Condition & Loop ** |  |
+| **Condition & Loop** |  |
 | `eq` | create `equals` condition cond segment |
 | `cond` | create `condition` condition code segment |
 | `ift` | create `if-then` condition code segment |
