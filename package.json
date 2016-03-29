@@ -1,0 +1,31 @@
+{
+    "name": "POSHI",
+    "description": "POSHI support for VS code",
+    "displayName": "poshi",
+    "description": "poshi code with snippets",
+    "version": "0.0.1",
+    "publisher": "lyon",
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "extensionDependencies": [
+        "html"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "html",
+            "aliases": ["POSHI", "poshi"],
+            "extensions": [".function", ".macro", ".testcase", ".path"],
+            "configuration": "./poshi.configuration.json"
+        }],
+        "snippets": [
+            {
+                "language": "html",
+                "path": "./snippets/snippets.json"
+            }
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "reactClassCompoment": {
+        "prefix": "cflv",
+        "body": "<execute function\=\"AssertTextEquals\" locator1\=\"CPAkismet#SUCCESS_MESSAGE\" value1\=\"Your request completed successfully.\" />",
+        "description": "Creates a React component class with ES6 module system"
+    }
+}
