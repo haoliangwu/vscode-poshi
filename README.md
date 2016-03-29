@@ -5,7 +5,9 @@ This extension is the support for POSHI in VS Code editor.
 ## Installation
 In order to install an extension you need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Extensions`. There you have either the option to show the already installed snippets or install new ones.
 
-**Becuase the extension is in progress now, so you can only install it by .vsix file, just drag and drop it to your editor.**
+See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon.POSHI).
+
+**Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
 ## Usage
 ![create new testcase](./images/demo1.gif)
