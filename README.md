@@ -72,7 +72,7 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 You could also define your own snippets. You need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Preference Snippets`. Then you can override existed snippets or define your own snippets !!
 
 ## Inspiration
-[reactjs snippets](https://github.com/xabikos/vscode-react)
-[javascript snippets](https://github.com/xabikos/vscode-javascript)
+* [reactjs snippets](https://github.com/xabikos/vscode-react)
+* [javascript snippets](https://github.com/xabikos/vscode-javascript)
 
 **Enjoy!**
