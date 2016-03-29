@@ -1,13 +1,20 @@
-# README
-## This is the README for your extension "POSHI"
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+# POSHI
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
+This extension is the support for POSHI in VS Code editor.
 
-### For more information
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## Installation
+## Usage
+## Snippets
+
+Below is a list of all available snippets and the triggers of each one. The **⇥** means the `TAB` key.
+
+| Trigger  | Content |
+| -------: | ------- |
+
+
+
+## Inspiration
+[reactjs snippets](https://github.com/xabikos/vscode-react)
+[javascript snippets](https://github.com/xabikos/vscode-javascript)
 
 **Enjoy!**

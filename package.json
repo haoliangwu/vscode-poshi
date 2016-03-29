@@ -1,31 +1,33 @@
 {
-    "name": "POSHI",
-    "description": "POSHI support for VS code",
-    "displayName": "poshi",
-    "description": "poshi code with snippets",
-    "version": "0.0.1",
-    "publisher": "lyon",
-    "engines": {
-        "vscode": "^0.10.10"
-    },
-    "categories": [
-        "Languages"
-    ],
-    "extensionDependencies": [
-        "html"
-    ],
-    "contributes": {
-        "languages": [{
-            "id": "html",
-            "aliases": ["POSHI", "poshi"],
-            "extensions": [".function", ".macro", ".testcase", ".path"],
-            "configuration": "./poshi.configuration.json"
-        }],
-        "snippets": [
-            {
-                "language": "html",
-                "path": "./snippets/snippets.json"
-            }
-        ]
-    }
+  "name": "POSHI",
+  "description": "POSHI support for VS code editor",
+  "displayName": "poshi code snippets",
+  "description": "Contains the code snippets for POSHI development in VS Code editor",
+  "version": "0.0.1",
+  "publisher": "lyon",
+  "repository": {
+    "type": "git",
+    "url": "https://git@github.com:haoliangwu/vscode-poshi.git"
+  },
+  "engines": {
+    "vscode": "^0.10.10"
+  },
+  "categories": [
+    "Languages", "Snippets"
+  ],
+  "extensionDependencies": [
+    "html"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "html",
+      "aliases": ["POSHI", "poshi"],
+      "extensions": [".function", ".macro", ".testcase", ".path"],
+      "configuration": "./poshi.configuration.json"
+    }],
+    "snippets": [{
+      "language": "html",
+      "path": "./snippets/snippets.json"
+    }]
+  }
 }
