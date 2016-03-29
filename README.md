@@ -10,9 +10,9 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
 ## Usage
-![create new testcase](./images/demo1.gif)
-![invoke macro with var](./images/demo2.gif)
-![if-then-else style](./images/demo3.gif)
+![create new testcase](images/demo1.gif)
+![invoke macro with var](images/demo2.gif)
+![if-then-else style](images/demo3.gif)
 
 ## Snippets(In Progress)
 
