@@ -62,7 +62,6 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 | `el` | create `else` condition code segment |
 | `whth` | create `while-then` loop code segment| 
 | `for` | create `for` loop code segment |
-
 | **Others** |  |
 | `svcomd` | declare a var and invoke function with it in Macro |
 
