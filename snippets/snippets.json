@@ -35,7 +35,7 @@
     "description": "Creates a execute code block only with locator1 parameter"
   },
 
-  "executeWithValue": {
+  "executeWithValue": 
     "prefix": "vexe",
     "body": [
       "<execute ${targetType}=\"${targetName}\" value1=\"${value}\" />"
@@ -239,7 +239,7 @@
   },
 
   "ifThen": {
-    "prefix": "ift",
+    "prefix": "ifth",
     "body": [
       "<if>",
       "\t${conditionSegment}",
@@ -251,7 +251,7 @@
   },
 
   "ifThenElse": {
-    "prefix": "ifte",
+    "prefix": "ifthel",
     "body": [
       "<if>",
       "\t${conditionSegment}",
@@ -265,7 +265,7 @@
   },
 
   "ifThenElseIf": {
-    "prefix": "ifteif",
+    "prefix": "iftheif",
     "body": [
       "<if>",
       "\t${conditionSegment1}",
@@ -294,7 +294,7 @@
   },
 
   "else": {
-    "prefix": "eif",
+    "prefix": "el",
     "body": [
       "<else>",
       "\t<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${value}\" />",
@@ -304,7 +304,7 @@
   },
 
   "whileThen": {
-    "prefix": "wht",
+    "prefix": "whth",
     "body": [
       "<while>",
       "\t${conditionSegment}",
@@ -334,7 +334,7 @@
       "\t<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${varName}\" />",
       "</command>"
     ],
-    "description": "Command segment and invoke function with same var in Macro"
+    "description": "Declare a var and invoke function with it in Macro"
   },
 
   "demo": {
