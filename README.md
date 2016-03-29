@@ -19,7 +19,7 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 ### Basic
 
 | Trigger  | Content |
-| -------: | ------- |
+| :------- | ------- |
 | **Common** |  |
 | `pss` | index Syntax code pattern |
 | `comd` | creates a command code block |
@@ -51,7 +51,7 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 
 ### Advance
 | Trigger  | Content |
-| -------: | ------- |
+| :------- | ------- |
 | **Condition & Loop** |  |
 | `eq` | create `equals` condition cond segment |
 | `cond` | create `condition` condition code segment |
