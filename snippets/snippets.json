@@ -1,7 +1,345 @@
 {
-    "reactClassCompoment": {
-        "prefix": "cflv",
-        "body": "<execute function\=\"AssertTextEquals\" locator1\=\"CPAkismet#SUCCESS_MESSAGE\" value1\=\"Your request completed successfully.\" />",
-        "description": "Creates a React component class with ES6 module system"
-    }
+  //basic
+  //common
+  "poundSignSyntax": {
+    "prefix": "pss",
+    "body": [
+      "${pageObject}#${command}"
+    ],
+    "description": "index Syntax code pattern"
+  },
+
+  "command": {
+    "prefix": "comd",
+    "body": [
+      "<command name=\"${commandName}\">",
+      "\t$1",
+      "</command>"
+    ],
+    "description": "Creates a command code block"
+  },
+
+  "execute": {
+    "prefix": "exe",
+    "body": [
+      "<execute ${targetType}=\"${targetName}\" />"
+    ],
+    "description": "Creates a execute code block with no parameter"
+  },
+
+  "executeWithLocator": {
+    "prefix": "lexe",
+    "body": [
+      "<execute ${targetType}=\"${targetName}\" locator1=\"${pathFileName}#${locatorKey}\" />"
+    ],
+    "description": "Creates a execute code block only with locator1 parameter"
+  },
+
+  "executeWithValue": {
+    "prefix": "vexe",
+    "body": [
+      "<execute ${targetType}=\"${targetName}\" value1=\"${value}\" />"
+    ],
+    "description": "Creates a execute code block only with value1 parameter"
+  },
+
+  "executeWithLocatorAndValue": {
+    "prefix": "lvexe",
+    "body": [
+      "<execute ${targetType}=\"${targetName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${value}\" />"
+    ],
+    "description": "Creates a execute code block with locator1 and value1 parameters"
+  },
+
+  "var": {
+    "prefix": "var",
+    "body": [
+      "<var name=\"${varName}\" value=\"${varValue}\" />"
+    ],
+    "description": "Creates a var declaration code block"
+  },
+
+  //function
+  "defineFunction": {
+    "prefix": "df",
+    "body": [
+      "<definition default=\"${defaultCommand}\">",
+      "\t<command name=\"${defaultCommand}\">",
+      "\t\t<execute selenium=\"${seleniumCommand}\" />",
+      "\t</command>",
+      "</definition>"
+    ],
+    "description": "Creates a definition code block for Function"
+  },
+
+  "invokeSelenium": {
+    "prefix": "ins",
+    "body": [
+      "<execute selenium=\"${seleniumName}\" />"
+    ],
+    "description": "invoke Selenium Command"
+  },
+
+  //macro
+  "defineMacro": {
+    "prefix": "dm",
+    "body": [
+      "<definition>",
+      "\t<command name=\"${commandName}\">",
+      "\t\t<execute function=\"${functionName}\" />",
+      "\t</command>",
+      "</definition>"
+    ],
+    "description": "Creates a definition code block for Macro"
+  },
+
+  "invokeFunction": {
+    "prefix": "inf",
+    "body": [
+      "<execute function=\"${functionName}\" />"
+    ],
+    "description": "invoke Function Command"
+  },
+
+  "invokeFunctionWithLocator": {
+    "prefix": "linf",
+    "body": [
+      "<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" />"
+    ],
+    "description": "invoke Function Command only with locator1 parameter"
+  },
+
+  "invokeFunctionWithValue": {
+    "prefix": "vinf",
+    "body": [
+      "<execute function=\"${functionName}\" value1=\"${value}\" />"
+    ],
+    "description": "invoke Function Command only with value1 parameter"
+  },
+
+  "invokeFunctionWithLocatorAndValue": {
+    "prefix": "lvinf",
+    "body": [
+      "<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${value}\" />"
+    ],
+    "description": "invoke Function Command with locator1 and value1 parameters"
+  },
+
+  //testcase
+  "defineTestcase": {
+    "prefix": "dt",
+    "body": [
+      "<definition component-name=\"${componentName}\">",
+      "\t<property name=\"${propertyName}\" value=\"${propertyValue}\" />",
+      "\t$1\n",
+      "\t<set-up>",
+      "\t\t$2",
+      "\t</set-up>\n",
+      "\t<tear-down>",
+      "\t\t$3",
+      "\t</tear-down>\n",
+      "\t<command name=\"${commandName}\" priority=\"${priority}\">",
+      "\t\t<execute macro=\"${macroName}\" />",
+      "\t</command>",
+      "</definition>"
+    ],
+    "description": "Creates a definition code block for Testcase"
+  },
+
+  "commandWithPriority": {
+    "prefix": "comd",
+    "body": [
+      "<command name=\"${commandName}\" priority=\"${priority}\">",
+      "\t$1",
+      "</command>"
+    ],
+    "description": "Creates a command code block"
+  },
+
+  "property": {
+    "prefix": "prop",
+    "body": [
+      "<property name=\"${propName}\" value=\"${propValue}\" />"
+    ],
+    "description": "Creates a property declaration code block"
+  },
+
+  "invokeMacro": {
+    "prefix": "inm",
+    "body": [
+      "<execute macro=\"${macroName}#${commandName}\" />"
+    ],
+    "description": "invoke Macro Command"
+  },
+
+  "invokeMacroWithVar": {
+    "prefix": "vinm",
+    "body": [
+      "<execute macro=\"${macroName}#${commandName}\">",
+      "\t<var name=\"${varName}\" value=\"varValue\" />",
+      "</execute>"
+    ],
+    "description": "invoke Macro Command with one var"
+  },
+
+  "invokeMacroWithVars": {
+    "prefix": "vsinm",
+    "body": [
+      "<execute macro=\"${macroName}#${commandName}\">",
+      "\t<var name=\"${varName1}\" value=\"varValue1\" />",
+      "\t<var name=\"${varName2}\" value=\"varValue2\" />",
+      "\t$1",
+      "</execute>"
+    ],
+    "description": "invoke Macro Command with several vars"
+  },
+
+  //path
+  "definePath": {
+    "prefix": "dp",
+    "body": [
+      "<tr>",
+      "\t<td>${locatorKey}</td>",
+      "\t<td>${locatorValue}</td>",
+      "\t<td></td>",
+      "</tr>"
+    ],
+    "description": "Creates a definition code block for Path Locator"
+  },
+
+  "defineEmptyPath": {
+    "prefix": "dep",
+    //it's same as 'tr>td*3'
+    "body": [
+      "<tr>",
+      "\t<td></td>",
+      "\t<td></td>",
+      "\t<td></td>",
+      "</tr>"
+    ],
+    "description": "Creates a definition code block for empty Path Locator"
+  },
+
+
+  //advance
+  "equlas": {
+    "prefix": "eq",
+    "body": [
+      "<equals arg1=\"${arg1}\" arg2=\"${arg2}\" />"
+    ],
+    "description": "Creates 'equals' condition code segment"
+  },
+
+  "condition": {
+    "prefix": "cond",
+    "body": [
+      "<condition function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${value}\" />"
+    ],
+    "description": "Creates 'condition' condition code segment"
+  },
+
+  "ifThen": {
+    "prefix": "ift",
+    "body": [
+      "<if>",
+      "\t${conditionSegment}",
+      "\t<then>",
+      "\t</then>",
+      "</if>"
+    ],
+    "description": "Creates 'if-then' condition code segment"
+  },
+
+  "ifThenElse": {
+    "prefix": "ifte",
+    "body": [
+      "<if>",
+      "\t${conditionSegment}",
+      "\t<then>",
+      "\t</then>",
+      "\t<else>",
+      "\t</else>",
+      "</if>"
+    ],
+    "description": "Creates 'if-then-else' condition code segment"
+  },
+
+  "ifThenElseIf": {
+    "prefix": "ifteif",
+    "body": [
+      "<if>",
+      "\t${conditionSegment1}",
+      "\t<then>",
+      "\t</then>",
+      "\t<elseif>",
+      "\t\t${conditionSegment2}",
+      "\t\t<then>",
+      "\t\t</then>",
+      "\t</elseif>",
+      "</if>"
+    ],
+    "description": "Creates 'if-then-elseif' condition code segment"
+  },
+
+  "elseIf": {
+    "prefix": "eif",
+    "body": [
+      "<elseif>",
+      "\t${conditionSegment}",
+      "\t<then>",
+      "\t</then>",
+      "</elseif>"
+    ],
+    "description": "Creates 'else-if' condition code segment"
+  },
+
+  "else": {
+    "prefix": "eif",
+    "body": [
+      "<else>",
+      "\t<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${value}\" />",
+      "</else>"
+    ],
+    "description": "Creates 'else' condition code segment"
+  },
+
+  "whileThen": {
+    "prefix": "wht",
+    "body": [
+      "<while>",
+      "\t${conditionSegment}",
+      "\t<then>",
+      "\t</then>",
+      "</while>"
+    ],
+    "description": "Creates 'while-then' loop code segment"
+  },
+
+  "for": {
+    "prefix": "for",
+    "body": [
+      "<for list=\"${listName}\" param=\"${paramName}\" >",
+      "\t${executeSegment}",
+      "</for>"
+    ],
+    "description": "Create 'for' loop code segment"
+  },
+
+  //others
+  "singleVarCommandSegment": {
+    "prefix": "svcomd",
+    "body": [
+      "<command name=\"${commandName}\">",
+      "\t<var name=\"${varName}\" value=\"${varValue}\" />\n",
+      "\t<execute function=\"${functionName}\" locator1=\"${pathFileName}#${locatorKey}\" value1=\"${varName}\" />",
+      "</command>"
+    ],
+    "description": "Command segment and invoke function with same var in Macro"
+  },
+
+  "demo": {
+    "prefix": "_demo",
+    "body": [],
+    "description": "this is demo command"
+  }
 }
