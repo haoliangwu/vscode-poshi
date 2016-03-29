@@ -7,7 +7,7 @@ In order to install an extension you need to launch the Command Pallete (Ctrl + 
 
 **Becuase the extension is in progress now, so you can only install it by .vsix file, just drag and drop it to your editor.**
 
-## Usagekw
+## Usage
 ![create new testcase](./images/demo1.gif)
 ![invoke macro with var](./images/demo2.gif)
 ![if-then-else style](./images/demo3.gif)
