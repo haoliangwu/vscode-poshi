@@ -1,45 +1,53 @@
 {
-    "name": "POSHI",
-    "description": "Contains the code snippets for POSHI development in VS Code editor",
-    "displayName": "poshi code snippets",
-    "version": "1.1.1",
-    "publisher": "lyon",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/haoliangwu/vscode-poshi"
-    },
-    "engines": {
-        "vscode": "^0.10.10"
-    },
-    "categories": [
-        "Languages",
-        "Snippets"
-    ],
-    "extensionDependencies": [
-        "html"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "html",
-                "aliases": [
-                    "POSHI",
-                    "poshi"
-                ],
-                "extensions": [
-                    ".function",
-                    ".macro",
-                    ".testcase",
-                    ".path"
-                ],
-                "configuration": "./poshi.configuration.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "html",
-                "path": "./snippets/snippets.json"
-            }
-        ]
-    }
+  "name": "POSHI",
+  "description": "Contains the code snippets for POSHI development in VS Code editor",
+  "displayName": "poshi code snippets",
+  "version": "1.1.1",
+  "publisher": "lyon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haoliangwu/vscode-poshi"
+  },
+  "engines": {
+    "vscode": "^0.10.10"
+  },
+  "categories": [
+    "Languages",
+    "Snippets"
+  ],
+  "extensionDependencies": [
+    "html"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "html",
+      "aliases": [
+        "POSHI",
+        "poshi"
+      ],
+      "extensions": [
+        ".function",
+        ".macro",
+        ".testcase",
+        ".path"
+      ],
+      "configuration": "./poshi.configuration.json"
+    }],
+    "snippets": [{
+      "language": "html",
+      "path": "./snippets/snippets.json"
+    }]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "vscode": "^0.11.0"
+  },
+
+  "main": "./lib/index",
+  "contributes": {
+    "commands": [{
+      "command": "extension.sayHello",
+      "title": "Hello World"
+    }]
+  }
 }

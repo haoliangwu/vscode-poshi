@@ -35,7 +35,7 @@ Below is a list of all available snippets and the triggers of each one. The **�
 | `ins⇥` | invoke selenium command |
 | **Macro** |  |
 | `dm⇥` | create a definition code block for Macro |
-| `inf⇥` | invoke function command |
+| `inf⇥` | invoke function command |.
 | `linf⇥` | invoke function command only with locator1 parameter |
 | `vinf⇥` | invoke function command only with value1 parameter |
 | `lvinf⇥` | invoke function command with locator1 and value1 parameters |
