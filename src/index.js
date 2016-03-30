@@ -22,8 +22,7 @@ export function activate(context) {
 
   var disposable = commands.registerCommand('extension.sayHello', () => {
     try {
-      wordCounter.updateWordCount()
-
+      wordCounter.updateWordCount(context)
     } catch (error) {
       console.log(error)
     }

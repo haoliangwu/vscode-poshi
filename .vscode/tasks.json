@@ -1,11 +1,11 @@
 {
     "version": "0.1.0",
-    "command": "${workspaceRoot}/node_modules/.bin/babel",
+    "command": "npm",
     "isShellCommand": true,
     "tasks": [
         {
-            "args": ["src", "-d", "lib", "--source-maps"],
-            "taskName": "precompile",
+            "args": ["run", "compile"],
+            "taskName": "npm",
             "suppressTaskName": true,
             "isBuildCommand": true,
             "isWatching": false
