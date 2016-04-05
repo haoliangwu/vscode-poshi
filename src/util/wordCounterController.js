@@ -1,11 +1,8 @@
-import {
-  window,
-  Disposable
-} from 'vscode'
+import { window, Disposable } from 'vscode'
 
 export default class WordCounterController {
 
-  constructor(wordCounter) {
+  constructor (wordCounter) {
     this._wordCounter = wordCounter
     this._wordCounter.updateWordCount()
 
@@ -21,11 +18,11 @@ export default class WordCounterController {
     this._disposable = Disposable.from(...subscriptions)
   }
 
-  dispose() {
+  dispose () {
     this._disposable.dispose()
   }
 
-  _onEvent() {
+  _onEvent () {
     this._wordCounter.updateWordCount()
   }
 }

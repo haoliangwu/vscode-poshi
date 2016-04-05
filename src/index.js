@@ -1,28 +1,37 @@
-import {
-  window,
-  commands,
-  Disposable,
-  ExtensionContext,
-  StatusBarAlignment,
-  StatusBarItem,
-  TextDocument
-} from 'vscode'
+import * as path from 'path'
+
+import { workspace } from 'vscode'
+import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
 
-// This method is called when your extension is activated. Activation is
-// controlled by the activation events defined in package.json.
-export function activate(context) {
+export function activate (context) {
+  let wordCounter = new WordCounter()
+  let wordCounterController = new WordCounterController(wordCounter)
 
-  // Use the console to output diagnostic information (console.log) and errors (console.error).
-  // This line of code will only be executed once when your extension is activated.
-
-  // create a new word counter
-  let wordCounter = new WordCounter(),
-    controller = new WordCounterController(wordCounter)
-
-  // Add to a list of disposables which are disposed when this extension is deactivated.
   context.subscriptions.push(wordCounter)
-  context.subscriptions.push(WordCounterController)
+  context.subscriptions.push(wordCounterController)
+
+  let serverModule = path.join(__dirname, 'server.js')
+  let debugOptions = {
+    execArgv: ['--nolazy', '--debug=5004']
+  }
+
+  let serverOptions = {
+    run: { module: serverModule, transport: TransportKind.ipc },
+    debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
+  }
+
+  let clientOptions = {
+    documentSelector: ['html'],
+    synchronize: {
+      configurationSection: 'languageServerExample',
+      fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+    }
+  }
+
+  let disposable = new LanguageClient('Language Server Example', serverOptions, clientOptions).start()
+
+  context.subscriptions.push(disposable)
 }
