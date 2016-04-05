@@ -7,8 +7,7 @@
             "args": ["run", "compile"],
             "taskName": "npm",
             "suppressTaskName": true,
-            "isBuildCommand": true,
-            "isWatching": false
+            "isBuildCommand": true
         }
     ]
 }

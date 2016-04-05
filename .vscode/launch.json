@@ -9,9 +9,6 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}"
 			],
-            "runtimeArgs":[
-                
-            ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
 			"outDir": "${workspaceRoot}/lib",

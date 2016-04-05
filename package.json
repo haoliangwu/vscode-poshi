@@ -22,16 +22,10 @@
     "vscode.html"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello"
+    "onLanguage:html"
   ],
   "main": "./lib/index",
   "contributes": {
-    "commands": [
-      {
-        "command": "extension.sayHello",
-        "title": "Hello World"
-      }
-    ],
     "languages": [
       {
         "id": "html",

@@ -10,13 +10,6 @@ export default class wordCounter {
       this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left)
     }
 
-    this._statusBarItem.command = 'js.projectStatus.command'
-    context.subscriptions.push(commands.registerCommand('js.projectStatus.command', () => {
-
-      window.showInformationMessage('Hello World!')
-
-    }))
-
     // Get the current text editor
     let editor = window.activeTextEditor
     if (!editor) {
