@@ -13,7 +13,7 @@ export function activate (context) {
   context.subscriptions.push(wordCounter)
   context.subscriptions.push(wordCounterController)
 
-  let serverModule = path.join(__dirname, 'server.js')
+  let serverModule = path.join(__dirname, 'server/server.js')
   let debugOptions = {
     execArgv: ['--nolazy', '--debug=5004']
   }
