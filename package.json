@@ -1,5 +1,5 @@
 {
-  "name": "POSHI",
+  "name": "poshi",
   "description": "Contains the code snippets for POSHI development in VS Code editor",
   "displayName": "The POSHI snippets",
   "version": "1.1.1",
@@ -16,7 +16,8 @@
   },
   "categories": [
     "Languages",
-    "Snippets"
+    "Snippets",
+    "Linters"
   ],
   "extensionDependencies": [
     "vscode.html"

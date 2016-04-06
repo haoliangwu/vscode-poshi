@@ -30,7 +30,7 @@ export default class wordCounter {
   _getCommandSegmentCount (doc) {
     let docContent = doc.getText()
 
-    return docContent.match(/<command name=\"(\w+)\">/g).length
+    return docContent.match(/<command name=\"(\w+)\"/g).length
   }
 
   dispose () {

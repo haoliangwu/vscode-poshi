@@ -1,13 +1,12 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments, DiagnosticSeverity } from 'vscode-languageserver'
-import { commandRegex } from '../util/regexUtil'
+import { TestcaseValidator } from '../validator/testcaseValidator'
+import { commandStandardRegex, commandRegex } from '../util/regexUtil'
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
+const testcaseValidator = new TestcaseValidator()
 
 documents.listen(connection)
-
-// the max number of diagnostics
-let maxNumberOfProblems = 100
 
 // init
 connection.onInitialize((params) => {
@@ -31,44 +30,58 @@ documents.onDidChangeContent(change => {
   }
 })
 
-function validateTextDocument (textDocument) {
-  const lines = textDocument.getText().split(/\r?\n/g)
+function validateTextDocument (doc) {
+  const lines = doc.getText().split(/\r?\n/g)
+  const ext = doc.uri.split('.')[1]
+
   let diagnostics = []
-  let problems = 0
 
-  for (var i = 0; i < lines.length && problems < maxNumberOfProblems; i++) {
-    const line = lines[i]
-    const commandWrongList = line.match(commandRegex.wrong)
+  for (let entry of lines.entries()) {
+    switch (ext) {
+      case 'testcase':
+        // command segment in .testcase
+        const [i, line] = entry
+        const commandItems = line.match(commandRegex)
+        if (commandItems) {
+          commandItems.forEach(e => {
+            const index = line.indexOf(e)
+            const equalSignIndex = e.indexOf('=')
+            const commandStrOffset = e.split('=')[1].length
 
-    if (commandWrongList) {
-      commandWrongList.forEach(e => {
-        const index = line.indexOf(e)
-        const equalSignIndex = e.indexOf('=')
-        const commandStrOffset = e.split('=')[1].length
-
-        if (index >= 0) {
-          problems++
-          diagnostics.push({
-            severity: DiagnosticSeverity.Error,
-            range: {
-              start: { line: i, character: index + equalSignIndex + 2 },
-              end: { line: i, character: index + equalSignIndex + commandStrOffset }
-            },
-            message: `Command name's first letter should be capitalized`,
-            source: 'ex'
+            if (commandStandardRegex.testcase.test(e)) {
+              return
+            } else {
+              diagnostics.push({
+                severity: DiagnosticSeverity.Error,
+                range: {
+                  start: { line: i, character: index + equalSignIndex + 2 },
+                  end: { line: i, character: index + equalSignIndex + commandStrOffset }
+                },
+                message: `Command name's first letter should be capitalized`,
+                source: 'ex'
+              })
+            }
           })
         }
-      })
+        break
+      case 'macro':
+        break
+      case 'function':
+        break
+      case 'path':
+        break
+      default:
+        break
     }
   }
 
-  connection.sendDiagnostics({uri: textDocument.uri, diagnostics})
+  connection.sendDiagnostics({uri: doc.uri, diagnostics})
 }
 
 connection.onDidChangeConfiguration((change) => {
-  const settings = change.settings
+  //   const settings = change.settings
 
-  maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
+  //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
 
   documents.all().forEach(validateTextDocument)
 })
