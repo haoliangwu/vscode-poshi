@@ -27,7 +27,7 @@ export function activate (context) {
     documentSelector: ['html'],
     synchronize: {
       configurationSection: 'languageServerExample',
-      fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+      fileEvents: workspace.createFileSystemWatcher('package.json')
     }
   }
 

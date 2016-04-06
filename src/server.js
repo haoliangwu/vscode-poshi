@@ -21,7 +21,7 @@ connection.onInitialize((params) => {
   }
 })
 
-documents.onDidChangeContent((change) => {
+documents.onDidChangeContent(change => {
   validateTextDocument(change.document)
 })
 
@@ -29,7 +29,7 @@ function validateTextDocument (textDocument) {
   let diagnostics = []
   let lines = textDocument.getText().split(/\r?\n/g)
   let problems = 0
-  for (var i = 0; i < lines.length && problems < 100; i++) {
+  for (var i = 0; i < lines.length && problems < maxNumberOfProblems; i++) {
     let line = lines[i]
     let index = line.indexOf('command')
     if (index >= 0) {
@@ -48,5 +48,16 @@ function validateTextDocument (textDocument) {
   // Send the computed diagnostics to VSCode.
   connection.sendDiagnostics({uri: textDocument.uri, diagnostics})
 }
+
+// hold the maxNumberOfProblems setting
+let maxNumberOfProblems = 100
+// The settings have changed. Is send on server activation
+// as well.
+connection.onDidChangeConfiguration((change) => {
+  const settings = change.settings
+  maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
+  // Revalidate any open text documents
+  documents.all().forEach(validateTextDocument)
+})
 
 connection.listen()
