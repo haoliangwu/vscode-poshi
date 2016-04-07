@@ -15,7 +15,7 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 ![if-then-else style](images/demo3.gif)
 
 ## Linters
-All PO Object Linters:
+All PO Linters:
 * Testcase(In Progress)
 * Macro(Pending)
 * Function(Pending)
