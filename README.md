@@ -9,12 +9,23 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
-## Usage
+## Demo
 ![create new testcase](images/demo1.gif)
 ![invoke macro with var](images/demo2.gif)
 ![if-then-else style](images/demo3.gif)
 
-## Snippets(In Progress)
+## Linters
+All PO Object Linters:
+* Testcase(In Progress)
+* Macro(Pending)
+* Function(Pending)
+* Path(Pending)
+
+## Lanugages Helper
+* Completion Provider(Pending)
+* Reference Provider(Pending)
+
+## Snippets
 
 Below is a list of all available snippets and the triggers of each one. The **⇥** means the `TAB` key.
 
@@ -68,13 +79,7 @@ Below is a list of all available snippets and the triggers of each one. The **�
 | `svcomd⇥` | declare a var and invoke function with it in Macro |
 
 
-
-
 ## Custom Snippets
 You could also define your own snippets. You need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Preference Snippets`. Then you can override existed snippets or define your own snippets !!
-
-## Inspiration
-* [reactjs snippets](https://github.com/xabikos/vscode-react)
-* [javascript snippets](https://github.com/xabikos/vscode-javascript)
 
 **Enjoy!**
