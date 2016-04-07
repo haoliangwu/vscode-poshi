@@ -1,10 +1,9 @@
-import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments, DiagnosticSeverity } from 'vscode-languageserver'
-import { TestcaseValidator } from '../validator/testcaseValidator'
-import { commandStandardRegex, commandRegex } from '../util/regexUtil'
+import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
+import { validateCommand } from '../validator/testcaseValidator'
+// import { commandStandardRegex, commandRegex } from '../util/regexUtil'
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
-const testcaseValidator = new TestcaseValidator()
 
 documents.listen(connection)
 
@@ -24,6 +23,8 @@ connection.onInitialize((params) => {
 // bind events
 documents.onDidChangeContent(change => {
   try {
+    connection.console.log('change event fire ..')
+
     validateTextDocument(change.document)
   } catch (error) {
     connection.console.error(error.stack)
@@ -39,30 +40,7 @@ function validateTextDocument (doc) {
   for (let entry of lines.entries()) {
     switch (ext) {
       case 'testcase':
-        // command segment in .testcase
-        const [i, line] = entry
-        const commandItems = line.match(commandRegex)
-        if (commandItems) {
-          commandItems.forEach(e => {
-            const index = line.indexOf(e)
-            const equalSignIndex = e.indexOf('=')
-            const commandStrOffset = e.split('=')[1].length
-
-            if (commandStandardRegex.testcase.test(e)) {
-              return
-            } else {
-              diagnostics.push({
-                severity: DiagnosticSeverity.Error,
-                range: {
-                  start: { line: i, character: index + equalSignIndex + 2 },
-                  end: { line: i, character: index + equalSignIndex + commandStrOffset }
-                },
-                message: `Command name's first letter should be capitalized`,
-                source: 'ex'
-              })
-            }
-          })
-        }
+        validateCommand(entry, diagnostics)
         break
       case 'macro':
         break
