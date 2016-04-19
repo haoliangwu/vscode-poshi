@@ -33,7 +33,7 @@ export function activate (context) {
     }
   }
 
-  let disposable = new LanguageClient('Language Server Example', serverOptions, clientOptions).start()
+  let disposable = new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
 
   context.subscriptions.push(disposable)
 }

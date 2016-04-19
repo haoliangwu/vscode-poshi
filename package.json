@@ -29,12 +29,17 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "Example configuration",
+      "title": "POSHI extension configuration",
       "properties": {
-        "languageServerExample.maxNumberOfProblems": {
-          "type": "number",
-          "default": 100,
-          "description": "Controls the maximum number of problems produced by the server."
+        "liferay.project.home": {
+          "type": "string",
+          "default": "/home/lyon/liferay/portal/portal-6210",
+          "description": "The absolute project path of Liferay Portal."
+        },
+        "poshi.home": {
+          "type": "string",
+          "default": "/portal-web/test/functional/com/liferay/portalweb",
+          "description": "The relative project path of Liferay Portal."
         }
       }
     },
