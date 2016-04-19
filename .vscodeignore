@@ -2,5 +2,6 @@
 LICENSE
 CHANGELOG.md
 images
+typings
 lib/test/**
 test/**

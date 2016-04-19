@@ -1,12 +1,17 @@
 import * as path from 'path'
 
-import { workspace } from 'vscode'
+import { workspace, commands, window, env } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
 
 export function activate (context) {
+  // registe package.json commands
+  commands.registerCommand('POSHI.demo', () => {
+    window.showInformationMessage(`${env.machineId}`)
+  })
+
   // word counter
   let wordCounter = new WordCounter()
   let wordCounterController = new WordCounterController(wordCounter)
