@@ -43,4 +43,4 @@ VS Code中的debugger和其他的IDE的debugger不同的地方在于它并不提
 ## 其他优势
 对于其他一些特性，比如多行编辑、智能提示、snippets、全局检索，各个富文本编辑器都有实现，其实对于使用者来讲，大同小异，这里就不做对比了，详细可以参考[VS Code官方网站][1]。
 
-[1]: https://code.visualstudio.com/docs/extensions/example-debuggers
+[1]: https://code.visualstudio.com/docs
