@@ -41,6 +41,6 @@ VS Code提供language server组件，可以实现一个动态构建、分析语�
 VS Code中的debugger和其他的IDE的debugger不同的地方在于它并不提供实际意义上的debugger，而是提供一个debugger UI和debug protocol。之后只要有遵循这个协议工作的debugger安装进来，既可以按照其实现进行调试工作。（理想中就是可以根据POSHI的调试规则，自己实现一个debugger）
 
 ## 其他优势
-对于其他一些特性，比如多行编辑、智能提示、snippets、全局检索，各个富文本编辑器都有实现，其实对于使用者来讲，大同小异，这里就不做对比了，详细可以参考[VS Code官方网站](1)。
+对于其他一些特性，比如多行编辑、智能提示、snippets、全局检索，各个富文本编辑器都有实现，其实对于使用者来讲，大同小异，这里就不做对比了，详细可以参考[VS Code官方网站][1]。
 
 [1]: https://code.visualstudio.com/docs/extensions/example-debuggers
