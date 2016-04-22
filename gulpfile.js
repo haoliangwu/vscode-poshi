@@ -3,8 +3,8 @@ var babel = require('gulp-babel')
 var watch = require('gulp-watch')
 var plumber = require('gulp-plumber')
 
-var src = 'src/*.js'
-var target = 'build'
+var src = 'src/**/*.js'
+var target = 'lib'
 
 gulp.task('compile', function () {
   return gulp.src(src)

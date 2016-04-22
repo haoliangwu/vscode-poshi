@@ -12,7 +12,7 @@
             "stopOnEntry": false,
             "sourceMaps": true,
             "outDir": "${workspaceRoot}/lib",
-            "preLaunchTask": "npm"
+            "preLaunchTask": "precompile"
         },
         {
             "name": "Launch Tests",
@@ -26,7 +26,7 @@
             "stopOnEntry": false,
             "sourceMaps": true,
             "outDir": "${workspaceRoot}/lib",
-            "preLaunchTask": "npm"
+            "preLaunchTask": "precompile"
         },
         {
             "name": "Mock-Debug",

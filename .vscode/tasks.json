@@ -5,7 +5,13 @@
     "tasks": [
         {
             "args": ["run", "compile"],
-            "taskName": "npm",
+            "taskName": "precompile",
+            "suppressTaskName": true,
+            "isBuildCommand": true
+        },
+        {
+            "args": ["run", "watch"],
+            "taskName": "gulp compile",
             "suppressTaskName": true,
             "isBuildCommand": true
         }

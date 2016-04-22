@@ -3,34 +3,35 @@ import * as fs from 'fs'
 
 const reg = require('../util/regexUtil')
 
+let completionSource = []
+
 function init () {
   fs.readFile('../../test/source/Calendar.macro', 'utf-8', (err, data) => {
     if (err) {
       console.log(err.stack)
     } else {
-      console.log(retriveCommand(data))
+      retriveCommandName(data)
     }
   })
 }
 
-function retriveCommand (data) {
-  console.log(reg.commandRegex)
+function retriveCommandName (data) {
+  data.match(reg.commandRegex)
+    .map((e) => {
+      return e.match(reg.commandName)[0]
+    })
+    .forEach((e, i) => {
+      completionSource.push({
+        label: `Calendar#${e}`,
+        kink: CompletionItemKind.Text,
+        data: i + 1
+      })
+    })
 }
 
 init()
 
-export const completionSource = [
-  {
-    label: 'TypeScript',
-    kind: CompletionItemKind.Text,
-    data: 1
-  },
-  {
-    label: 'JavaScript',
-    kind: CompletionItemKind.Text,
-    data: 2
-  }
-]
+export { completionSource }
 
 export const completionInfoSource = [
   {
