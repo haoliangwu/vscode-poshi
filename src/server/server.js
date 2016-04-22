@@ -1,5 +1,6 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
 import { validateCommand } from '../validator/testcaseValidator'
+import { completionSource, completionInfoSource } from '../completion/completionProvider'
 // import { commandStandardRegex, commandRegex } from '../util/regexUtil'
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
@@ -55,6 +56,19 @@ function validateTextDocument (doc) {
 
   connection.sendDiagnostics({uri: doc.uri, diagnostics})
 }
+
+// completion
+connection.onCompletion((textDocumentPosition) => {
+  return completionSource
+})
+
+connection.onCompletionResolve((item) => {
+  const {detail, documentation} = completionInfoSource[item.data - 1]
+  item.detail = detail
+  item.documentation = documentation
+
+  return item
+})
 
 connection.onDidChangeConfiguration((change) => {
   //   const settings = change.settings
