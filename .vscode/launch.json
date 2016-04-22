@@ -27,6 +27,13 @@
             "sourceMaps": true,
             "outDir": "${workspaceRoot}/lib",
             "preLaunchTask": "npm"
+        },
+        {
+            "name": "Mock-Debug",
+            "type": "mock",
+            "request": "launch",
+            "program": "${workspaceRoot}/test/source/PGCalendar.testcase",
+            "stopOnEntry": true
         }
     ]
 }

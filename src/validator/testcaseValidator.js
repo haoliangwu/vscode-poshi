@@ -21,7 +21,7 @@ export function validateCommand (entry, diagnostics) {
             end: { line: i, character: index + equalSignIndex + commandStrOffset }
           },
           message: `Command name's first letter should be capitalized`,
-          source: 'ex'
+          source: 'tcn'
         })
       }
     })
