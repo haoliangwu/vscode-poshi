@@ -24,11 +24,11 @@
     ],
     
     "extensionDependencies": [
-        "vscode.html"
+        "vscode.xml"
     ],
     
     "activationEvents": [
-        "onLanguage:html"
+        "onLanguage:xml"
     ],
     
     "main": "./lib/index",
@@ -60,7 +60,7 @@
         
         "languages": [
             {
-                "id": "html",
+                "id": "xml",
                 "aliases": [
                     "POSHI"
                 ],
@@ -75,7 +75,7 @@
         ],
         "snippets": [
             {
-                "language": "html",
+                "language": "xml",
                 "path": "./snippets/snippets.json"
             }
         ]
