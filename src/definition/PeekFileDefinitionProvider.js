@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { Position, Location, Uri } from 'vscode'
+import { Position, Location, Uri, workspace } from 'vscode'
 
 export default class PeekFileDefinitionProvider {
 
@@ -29,6 +29,7 @@ export default class PeekFileDefinitionProvider {
     if (match !== null) {
       let potential_fname = match[1] || match[2]
       let root_fname = potential_fname.split('#')[0]
+      let command_name = potential_fname.split('#')[1]
       let match_start = match.index
       let match_end = match.index + potential_fname.length
 
@@ -40,10 +41,14 @@ export default class PeekFileDefinitionProvider {
         console.log(' Match: ', match)
         console.log(' Fname: ' + potential_fname)
         console.log(' Root Name: ' + potential_fname.split('#')[0])
+        console.log(' Command Name: ' + potential_fname.split('#')[1])
         console.log('  Full: ' + full_path)
 
         if (fs.existsSync(full_path)) {
-          return new Location(Uri.file(full_path), new Position(10, 1))
+          return workspace.openTextDocument(full_path)
+            .then(doc => {
+              return new Location(Uri.file(full_path), new Position(0, 1))
+            })
         }
       }
     }
