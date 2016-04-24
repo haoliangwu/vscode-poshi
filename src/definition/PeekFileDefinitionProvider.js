@@ -14,8 +14,8 @@ export default class PeekFileDefinitionProvider {
     let line = document.lineAt(position)
 
     // console.log('====== peek-file definition lookup ===========')
-    // console.log('word: ' + word)
-    // console.log('line: ' + line.text)
+    console.log('word: ' + word)
+    console.log('line: ' + line.text)
 
     // We are looking for strings with filenames
     // - simple hack for now we look for the string with our current word in it on our line
@@ -23,11 +23,11 @@ export default class PeekFileDefinitionProvider {
     let re_str = `"(.*?${word}.*?)"`
     let re_type = /\w+(?=\=)/
     let match = line.text.match(re_str)
-    let type = line.text.match(re_type)
+    let type = line.text.match(re_type)[0]
     // console.log("   Match: ", match)
 
     if (match !== null) {
-      let potential_fname = match[1] || match[2]
+      let potential_fname = match[1]
       let root_fname = potential_fname.split('#')[0]
       let command_name = potential_fname.split('#')[1]
       let match_start = match.index
