@@ -1,10 +1,18 @@
 import * as path from 'path'
 
-import { workspace, commands, window, env } from 'vscode'
+import { workspace, languages, commands, window, env } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
+import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
+
+const PEEK_FILTER = [
+  {
+    language: 'xml',
+    scheme: 'file'
+  }
+]
 
 export function activate (context) {
   // registe package.json commands
@@ -12,7 +20,7 @@ export function activate (context) {
     window.showInformationMessage(`${env.machineId}`)
   })
 
-  // word counter
+  // command counter
   let wordCounter = new WordCounter()
   let wordCounterController = new WordCounterController(wordCounter)
 
@@ -31,14 +39,18 @@ export function activate (context) {
   }
 
   let clientOptions = {
-    documentSelector: ['html'],
+    documentSelector: ['xml'],
     synchronize: {
       configurationSection: 'languageServerExample',
       fileEvents: workspace.createFileSystemWatcher('package.json')
     }
   }
 
-  let disposable = new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
+  context.subscriptions.push(new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start())
 
-  context.subscriptions.push(disposable)
+  // peek definition provider
+  context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+}
+
+export function deactivate () {
 }
