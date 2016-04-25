@@ -4,6 +4,9 @@ import * as fs from 'fs'
 const reg = require('../util/regexUtil')
 
 let completionSource = []
+let completionInfoSource = []
+let root = 'Calendar'
+let type = 'Macro'
 
 function init () {
   fs.readFile('../../test/source/Calendar.macro', 'utf-8', (err, data) => {
@@ -22,24 +25,18 @@ function retriveCommandName (data) {
     })
     .forEach((e, i) => {
       completionSource.push({
-        label: `Calendar#${e}`,
+        label: `${root}#${e}`,
         kink: CompletionItemKind.Text,
         data: i + 1
+      })
+
+      completionInfoSource.push({
+        detail: e,
+        documentation: `The ${e} block of ${root} ${type}.`
       })
     })
 }
 
 init()
 
-export { completionSource }
-
-export const completionInfoSource = [
-  {
-    detail: 'TypeScript details',
-    documentation: 'TypeScript documentation'
-  },
-  {
-    detail: 'TypeScript details',
-    documentation: 'TypeScript documentation'
-  }
-]
+export { completionSource, completionInfoSource }
