@@ -39,12 +39,12 @@
             "properties": {
                 "poshi.liferay.home": {
                     "type": "string",
-                    "default": "",
+                    "default": "${liferay-home}",
                     "description": "The absolute project path of Liferay Portal."
                 },
                 "poshi.project.home": {
                     "type": "string",
-                    "default": "",
+                    "default": "${poshi-home}",
                     "description": "The relative project path of Liferay Portal."
                 }
             }
