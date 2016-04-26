@@ -5,7 +5,6 @@ images
 typings/**
 lib/test/**
 test/**
-node_modules/**
 .vscode/**
 src/**
 test/**

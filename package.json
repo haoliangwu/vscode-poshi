@@ -14,7 +14,8 @@
         "Linters"
     ],
     "keywords": [
-        "poshi","POSHI"
+        "poshi",
+        "POSHI"
     ],
     "repository": {
         "type": "git",
@@ -32,24 +33,18 @@
     ],
     "main": "./lib/index",
     "contributes": {
-        "commands": [
-            {
-                "command": "POSHI.sync",
-                "title": "Hello World"
-            }
-        ],
         "configuration": {
             "type": "object",
             "title": "POSHI extension configuration",
             "properties": {
                 "poshi.liferay.home": {
                     "type": "string",
-                    "default": "/home/lyon/liferay/portal/portal-6210",
+                    "default": "",
                     "description": "The absolute project path of Liferay Portal."
                 },
                 "poshi.project.home": {
                     "type": "string",
-                    "default": "/portal-web/test/functional/com/liferay/portalweb",
+                    "default": "",
                     "description": "The relative project path of Liferay Portal."
                 }
             }
@@ -82,11 +77,11 @@
         "gulp": "^3.9.1",
         "gulp-babel": "^6.1.2",
         "gulp-plumber": "^1.1.0",
-        "gulp-watch": "^4.3.5",
-        "vscode": "^0.11.0"
+        "gulp-watch": "^4.3.5"
     },
     "dependencies": {
         "rd": "0.0.2",
+        "vscode": "^0.11.0",
         "vscode-languageclient": "^1.4.2",
         "vscode-languageserver": "^1.4.1"
     }
