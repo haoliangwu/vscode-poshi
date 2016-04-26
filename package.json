@@ -1,9 +1,21 @@
 {
     "name": "poshi",
-    "description": "Contains the code snippets for POSHI development in VS Code editor",
-    "displayName": "The POSHI snippets",
     "version": "1.0.0",
     "publisher": "lyon",
+    "engines": {
+        "vscode": "^0.10.10"
+    },
+    "license": "MIT",
+    "displayName": "The POSHI snippets",
+    "description": "Contains the code snippets for POSHI development in VS Code editor",
+    "categories": [
+        "Languages",
+        "Snippets",
+        "Linters"
+    ],
+    "keywords": [
+        "poshi","POSHI"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/haoliangwu/vscode-poshi"
@@ -12,14 +24,6 @@
         "compile": "./node_modules/.bin/babel src -d lib --source-maps",
         "watch": "./node_modules/.bin/gulp compile"
     },
-    "engines": {
-        "vscode": "^0.10.10"
-    },
-    "categories": [
-        "Languages",
-        "Snippets",
-        "Linters"
-    ],
     "extensionDependencies": [
         "vscode.xml"
     ],
