@@ -17,11 +17,11 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 
 ### ~~Linter~~
 
-### Definition
-![go to definition](images/demo4.gif)
-
 ### Peek
-![peek to file](images/demo5.gif)
+![peek to file](images/demo4.gif)
+
+### Definition
+![go to definition](images/demo5.gif)
 
 ## Linters
 All PO Linters:
