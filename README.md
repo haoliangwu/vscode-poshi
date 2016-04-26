@@ -9,7 +9,35 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
-## Demo
+## Modules Info
+### Linters
+All PO Linters:
+* Testcase(In Progress)
+* Macro(Pending)
+* Function(Pending)
+* Path(Pending)
+
+To use Linters, you just need to nothing. The Linters will trigger automatically considering the file's extension, eg: .testcase type will trigger testcaseLinter.
+
+The Linters includes two level, **warning** and **error**. The warning level mean the code could be more robust, the error level means the code has errors of syntax and format. 
+
+### Reference Provider
+* Definition (In Progress)
+* Peek ()
+
+To use Peek and Definition, please refer to official Docs about [Definition][1] and [Peek][2]. This extension only implements the definition interface about PO files.(.testcase, .macro, .function and .path)
+
+### Completion Provider
+* IntelliSense(In Progress)
+* Hover(Pending)
+
+To use InterlliSense, just same as other rich editor. The extension initialize the all segments about PO object. The InterlliSense menu will display when you type and try to bind the input chars to the ideal segment.
+
+### ~~Debug~~
+* ~~Static Debugger(Pending)~~
+* ~~Dynamic Debugger(Pending)~~
+
+## Usage Scrennshot
 ### Snippets
 ![create new testcase](images/demo1.gif)
 ![invoke macro with var](images/demo2.gif)
@@ -22,21 +50,6 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 
 ### Definition
 ![go to definition](images/demo5.gif)
-
-## Linters
-All PO Linters:
-* Testcase(In Progress)
-* Macro(Pending)
-* Function(Pending)
-* Path(Pending)
-
-## Peek & Definition
-* Completion Provider(Pending)
-* Reference Provider(In Progress)
-
-## Debug
-* Static Debugger(Pending)
-* Dynamic Debugger(Pending)
 
 ## Snippets
 
@@ -96,3 +109,6 @@ Below is a list of all available snippets and the triggers of each one. The **â‡
 You could also define your own snippets. You need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Preference Snippets`. Then you can override existed snippets or define your own snippets !!
 
 **Enjoy!**
+
+[1]: https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition
+[2]: https://code.visualstudio.com/docs/editor/editingevolved#_peek
