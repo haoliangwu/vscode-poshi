@@ -1,6 +1,6 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
 import { validateCommand } from '../validator/testcaseValidator'
-import { completionSource, completionInfoSource } from '../completion/completionProvider'
+import { completionSource, completionInfoSource } from '../Completion/completionProvider'
 // import { commandStandardRegex, commandRegex } from '../util/regexUtil'
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
