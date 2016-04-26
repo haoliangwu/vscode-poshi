@@ -16,7 +16,7 @@ const PEEK_FILTER = [
 
 export function activate (context) {
   // registe package.json commands
-  commands.registerCommand('POSHI.demo', () => {
+  commands.registerCommand('POSHI.sync', () => {
     window.showInformationMessage(`${env.machineId}`)
   })
 
@@ -50,6 +50,9 @@ export function activate (context) {
 
   // peek definition provider
   context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+
+  // installed message
+  window.showInformationMessage(`The poshi extension has been installed successfully.`)
 }
 
 export function deactivate () {
