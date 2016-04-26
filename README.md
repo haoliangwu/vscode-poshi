@@ -10,9 +10,16 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
 ## Demo
+### Snippets
 ![create new testcase](images/demo1.gif)
 ![invoke macro with var](images/demo2.gif)
 ![if-then-else style](images/demo3.gif)
+
+### Linter
+
+### Peek
+
+### Definition
 
 ## Linters
 All PO Linters:
@@ -21,9 +28,13 @@ All PO Linters:
 * Function(Pending)
 * Path(Pending)
 
-## Lanugages Helper
+## Peek & Definition
 * Completion Provider(Pending)
-* Reference Provider(Pending)
+* Reference Provider(In Progress)
+
+## Debug
+* Static Debugger(Pending)
+* Dynamic Debugger(Pending)
 
 ## Snippets
 

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { Position, Location, Uri, workspace } from 'vscode'
+import { Position, Location, Uri, workspace, window } from 'vscode'
 import { mapping, initMapping } from '../util/mappingUtil.js'
 
 export default class PeekFileDefinitionProvider {
@@ -15,7 +15,15 @@ export default class PeekFileDefinitionProvider {
     this._liferayHOME = this._conf.liferay.home
     this._poshiHOME = this._conf.project.home
 
-    initMapping(this._liferayHOME + this._poshiHOME)
+    const temp = this._liferayHOME + this._poshiHOME
+
+    if (!temp && temp === '') {
+      window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is null, please set them !!`)
+    } else if (!temp.match(/portal-web/)) {
+      window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
+    } else {
+      initMapping(temp)
+    }
   }
 
   provideDefinition (document,
