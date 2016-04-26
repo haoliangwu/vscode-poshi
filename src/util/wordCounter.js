@@ -16,7 +16,7 @@ export default class wordCounter {
     let doc = editor.document
 
     // Only update status if an POSHI file
-    if (doc.languageId === 'html') {
+    if (doc.languageId === 'xml') {
       let wordCount = this._getCommandSegmentCount(doc)
 
       // Update the status bar

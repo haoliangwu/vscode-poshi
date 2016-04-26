@@ -2,6 +2,8 @@
 LICENSE
 CHANGELOG.md
 images
-typings
+typings*
 lib/test/**
 test/**
+node_modules
+.vscode

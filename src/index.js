@@ -52,7 +52,7 @@ export function activate (context) {
   context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
 
   // installed message
-  window.showInformationMessage(`The poshi extension has been installed successfully.`)
+  window.showInformationMessage(`The poshi definition mapping has been generated successfully.`)
 }
 
 export function deactivate () {
