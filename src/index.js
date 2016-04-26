@@ -28,25 +28,31 @@ export function activate (context) {
   context.subscriptions.push(wordCounterController)
 
   // lang server
-  let serverModule = path.join(__dirname, 'server/server.js')
-  let debugOptions = {
-    execArgv: ['--nolazy', '--debug=5004']
-  }
-
-  let serverOptions = {
-    run: { module: serverModule, transport: TransportKind.ipc },
-    debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
-  }
-
-  let clientOptions = {
-    documentSelector: ['xml'],
-    synchronize: {
-      configurationSection: 'languageServerExample',
-      fileEvents: workspace.createFileSystemWatcher('package.json')
+  try {
+    let serverModule = path.join(__dirname, 'server/server.js')
+    let debugOptions = {
+      execArgv: ['--nolazy', '--debug=5004']
     }
-  }
 
-  context.subscriptions.push(new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start())
+    let serverOptions = {
+      run: { module: serverModule, transport: TransportKind.ipc },
+      debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
+    }
+
+    let clientOptions = {
+      documentSelector: ['xml'],
+      synchronize: {
+        configurationSection: 'poshi',
+        fileEvents: workspace.createFileSystemWatcher('package.json')
+      }
+    }
+
+    const langServer = new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
+
+    context.subscriptions.push(langServer)
+  } catch (error) {
+    console.log(error.stack)
+  }
 
   // peek definition provider
   context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))

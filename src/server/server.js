@@ -1,21 +1,23 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
 import { validateCommand } from '../validator/testcaseValidator'
-import { completionSource, completionInfoSource } from '../Completion/completionProvider'
-// import { commandStandardRegex, commandRegex } from '../util/regexUtil'
+const completion = require('../completion/CompletionProvider')
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
-
 documents.listen(connection)
 
 // init
 connection.onInitialize((params) => {
+  connection.console.log('init obj:')
+  connection.console.log(params)
+
   //   const workspaceRoot = params.rootPath
   return {
     capabilities: {
       textDocumentSync: documents.syncKind,
       completionProvider: {
-        resolveProvider: true
+        resolveProvider: true,
+        triggerCharacters: ['#']
       }
     }
   }
@@ -23,13 +25,11 @@ connection.onInitialize((params) => {
 
 // bind events
 documents.onDidChangeContent(change => {
-  try {
-    connection.console.log('change event fire ..')
+  connection.console.log('change event fire ..')
+  connection.console.log('did change content obj:')
+  connection.console.log(change)
 
-    validateTextDocument(change.document)
-  } catch (error) {
-    connection.console.error(error.stack)
-  }
+  validateTextDocument(change.document)
 })
 
 function validateTextDocument (doc) {
@@ -59,15 +59,35 @@ function validateTextDocument (doc) {
 
 // completion
 connection.onCompletion((textDocumentPosition) => {
-  return completionSource
+  const {uri, position} = textDocumentPosition
+  const lines = documents.get(uri).getText().split(/\r?\n/g)
+
+  // 发生改变的那一行
+  connection.console.log(lines[position.line])
+  /*
+      uri:string
+      position:{
+          line:number
+          character:number
+      }
+  */
+
+  // TODO 动态根据输入文本，检索对应的completion item
+  connection.console.log('completion obj: ')
+  connection.console.log(textDocumentPosition)
+  return completion.completionSource
 })
 
 connection.onCompletionResolve((item) => {
-  const {detail, documentation} = completionInfoSource[item.data - 1]
-  item.detail = detail
-  item.documentation = documentation
+  try {
+    const {detail, documentation} = completion.completionInfoSource[item.data - 1]
+    item.detail = detail
+    item.documentation = documentation
 
-  return item
+    return item
+  } catch (error) {
+    console.log(error.stack)
+  }
 })
 
 connection.onDidChangeConfiguration((change) => {
