@@ -6,8 +6,9 @@
 			"name": "Attach",
 			"type": "node",
 			"request": "attach",
-			"port": 6004,
-			"sourceMaps": true
+            "stopOnEntry":true,
+            "localRoot": "${workspaceRoot}",
+			"port": 5004
 		}
 	]
 }
