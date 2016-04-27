@@ -8,6 +8,7 @@ import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
+import HoverProvider from './hover/HoverProvider'
 
 const PEEK_FILTER = [
   {
@@ -20,6 +21,14 @@ const SYMBOL_FILTER = [
   {
     language: 'xml',
     scheme: 'file'
+  }
+]
+
+const HOVER_FILTER = [
+  {
+    language: 'xml',
+    scheme: 'file',
+    pattern: '**/**.macro'
   }
 ]
 
@@ -88,6 +97,9 @@ export function activate (context) {
 
   // symbol provider
   context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
+
+  // hover provider
+  context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
 
   // installed message
   window.showInformationMessage(`The poshi definition mapping has been generated successfully.`)
