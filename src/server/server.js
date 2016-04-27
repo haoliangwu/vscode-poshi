@@ -73,7 +73,7 @@ connection.onCompletion((textDocumentPosition) => {
   connection.console.log(`Change: `)
   connection.console.log(change)
 
-  const match = change.match(/(\w+)?(?=#)/)
+  const match = change.match(/(\w+)+(?=#)/)
 
   connection.console.log('Match: ')
   connection.console.log(match)

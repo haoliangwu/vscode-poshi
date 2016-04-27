@@ -14,6 +14,7 @@ function init (settings) {
   let counter = 0
 
   rd.each(url, function (f, s, next) {
+    // TODO 根据type类型动态生成
     if (f.indexOf('.macro') > 0 || f.indexOf('.function') > 0) {
       const match = f.match(/(\w+)\.(\w+)/)
       // init url mapping

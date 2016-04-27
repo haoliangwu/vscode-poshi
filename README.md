@@ -39,19 +39,23 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 
 ## Usage Scrennshot
 ### Snippets
-![create new testcase](images/demo1.gif)
-![invoke macro with var](images/demo2.gif)
-![if-then-else style](images/demo3.gif)
+![create new testcase](images/snippet1.gif)
+![invoke macro with var](images/snippet2.gif)
+![if-then-else style](images/snippet3.gif)
 
-### ~~Linter~~
+### Linter
+![linter for Testcase](images/linter.gif)
+
+### Completion
+![completion](images/completion.gif)
 
 ### Peek
-![peek to file](images/demo4.gif)
+![peek to file](images/peek.gif)
 
 ### Definition
-![go to definition](images/demo5.gif)
+![go to definition](images/definition.gif)
 
-## Snippets
+## Snippets Lists
 
 Below is a list of all available snippets and the triggers of each one. The **⇥** means the `TAB` key.
 

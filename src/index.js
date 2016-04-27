@@ -31,7 +31,7 @@ export function activate (context) {
   try {
     let serverModule = path.join(__dirname, 'server/server.js')
     let debugOptions = {
-      execArgv: ['--nolazy', '--debug=5004']
+      execArgv: ['--nolazy', '--debug=6004']
     }
 
     let serverOptions = {
