@@ -4,19 +4,21 @@ const completion = require('../completion/CompletionProvider')
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
+let settings = {}
+
 documents.listen(connection)
 
 // init
 connection.onInitialize((params) => {
-  connection.console.log('init obj:')
-  connection.console.log(params)
+  //   connection.console.log('init obj:')
+  //   connection.console.log(params)
 
   //   const workspaceRoot = params.rootPath
   return {
     capabilities: {
       textDocumentSync: documents.syncKind,
       completionProvider: {
-        resolveProvider: true,
+        resolveProvider: false,
         triggerCharacters: ['#']
       }
     }
@@ -25,9 +27,9 @@ connection.onInitialize((params) => {
 
 // bind events
 documents.onDidChangeContent(change => {
-  connection.console.log('change event fire ..')
-  connection.console.log('did change content obj:')
-  connection.console.log(change)
+  //   connection.console.log('change event fire ..')
+  //   connection.console.log('did change content obj:')
+  //   connection.console.log(change)
 
   validateTextDocument(change.document)
 })
@@ -59,39 +61,44 @@ function validateTextDocument (doc) {
 
 // completion
 connection.onCompletion((textDocumentPosition) => {
+  //   connection.console.log(`Settings:`)
+  //   connection.console.log(settings)
+
   const {uri, position} = textDocumentPosition
   const lines = documents.get(uri).getText().split(/\r?\n/g)
 
-  // 发生改变的那一行
-  connection.console.log(lines[position.line])
-  /*
-      uri:string
-      position:{
-          line:number
-          character:number
-      }
-  */
+  // change line content
+  const change = lines[position.line]
 
-  // TODO 动态根据输入文本，检索对应的completion item
-  connection.console.log('completion obj: ')
-  connection.console.log(textDocumentPosition)
-  return completion.completionSource
+  connection.console.log(`Change: `)
+  connection.console.log(change)
+
+  const match = change.match(/(\w+)?(?=#)/)
+
+  connection.console.log('Match: ')
+  connection.console.log(match)
+
+  // generate completionItems
+  if (match) return completion.retriveCommandName(match[1])
+  else return completion.completionSource
 })
 
+// completion reslove
 connection.onCompletionResolve((item) => {
-  try {
-    const {detail, documentation} = completion.completionInfoSource[item.data - 1]
-    item.detail = detail
-    item.documentation = documentation
+  //   try {
+  //     const {detail, documentation} = completion.completionInfoSource[item.data - 1]
+  //     item.detail = detail
+  //     item.documentation = documentation
 
-    return item
-  } catch (error) {
-    console.log(error.stack)
-  }
+  //     return item
+  //   } catch (error) {
+  //     console.log(error.stack)
+  //   }
 })
 
 connection.onDidChangeConfiguration((change) => {
-  //   const settings = change.settings
+  settings = change.settings
+  completion.init(settings)
 
   //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
 
