@@ -21,6 +21,16 @@ To use Linters, you just need to nothing. The Linters will trigger automatically
 
 The Linters includes two level, **warning** and **error**. The warning level mean the code could be more robust, the error level means the code has errors of syntax and format. 
 
+### Symbol & Hover
+* Symbol(In Progress)
+* Hover(Pending)
+
+This module just the implement of Symbol & Hover interface for POSHI(command block shortcut). 
+
+To use Symbol just use (Ctrl + Shift + O or Cmd + Shift + O) to trigger Command Pallete and type the Symbol key, then focus will move to that command block. 
+
+To use Hover just hover the mouse on Key(eg: locator key), then the info panel will diaplay and show the infomation about the KEY.
+
 ### Reference Provider
 * Definition(In Progress)
 * Peek（In Progress)
