@@ -22,10 +22,10 @@ To use Linters, you just need to nothing. The Linters will trigger automatically
 The Linters includes two level, **warning** and **error**. The warning level mean the code could be more robust, the error level means the code has errors of syntax and format. 
 
 ### Reference Provider
-* Definition (In Progress)
-* Peek ()
+* Definition(In Progress)
+* Peek（In Progress)
 
-To use Peek and Definition, please refer to official Docs about [Definition][1] and [Peek][2]. This extension only implements the definition interface about PO files.(.testcase, .macro, .function and .path)
+To use Peek and Definition, please refer to official Docs about [Definition][1] and [Peek][2]. This extension only implements the definition interface about PO files.(.testcase, .macro, .function and .path). The completion feature also works out in Peek View.
 
 ### Completion Provider
 * IntelliSense(In Progress)
