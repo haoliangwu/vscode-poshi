@@ -31,8 +31,8 @@ export default class PeekFileDefinitionProvider {
     token) {
     // todo: make this method operate async
     // let working_dir = path.dirname(document.fileName)
-    let word = document.getText(document.getWordRangeAtPosition(position))
-    let line = document.lineAt(position)
+    const word = document.getText(document.getWordRangeAtPosition(position))
+    const line = document.lineAt(position)
 
     // console.log('====== peek-file definition lookup ===========')
     console.log('word: ' + word)

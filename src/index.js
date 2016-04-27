@@ -6,8 +6,16 @@ import { LanguageClient, TransportKind } from 'vscode-languageclient'
 import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
+import SymbolProvider from './symbol/SymbolProvider'
 
 const PEEK_FILTER = [
+  {
+    language: 'xml',
+    scheme: 'file'
+  }
+]
+
+const SYMBOL_FILTER = [
   {
     language: 'xml',
     scheme: 'file'
@@ -56,6 +64,9 @@ export function activate (context) {
 
   // peek definition provider
   context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+
+  // symbol provider
+  context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
 
   // installed message
   window.showInformationMessage(`The poshi definition mapping has been generated successfully.`)
