@@ -3,6 +3,7 @@ import * as path from 'path'
 import { workspace, languages, commands, window, env } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
+import { initMapping } from './util/mappingUtil'
 import WordCounter from './util/wordCounter'
 import WordCounterController from './util/wordCounterController'
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
@@ -22,7 +23,27 @@ const SYMBOL_FILTER = [
   }
 ]
 
+export function init () {
+  const settings = workspace.getConfiguration('poshi')
+
+  const liferayHOME = settings.liferay.home
+  const poshiHOME = settings.project.home
+
+  const wholePath = liferayHOME + poshiHOME
+
+  if (!wholePath && wholePath === '') {
+    window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is null, please set them !!`)
+  } else if (!wholePath.match(/portal-web/)) {
+    window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
+  } else {
+    initMapping(wholePath)
+  }
+}
+
 export function activate (context) {
+  // init
+  init()
+
   // registe package.json commands
   commands.registerCommand('POSHI.sync', () => {
     window.showInformationMessage(`${env.machineId}`)
