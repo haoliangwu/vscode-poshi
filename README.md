@@ -47,7 +47,7 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 * ~~Static Debugger(Pending)~~
 * ~~Dynamic Debugger(Pending)~~
 
-## Usage Scrennshot
+## Usage Screenshot
 ### Snippets
 ![create new testcase](images/snippet1.gif)
 ![invoke macro with var](images/snippet2.gif)
