@@ -45,28 +45,28 @@ export function init () {
   } else if (!wholePath.match(/portal-web/)) {
     window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
   } else {
-    initMapping(wholePath)
+    return initMapping(wholePath)
   }
 }
 
 export function activate (context) {
-  // init
-  init()
-
-  // registe package.json commands
-  commands.registerCommand('POSHI.sync', () => {
-    window.showInformationMessage(`${env.machineId}`)
-  })
-
-  // command counter
-  let wordCounter = new WordCounter()
-  let wordCounterController = new WordCounterController(wordCounter)
-
-  context.subscriptions.push(wordCounter)
-  context.subscriptions.push(wordCounterController)
-
-  // lang server
   try {
+    // init
+    init()
+
+    // registe package.json commands
+    commands.registerCommand('POSHI.sync', () => {
+      window.showInformationMessage(`${env.machineId}`)
+    })
+
+    // command counter
+    let wordCounter = new WordCounter()
+    let wordCounterController = new WordCounterController(wordCounter)
+
+    context.subscriptions.push(wordCounter)
+    context.subscriptions.push(wordCounterController)
+
+    // lang server
     let serverModule = path.join(__dirname, 'server/server.js')
     let debugOptions = {
       execArgv: ['--nolazy', '--debug=5004']
@@ -88,21 +88,22 @@ export function activate (context) {
     const langServer = new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
 
     context.subscriptions.push(langServer)
+
+    // peek definition provider
+    context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+
+    // symbol provider
+    context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
+
+    // hover provider
+    // context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
+
+    // installed message
+    window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
   } catch (error) {
+    window.showInformationMessage(`There are some problems during initial process, please contact author by https://github.com/haoliangwu/vscode-poshi/issues.`)
     console.log(error.stack)
   }
-
-  // peek definition provider
-  context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
-
-  // symbol provider
-  context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
-
-  // hover provider
-  context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
-
-  // installed message
-  window.showInformationMessage(`The poshi definition mapping has been generated successfully.`)
 }
 
 export function deactivate () {

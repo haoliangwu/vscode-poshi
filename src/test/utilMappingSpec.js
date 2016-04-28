@@ -1,4 +1,4 @@
-import { mappingVar, initMappingVar, initMapping } from '../util/mappingUtil'
+import { mappingLocator, initMappingLocator, initMapping } from '../util/mappingUtil'
 
 const mockData = {
   url: '/home/lyon/liferay/portal/portal-6210/portal-web/test/functional/com/liferay/portalweb'
@@ -7,9 +7,9 @@ const mockData = {
 initMapping(mockData.url)
 
 setTimeout(() => {
-  initMappingVar()
+  initMappingLocator()
 }, 2000)
 
 setTimeout(() => {
-  console.log(mappingVar.testcase.get('PGCalendar'))
+  console.log(mappingLocator['CPCategoriesAdd'].get('SAVE_BUTTON'))
 }, 4000)

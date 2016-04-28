@@ -19,3 +19,9 @@ export const nameRegexGroup = /name="(\w+)"/
 export const valueRegexGroup = /value="(.+)"/
 
 export const executeBlock = /<execute.+>[\s\S]+<\/execute>/
+
+export const locator1Group = /(\w+)#(\w+)/
+
+export const locatorBlock = /(<td>)(.+)(<\/td>)\s+\1(.+)\3/g
+
+export const locatorLine = /<td>(.*)<\/td>/
