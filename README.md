@@ -29,7 +29,7 @@ This module just the implement of Symbol & Hover interface for POSHI(command blo
 
 To use Symbol just use (Ctrl + Shift + O or Cmd + Shift + O) to trigger Command Pallete and type the Symbol key, then focus will move to that command block. 
 
-To use Hover just hover the mouse on Key(eg: locator key), then the info panel will diaplay and show the infomation about the KEY.
+To use Hover just hover the mouse on KEY(eg: locator key), then the info panel will diaplay and show the infomation about the KEY.
 
 ### Reference Provider
 * Definition(In Progress)
@@ -64,6 +64,12 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 
 ### Definition
 ![go to definition](images/definition.gif)
+
+### Hover
+![locator hover](images/hover.gif)
+
+### Symbol
+![macro symbol](images/symbol.gif)
 
 ## Snippets Lists
 
