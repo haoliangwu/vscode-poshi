@@ -96,7 +96,7 @@ export function activate (context) {
     context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
 
     // hover provider
-    // context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
+    context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
 
     // installed message
     window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
