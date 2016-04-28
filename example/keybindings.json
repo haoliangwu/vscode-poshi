@@ -1,0 +1,14 @@
+[
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.cycleEditor"
+    },
+    {
+        "key": "ctrl+k b",
+        "command": "workbench.action.toggleSidebarVisibility"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "expandLineSelection"
+    }
+]
