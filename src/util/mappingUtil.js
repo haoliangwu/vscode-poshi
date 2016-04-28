@@ -2,6 +2,13 @@ import * as rd from 'rd'
 import * as fs from 'fs'
 import * as reg from './regexUtil'
 
+export const typeMapping = {
+  testcase: 'testcase',
+  macro: 'macro',
+  function: 'function',
+  locator1: 'path'
+}
+
 export const mapping = {
   testcase: new Map(),
   macro: new Map(),
