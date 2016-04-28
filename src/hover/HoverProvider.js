@@ -27,7 +27,7 @@ export default class HoverProvider {
       // console.log(line)
 
       // the mapping key
-      const match = curText.match(reg.indexSyntaxGroup)
+      const match = curText.match(reg.locator1Group)
       const root = match ? match[1] : ''
       const key = match ? match[2] : ''
 
