@@ -20,7 +20,9 @@ export const valueRegexGroup = /value="(.+)"/
 
 export const executeBlock = /<execute.+>[\s\S]+<\/execute>/
 
-export const locator1Group = /(\w+)#(\w+)/
+export const locator1Group = /locator1="(\w+)#(\w+)"/
+
+export const indexSyntaxGroup = /(\w+)#(\w+)/
 
 export const locatorBlock = /(<td>)(.+)(<\/td>)\s+\1(.+)\3/g
 

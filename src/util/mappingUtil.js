@@ -9,17 +9,8 @@ export const mapping = {
   path: new Map()
 }
 
-export const mappingVar = {
-  macro: new Map()
-}
-
-/* mappingLocator
-{ fileName: new Map() }
-*/
-export const mappingLocator = {}
-
 export const initMapping = function (url) {
-  rd.each(url, function (f, s, next) {
+  rd.eachSync(url, function (f, s) {
     const match = f.match(/(\w+)\.(\w+)/)
 
     if (match !== null) {
@@ -29,14 +20,54 @@ export const initMapping = function (url) {
         mapping[type].set(name, {uri: f, name: wholeName})
       }
     }
-
-    next()
-  }, function (err) {
-    if (err) throw err
   })
 }
 
+/* mappingLocator
+{ fileName: new Map() }
+*/
+export const mappingLocator = {}
+
+export const initMappingLocator = function () {
+  const pathSources = mapping.path
+  const promises = []
+
+  for (const [name, file] of pathSources) {
+    promises.push(new Promise((res, rej) => {
+      fs.readFile(file.uri, 'utf-8', (err, data) => {
+        if (err) rej(err)
+
+        const match = data.match(reg.locatorBlock)
+        const mapArray = []
+
+        if (match) {
+          match.forEach((e, i) => {
+            const locatorArray = []
+
+            e.split(reg.linesRegex).forEach(e => {
+              const match = e.match(reg.locatorLine)
+
+              locatorArray.push(match ? match[1] : 'null')
+            })
+
+            mapArray.push(locatorArray)
+          })
+
+          res(new Map(mapArray))
+        }
+      })
+    }).then(map => {
+      mappingLocator[name] = map
+    }))
+  }
+}
+
 // TODO
+
+export const mappingVar = {
+  macro: new Map()
+}
+
 export const initMappingVar = function () {
   const macroMaps = mapping.macro
 
@@ -85,39 +116,5 @@ export const initMappingVar = function () {
 
     // TODO 实现其他的文件类型
     mappingVar.macro.set(_namespace, result)
-  }
-}
-
-export const initMappingLocator = function () {
-  const pathSources = mapping.path
-  const promises = []
-
-  for (const [name, file] of pathSources) {
-    promises.push(new Promise((res, rej) => {
-      fs.readFile(file.uri, 'utf-8', (err, data) => {
-        if (err) rej(err)
-
-        const match = data.match(reg.locatorBlock)
-        const mapArray = []
-
-        if (match) {
-          match.forEach((e, i) => {
-            const locatorArray = []
-
-            e.split(reg.linesRegex).forEach(e => {
-              const match = e.match(reg.locatorLine)
-
-              locatorArray.push(match ? match[1] : 'null')
-            })
-
-            mapArray.push(locatorArray)
-          })
-
-          res(new Map(mapArray))
-        }
-      })
-    }).then(map => {
-      mappingLocator[name] = map
-    }))
   }
 }
