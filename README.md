@@ -53,26 +53,33 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 
 ## Usage Screenshot
 ### Snippets
+> Generate the common templates with shortcut keys, even custom ones.
 ![create new testcase](images/snippet1.gif)
 ![invoke macro with var](images/snippet2.gif)
 ![if-then-else style](images/snippet3.gif)
 
 ### Linter
+> Give you instant hints about syntax or format issues.
 ![linter for Testcase](images/linter.gif)
 
 ### Completion
+> Offer word completion by input text.
 ![completion](images/completion.gif)
 
 ### Peek
+> You can view reference files through Peek View, even edit.
 ![peek to file](images/peek.gif)
 
 ### Definition
+> Go to reference files directly by clicking the key word.
 ![go to definition](images/definition.gif)
 
 ### Hover
+> Give you instant value of variates, eg: locator and its value.
 ![locator hover](images/hover.gif)
 
 ### Symbol
+> You can focus on specific position of file by these symbols, say goodbye to search.
 ![macro symbol](images/symbol.gif)
 
 ## Snippets Lists
