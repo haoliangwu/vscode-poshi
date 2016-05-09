@@ -3,34 +3,12 @@ import * as path from 'path'
 import { workspace, languages, commands, window, env } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
+import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER } from './util/filterUtil'
 import { initMapping } from './util/mappingUtil'
-import WordCounter from './util/wordCounter'
-import WordCounterController from './util/wordCounterController'
+
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
 import HoverProvider from './hover/HoverProvider'
-
-const PEEK_FILTER = [
-  {
-    language: 'xml',
-    scheme: 'file'
-  }
-]
-
-const SYMBOL_FILTER = [
-  {
-    language: 'xml',
-    scheme: 'file'
-  }
-]
-
-const HOVER_FILTER = [
-  {
-    language: 'xml',
-    scheme: 'file',
-    pattern: '**/**.macro'
-  }
-]
 
 export function init () {
   const settings = workspace.getConfiguration('poshi')
@@ -60,13 +38,6 @@ export function activate (context) {
     commands.registerCommand('POSHI.sync', () => {
       window.showInformationMessage(`${env.machineId}`)
     })
-
-    // command counter
-    let wordCounter = new WordCounter()
-    let wordCounterController = new WordCounterController(wordCounter)
-
-    context.subscriptions.push(wordCounter)
-    context.subscriptions.push(wordCounterController)
 
     // lang server
     let serverModule = path.join(__dirname, 'server/server.js')
