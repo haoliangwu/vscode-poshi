@@ -45,6 +45,7 @@ export function init () {
   } else if (!wholePath.match(/portal-web/)) {
     window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
   } else {
+    window.showInformationMessage(`POSHI Project initilized successfully.`)
     return initMapping(wholePath)
   }
 }
@@ -52,6 +53,7 @@ export function init () {
 export function activate (context) {
   try {
     // init
+    workspace.onDidChangeConfiguration(init)
     init()
 
     // registe package.json commands
