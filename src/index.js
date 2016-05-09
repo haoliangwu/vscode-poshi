@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import { workspace, languages, commands, window, env } from 'vscode'
+import { workspace, languages, commands, window } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER } from './util/filterUtil'
@@ -36,7 +36,29 @@ export function activate (context) {
 
     // quick pick
     commands.registerCommand('POSHI.quickpick', () => {
-      window.showInformationMessage(`${env.machineId}`)
+      //   window.showInformationMessage(`${env.machineId}`)
+      try {
+        const inputOpts = {
+          placeHolder: 'eg:testcaseName#commandName',
+          validateInput: function (input) {
+            const reg = /\w+#\w+/
+
+            if (reg.test(input)) {
+              return input
+            } else {
+              window.showInformationMessage("The input string isn't valid.")
+            }
+          }
+        }
+
+        const pending = window.showInputBox(inputOpts)
+
+        pending.then(input => {
+          window.showInformationMessage(input)
+        })
+      } catch (error) {
+        console.log(error.stack)
+      }
     })
 
     // lang server
