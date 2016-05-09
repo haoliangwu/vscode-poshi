@@ -34,8 +34,8 @@ export function activate (context) {
     workspace.onDidChangeConfiguration(init)
     init()
 
-    // registe package.json commands
-    commands.registerCommand('POSHI.sync', () => {
+    // quick pick
+    commands.registerCommand('POSHI.quickpick', () => {
       window.showInformationMessage(`${env.machineId}`)
     })
 

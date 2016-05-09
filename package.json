@@ -33,6 +33,12 @@
     ],
     "main": "./lib/index",
     "contributes": {
+        "commands": [
+            {
+                "command": "POSHI.quickpick",
+                "title": "POSHI Quick Pick"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "POSHI extension configuration",
