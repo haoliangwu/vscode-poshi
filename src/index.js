@@ -4,7 +4,7 @@ import { workspace, languages, commands, window } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER } from './util/filterUtil'
-import { initMapping } from './util/mappingUtil'
+import { initMapping, mapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
@@ -41,12 +41,12 @@ export function activate (context) {
         const inputOpts = {
           placeHolder: 'eg:testcaseName#commandName',
           validateInput: function (input) {
-            const reg = /\w+#\w+/
+            if (input.indexOf('#') < 0) return 'The input string should contian # mark.'
 
-            if (reg.test(input)) {
-              return input
-            } else {
-              window.showInformationMessage("The input string isn't valid.")
+            const reg = /\w+#\w+/i
+
+            if (!reg.test(input)) {
+              return 'The input string is not valid.'
             }
           }
         }
@@ -54,7 +54,13 @@ export function activate (context) {
         const pending = window.showInputBox(inputOpts)
 
         pending.then(input => {
-          window.showInformationMessage(input)
+          const {uri} = mapping.testcase.get(input.split('#')[0])
+
+          if (uri) {
+            workspace.openTextDocument(uri).then(doc => {
+              window.showTextDocument(doc)
+            })
+          } else window.showInformationMessage(`Cannot quick pick file by this testcase name.`)
         })
       } catch (error) {
         console.log(error.stack)
