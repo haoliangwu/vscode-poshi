@@ -14,6 +14,9 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
 ## Modules Info
+### Shortcut key
+``alt + P``: open a testcase file by syntax like 'CPBlogs#RateBlogsEntry', you will enter CPBlogs.testcase shortly.
+
 ### Linters
 All PO Linters:
 * Testcase(In Progress)
