@@ -54,6 +54,8 @@ export function activate (context) {
         const pending = window.showInputBox(inputOpts)
 
         pending.then(input => {
+          if (!input) return
+
           const {uri} = mapping.testcase.get(input.split('#')[0])
 
           if (uri) {

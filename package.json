@@ -39,6 +39,12 @@
                 "title": "POSHI Quick Pick"
             }
         ],
+        "keybindings": [
+            {
+                "command": "POSHI.quickpick",
+                "key": "alt+p"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "POSHI extension configuration",
