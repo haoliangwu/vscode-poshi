@@ -1,5 +1,7 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
 import { validateCommand } from '../validator/testcaseValidator'
+import * as fileUtil from '../util/fileUtil'
+
 const completion = require('../completion/CompletionProvider')
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
@@ -73,14 +75,22 @@ connection.onCompletion((textDocumentPosition) => {
   connection.console.log(`Change: `)
   connection.console.log(change)
 
-  const match = change.match(/(\w+)="(\w+)+(?=#)/)
+  // TODO 获取更为准确的change内容，而不是一整行
+  // const match = change.match(/(\w+)="(\w+)+#?/)
+  const match = fileUtil.getChangeTextByCursor(change, position.character)
 
   connection.console.log('Match: ')
   connection.console.log(match)
+  // const segment = match.split('=')[1].replace(/"/g, '')
+  // connection.console.log('SEGMENT: ')
+  // connection.console.log(segment)
+
+  // connection.console.log('KEY: ')
+  // connection.console.log(fileUtil.parseIndexSyntaxSegment(segment))
 
   // generate completionItems
-  if (match) return completion.retriveCommandName(match[1], match[2])
-  else return completion.completionSource
+  if (match) return completion.retriveCommandName(match, connection)
+// else return completion.completionSource
 })
 
 // completion reslove

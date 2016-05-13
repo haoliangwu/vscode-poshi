@@ -4,17 +4,24 @@ import * as rd from 'rd'
 
 import * as reg from '../util/regexUtil'
 import * as fileUtil from '../util/fileUtil'
+import { typeMapping } from '../util/mappingUtil'
 
 const filter = ['testcase', 'macro', 'path', 'function']
 
-let sourceMapping = {
+const sourceMapping = {
   'testcase': new Map(),
   'macro': new Map(),
   'function': new Map(),
   'path': new Map()
 }
-let completionSource = []
-let completionInfoSource = []
+
+const completionMapping = {
+  'testcase': [],
+  'macro': [],
+  'function': [],
+  'path': []
+}
+
 // let type = 'Type'
 
 function init (settings) {
@@ -22,34 +29,23 @@ function init (settings) {
   const url = liferay.home + project.home
   let counter = 0
 
+  console.log(url)
+
   rd.each(url, function (f, s, next) {
-    // TODO 根据type类型动态生成
+    // TODO 根据type类型动态生成(DONE)
     const wholeName = fileUtil.getWholeName(f)
     const ext = fileUtil.getExtName(wholeName)
     const name = fileUtil.getFileName(wholeName)
 
-    if (filter.indexOf(ext)) {
+    if (filter.indexOf(ext) > 0) {
       sourceMapping[ext].set(name, f)
 
-      completionSource.push({
+      completionMapping[ext].push({
         label: name,
         kind: CompletionItemKind.Text,
         data: ++counter
       })
     }
-
-    // switch (ext) {
-    //   case 'testcase':
-    //     break
-    //   case 'macro':
-    //     break
-    //   case 'function':
-    //     break
-    //   case 'path':
-    //     break
-    //   default:
-    //     break
-    // }
 
     next()
   }, function (err) {
@@ -57,32 +53,51 @@ function init (settings) {
   })
 }
 
-function retriveCommandName (type, root) {
+function retriveCommandName (match, connection) {
+  const type = typeMapping[match.split('=')[0]]
+  const segment = match.split('=')[1].replace(/"/g, '')
+
+  const key = fileUtil.parseIndexSyntaxSegment(segment)
+
+  connection.console.log(segment)
+  connection.console.log(key)
+
   return new Promise((resolve, reject) => {
+    // the type is not po type
     if (!sourceMapping[type]) resolve([])
 
-    const uri = sourceMapping[type].get(root)
+    const uri = sourceMapping[type].get(key)
+    connection.console.log('uri' + uri.toString())
+    // uri is undefined, the mapping didn't exist
+    if (!uri) resolve(completionMapping[type])
 
     fs.readFile(uri, 'utf-8', (err, data) => {
       let counter = 0
       let result = []
       if (err) reject(err)
-      // get all command segments
-      data.match(reg.commandRegex)
-        .map((e) => {
-          return e.match(reg.commandName)[1]
-        })
-        .forEach((e) => {
-          result.push({
-            label: `${e}`,
-            kind: CompletionItemKind.Text,
-            data: ++counter
+      // get all command segments, for testcase, macro, function
+      if (type !== 'path') {
+        data.match(reg.commandRegex)
+          .map((e) => {
+            return e.match(reg.commandName)[1]
           })
-        })
+          .forEach((e) => {
+            result.push({
+              label: `${e}`,
+              kind: CompletionItemKind.Text,
+              data: ++counter
+            })
+          })
 
-      resolve(result)
+        resolve(result)
+      } else {
+        // get all locator value segments, for path
+        // TODO resolve the extends issue in Path PO
+        // TODO implement util class for split locator segments(Pending)
+        resolve([])
+      }
     })
   })
 }
 
-export { init, completionSource, completionInfoSource, retriveCommandName }
+export { init, completionMapping, retriveCommandName }
