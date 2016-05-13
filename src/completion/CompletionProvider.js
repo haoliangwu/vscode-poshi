@@ -3,7 +3,16 @@ import * as fs from 'fs'
 import * as rd from 'rd'
 
 import * as reg from '../util/regexUtil'
-let sourceMapping = {}
+import * as fileUtil from '../util/fileUtil'
+
+const filter = ['testcase', 'macro', 'path', 'function']
+
+let sourceMapping = {
+  'testcase': new Map(),
+  'macro': new Map(),
+  'function': new Map(),
+  'path': new Map()
+}
 let completionSource = []
 let completionInfoSource = []
 // let type = 'Type'
@@ -15,32 +24,32 @@ function init (settings) {
 
   rd.each(url, function (f, s, next) {
     // TODO 根据type类型动态生成
-    let type = f.split('.').pop()
-    switch (type) {
-      case 'testcase':
-        break
-      case 'macro':
-        break
-      case 'function':
-        break
-      case 'path':
-        break
-      default:
-        break
-    }
+    const wholeName = fileUtil.getWholeName(f)
+    const ext = fileUtil.getExtName(wholeName)
+    const name = fileUtil.getFileName(wholeName)
 
-    if (f.indexOf('.macro') > 0 || f.indexOf('.function') > 0) {
-      const match = f.match(/(\w+)\.(\w+)/)
-      // init url mapping
-      sourceMapping[match[1]] = f
+    if (filter.indexOf(ext)) {
+      sourceMapping[ext].set(name, f)
 
-      // init completion source
       completionSource.push({
-        label: match[1],
+        label: name,
         kind: CompletionItemKind.Text,
-        data: counter++
+        data: ++counter
       })
     }
+
+    // switch (ext) {
+    //   case 'testcase':
+    //     break
+    //   case 'macro':
+    //     break
+    //   case 'function':
+    //     break
+    //   case 'path':
+    //     break
+    //   default:
+    //     break
+    // }
 
     next()
   }, function (err) {
@@ -48,10 +57,13 @@ function init (settings) {
   })
 }
 
-function retriveCommandName (root) {
-  console.log(sourceMapping[root])
+function retriveCommandName (type, root) {
   return new Promise((resolve, reject) => {
-    fs.readFile(sourceMapping[root], 'utf-8', (err, data) => {
+    if (!sourceMapping[type]) resolve([])
+
+    const uri = sourceMapping[type].get(root)
+
+    fs.readFile(uri, 'utf-8', (err, data) => {
       let counter = 0
       let result = []
       if (err) reject(err)

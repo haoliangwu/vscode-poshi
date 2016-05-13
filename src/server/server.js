@@ -73,13 +73,13 @@ connection.onCompletion((textDocumentPosition) => {
   connection.console.log(`Change: `)
   connection.console.log(change)
 
-  const match = change.match(/(\w+)+(?=#)/)
+  const match = change.match(/(\w+)="(\w+)+(?=#)/)
 
   connection.console.log('Match: ')
   connection.console.log(match)
 
   // generate completionItems
-  if (match) return completion.retriveCommandName(match[1])
+  if (match) return completion.retriveCommandName(match[1], match[2])
   else return completion.completionSource
 })
 
