@@ -75,7 +75,7 @@ connection.onCompletion((textDocumentPosition) => {
   connection.console.log(`Change: `)
   connection.console.log(change)
 
-  // TODO 获取更为准确的change内容，而不是一整行
+  // TODO 获取更为准确的change内容，而不是一整行(DONE)
   // const match = change.match(/(\w+)="(\w+)+#?/)
   const match = fileUtil.getChangeTextByCursor(change, position.character)
 

@@ -57,14 +57,19 @@ function retriveCommandName (match, connection) {
   const type = typeMapping[match.split('=')[0]]
   const segment = match.split('=')[1].replace(/"/g, '')
 
+  connection.console.log('Segment: ' + segment)
+
   const key = fileUtil.parseIndexSyntaxSegment(segment)
 
-  connection.console.log(segment)
-  connection.console.log(key)
+  // connection.console.log(segment)
+  connection.console.log('KEY: ' + key)
 
   return new Promise((resolve, reject) => {
     // the type is not po type
     if (!sourceMapping[type]) resolve([])
+
+    // the key is undefined or null
+    if (!key) resolve(completionMapping[type])
 
     const uri = sourceMapping[type].get(key)
     connection.console.log('uri' + uri.toString())
