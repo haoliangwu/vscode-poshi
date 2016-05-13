@@ -37,6 +37,10 @@
             {
                 "command": "POSHI.quickpick",
                 "title": "POSHI Quick Pick"
+            },
+            {
+                "command": "POSHI.previewlog",
+                "title": "POSHI Preview Log"
             }
         ],
         "keybindings": [

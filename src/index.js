@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import { workspace, languages, commands, window } from 'vscode'
+import { workspace, languages, commands, window, Uri } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
 import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER } from './util/filterUtil'
@@ -9,6 +9,7 @@ import { initMapping, mapping } from './util/mappingUtil'
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
 import HoverProvider from './hover/HoverProvider'
+// import LogContentProvider from './content/LogContentProvider'
 
 export function init () {
   const settings = workspace.getConfiguration('poshi')
@@ -33,6 +34,14 @@ export function activate (context) {
     // init
     workspace.onDidChangeConfiguration(init)
     init()
+
+    // preview log
+    commands.registerCommand('POSHI.previewlog', () => {
+      commands.executeCommand(
+        'vscode.previewHtml',
+        Uri.file('/home/lyon/liferay/portal/portal-6210/portal-web/test-results/ApplicationdisplaytemplatesUsecase_ADTWiki/index.html')
+      )
+    })
 
     // quick pick
     commands.registerCommand('POSHI.quickpick', () => {
@@ -90,6 +99,12 @@ export function activate (context) {
 
     const langServer = new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
 
+    // workspace register
+    // log content provider
+    // context.subscriptions.push(workspace.registerTextDocumentContentProvider('log', new LogContentProvider()))
+
+    // languages register
+    // lang server
     context.subscriptions.push(langServer)
 
     // peek definition provider

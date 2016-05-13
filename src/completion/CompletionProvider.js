@@ -15,6 +15,20 @@ function init (settings) {
 
   rd.each(url, function (f, s, next) {
     // TODO 根据type类型动态生成
+    let type = f.split('.').pop()
+    switch (type) {
+      case 'testcase':
+        break
+      case 'macro':
+        break
+      case 'function':
+        break
+      case 'path':
+        break
+      default:
+        break
+    }
+
     if (f.indexOf('.macro') > 0 || f.indexOf('.function') > 0) {
       const match = f.match(/(\w+)\.(\w+)/)
       // init url mapping

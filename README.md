@@ -7,13 +7,13 @@ Met some problems? You could refer [HERE](https://github.com/haoliangwu/vscode-p
 Why I do this? READ [THIS](./INSPIRATION.md). Sorry for it was written by chinese.
 
 ## Installation
-In order to install an extension you need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Extensions`. There you have either the option to show the already installed snippets or install new ones.
+In order to install an extension you need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Extensions`. There you have either the option to show the already installed extensions or install new ones.
 
 See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon.POSHI).
 
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
-## Modules Info
+## Usage Info
 ### Shortcut key
 ``alt + P``: open a testcase file by syntax like 'CPBlogs#RateBlogsEntry', you will enter CPBlogs.testcase shortly.
 
