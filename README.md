@@ -24,9 +24,9 @@ All PO Linters:
 * Function(Pending)
 * Path(Pending)
 
-To use Linters, you just need to nothing. The Linters will trigger automatically considering the file's extension, eg: .testcase type will trigger testcaseLinter.
+To use Linters, you just need to do nothing. The Linters will trigger automatically considering the file's extension, eg: .testcase type will trigger testcaseLinter.
 
-The Linters includes two level, **warning** and **error**. The warning level mean the code could be more robust, the error level means the code has errors of syntax and format. 
+The Linters includes two level, **warning** and **error**. The warning level means the code could be more robust, the error level means the code has errors of syntax and format. 
 
 ### Symbol & Hover
 * Symbol(In Progress)
@@ -46,7 +46,6 @@ To use Peek and Definition, please refer to official Docs about [Definition][1] 
 
 ### Completion Provider
 * IntelliSense(In Progress)
-* Hover(Pending)
 
 To use InterlliSense, just same as other rich editor. The extension initialize the all segments about PO object. The InterlliSense menu will display when you type and try to bind the input chars to the ideal segment.
 
