@@ -73,25 +73,4 @@ function retriveCommandName (root) {
   })
 }
 
-// debug
-// const mockSettings = {
-//   poshi: {
-//     liferay: {
-//       home: '/home/lyon/liferay/portal/portal-6210'
-//     },
-//     project: {
-//       home: '/portal-web/test/functional/com/liferay/portalweb'
-//     }
-//   }
-// }
-
-// init(mockSettings)
-
-// setTimeout(() => {
-//   retriveCommandName('AddSelection')
-//     .then(result => {
-//       console.log(result)
-//     })
-// }, 2000)
-
 export { init, completionSource, completionInfoSource, retriveCommandName }
