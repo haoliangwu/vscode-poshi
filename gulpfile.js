@@ -2,7 +2,6 @@ var gulp = require('gulp')
 var babel = require('gulp-babel')
 var plumber = require('gulp-plumber')
 var mocha = require('gulp-mocha')
-var util = require('gulp-util')
 
 var src = 'src/**/*.js'
 var testSrc = 'test/**/**Spec.js'
@@ -24,12 +23,17 @@ gulp.task('compileTest', function () {
 })
 
 gulp.task('test', ['compileTest', 'compile'], function () {
+  var handleError = function (err) {
+    console.log(err.toString())
+    this.emit('end')
+  }
+
   return gulp.src('lib/test/**/*Spec.js')
     .pipe(mocha(
       {
         reporter: 'spec'
       }))
-    .on('error', util.log)
+    .on('error', handleError)
 })
 
 gulp.task('default', ['test'], function () {
