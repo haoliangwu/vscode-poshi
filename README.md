@@ -13,6 +13,51 @@ See more details [HERE](https://marketplace.visualstudio.com/items?itemName=lyon
 
 **Also you can install it manually by using .vsix file, just drag and drop it to your editor.**
 
+Then you need to set POSHI properties for extension by adding the following json segments to your setting.json file. 
+
+The setting file in **User** level(File > Preferences > User Settings) will overwrite the default setting and **Workspace** level(File > Preferences > Workspace Settings) will overwrite the user setting again only for one particular project.
+
+For Win, 
+```
+{
+    // The absolute project path of Liferay Portal.
+    "poshi.liferay.home": "C:\\liferay\\portal\\portal-6210",
+
+    // The relative project path of Liferay Portal.
+	"poshi.project.home": "\\portal-web\\test\\functional\\com\\liferay\\portalweb"
+}
+```
+For Mac/Linux,
+```
+{
+	// The absolute project path of Liferay Portal.
+	"poshi.liferay.home": "/home/lyon/liferay/portal/portal-6210",
+
+	// The relative project path of Liferay Portal.
+	"poshi.project.home": "/portal-web/test/functional/com/liferay/portalweb"
+}
+```
+
+Then when you open file with poshi ext rule(.testcase, .macro, .function and .path) at first time, the init process will start automatically. When it finishs, you will notice the hint message **The poshi source mapping has initilized successfully.** displays on the top.
+
+**Trouble Shooting**:
+* I get **Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.** instead of successful hint message?
+
+This hint message means your poshi properties didn't valid or contians some punctuations like space or other marks. Maybe it's not reasonable for your own habit, but it's better to keep the path pure. Please refer to the properties example above.
+
+* I get **Your Liferay Home or POSHI Project HOME is null, please set them !!** instead of successful hint message?
+
+This hint message means your poshi properties are empty, so set it before you start using the extension, you could refer to the properties example above.
+
+* The poshi properties are valid, but I still can't get successful hint message?
+
+This situation maybe happened you set properties after you open the files, please restart the editor or reopen the file to trigger the init process manually. 
+
+* After extension installed, nothing happened.
+
+It maybe caused by some errors(like dependencies error) that makes the installing process failed,so maybe you must download extension by git and install dependencies by npm. However, this trouble is quite rare.
+
+
 ## Usage Info
 ### Shortcut key
 ``alt + P``: open a testcase file by syntax like 'CPBlogs#RateBlogsEntry', you will enter CPBlogs.testcase shortly.
