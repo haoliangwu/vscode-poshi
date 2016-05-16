@@ -7,7 +7,7 @@ Met some problems? You could refer [HERE](https://github.com/haoliangwu/vscode-p
 Why I do this? READ [THIS](./INSPIRATION.md). Sorry for it was written by chinese.
 
 ## Installation
-Please make sure you have installed Node v4+ env.
+Please make sure you have installed Node v4+ runtime, refer to [HERE](https://nodejs.org/en/).
 
 In order to install an extension you need to launch the Command Pallete (Ctrl + Shift + P or Cmd + Shift + P) and type `Extensions`. There you have either the option to show the already installed extensions or install new ones.
 
