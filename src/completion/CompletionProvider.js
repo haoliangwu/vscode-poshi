@@ -72,7 +72,6 @@ function retriveCommandName (match, connection) {
     if (!key) resolve(completionMapping[type])
 
     const uri = sourceMapping[type].get(key)
-    connection.console.log('uri' + uri.toString())
     // uri is undefined, the mapping didn't exist
     if (!uri) resolve(completionMapping[type])
 
@@ -83,24 +82,42 @@ function retriveCommandName (match, connection) {
       // get all command segments, for testcase, macro, function
       if (type !== 'path') {
         data.match(reg.commandRegex)
-          .map((e) => {
+          .map(e => {
             return e.match(reg.commandName)[1]
           })
-          .forEach((e) => {
+          .forEach(e => {
             result.push({
               label: `${e}`,
               kind: CompletionItemKind.Text,
               data: ++counter
             })
           })
-
-        resolve(result)
       } else {
-        // get all locator value segments, for path
-        // TODO resolve the extends issue in Path PO
-        // TODO implement util class for split locator segments(Pending)
-        resolve([])
+        data.match(reg.locatorBlock)
+          .map(e => {
+            const locatorArray = []
+
+            e.split(reg.linesRegex).forEach(e => {
+              const match = e.match(reg.locatorLine)
+
+              locatorArray.push(match ? match[1] : 'null')
+            })
+
+            return locatorArray
+          })
+          .forEach(e => {
+            result.push({
+              label: `${e[0]}`,
+              kind: CompletionItemKind.Text,
+              data: ++counter
+            })
+          })
+      // get all locator value segments, for path
+      // TODO resolve the extends issue in Path PO
+      // TODO implement util class for split locator segments(Pending)
       }
+
+      resolve(result)
     })
   })
 }

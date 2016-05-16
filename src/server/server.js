@@ -104,6 +104,7 @@ connection.onCompletionResolve((item) => {
   //   } catch (error) {
   //     console.log(error.stack)
   //   }
+  return item
 })
 
 connection.onDidChangeConfiguration((change) => {
