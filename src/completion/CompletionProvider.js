@@ -116,7 +116,7 @@ function retriveCommandName (match, connection) {
           })
       // get all locator value segments, for path
       // TODO resolve the extends issue in Path PO
-      // TODO implement util class for split locator segments(Pending)
+      // TODO implement util class for split locator segments(DONE)
       }
 
       resolve(result)
