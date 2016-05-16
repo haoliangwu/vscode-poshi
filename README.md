@@ -23,7 +23,7 @@ For Win,
     // The absolute project path of Liferay Portal.
     "poshi.liferay.home": "C:\\liferay\\portal\\portal-6210",
 
-    // The relative project path of Liferay Portal.
+    // The relative project path of POSHI.
 	"poshi.project.home": "\\portal-web\\test\\functional\\com\\liferay\\portalweb"
 }
 ```
@@ -33,12 +33,12 @@ For Mac/Linux,
 	// The absolute project path of Liferay Portal.
 	"poshi.liferay.home": "/home/lyon/liferay/portal/portal-6210",
 
-	// The relative project path of Liferay Portal.
+	// The relative project path of POSHI.
 	"poshi.project.home": "/portal-web/test/functional/com/liferay/portalweb"
 }
 ```
 
-Then when you open file with poshi ext rule(.testcase, .macro, .function and .path) at first time, the init process will start automatically. When it finishs, you will notice the hint message **The poshi source mapping has initilized successfully.** displays on the top.
+Then when you open file with poshi ext rule(.testcase, .macro, .function and .path) at the first time, the initilization of index process will start automatically. When it finishs, you will notice the hint message **The poshi source mapping has initilized successfully.** displays on the editor top.
 
 **Trouble Shooting**:
 * I get **Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.** instead of successful hint message?
