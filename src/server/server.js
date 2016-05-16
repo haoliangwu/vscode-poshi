@@ -20,7 +20,7 @@ connection.onInitialize((params) => {
     capabilities: {
       textDocumentSync: documents.syncKind,
       completionProvider: {
-        resolveProvider: false,
+        resolveProvider: true,
         triggerCharacters: ['#']
       }
     }

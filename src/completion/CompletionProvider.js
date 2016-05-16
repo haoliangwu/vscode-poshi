@@ -29,8 +29,6 @@ function init (settings) {
   const url = liferay.home + project.home
   let counter = 0
 
-  console.log(url)
-
   rd.each(url, function (f, s, next) {
     // TODO 根据type类型动态生成(DONE)
     const wholeName = fileUtil.getWholeName(f)
@@ -43,7 +41,8 @@ function init (settings) {
       completionMapping[ext].push({
         label: name,
         kind: CompletionItemKind.Text,
-        data: ++counter
+        data: ++counter,
+        detail: `${ext}`
       })
     }
 
@@ -89,7 +88,8 @@ function retriveCommandName (match, connection) {
             result.push({
               label: `${e}`,
               kind: CompletionItemKind.Text,
-              data: ++counter
+              data: ++counter,
+              detail: 'command'
             })
           })
       } else {
@@ -109,7 +109,9 @@ function retriveCommandName (match, connection) {
             result.push({
               label: `${e[0]}`,
               kind: CompletionItemKind.Text,
-              data: ++counter
+              data: ++counter,
+              detail: 'locator',
+              documentation: `${e[1]}`
             })
           })
       // get all locator value segments, for path
