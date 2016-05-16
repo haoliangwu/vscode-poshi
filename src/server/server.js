@@ -63,34 +63,38 @@ function validateTextDocument (doc) {
 
 // completion
 connection.onCompletion((textDocumentPosition) => {
-  //   connection.console.log(`Settings:`)
-  //   connection.console.log(settings)
+  // connection.console.log(`Settings:`)
+  // connection.console.log(settings)
 
-  const {uri, position} = textDocumentPosition
-  const lines = documents.get(uri).getText().split(/\r?\n/g)
+  try {
+    const {textDocument, position} = textDocumentPosition
+    const lines = documents.get(textDocument.uri).getText().split(/\r?\n/g)
 
-  // change line content
-  const change = lines[position.line]
+    // change line content
+    const change = lines[position.line]
 
-  connection.console.log(`Change: `)
-  connection.console.log(change)
+    connection.console.log(`Change: `)
+    connection.console.log(change)
 
-  // TODO 获取更为准确的change内容，而不是一整行(DONE)
-  // const match = change.match(/(\w+)="(\w+)+#?/)
-  const match = fileUtil.getChangeTextByCursor(change, position.character)
+    // TODO 获取更为准确的change内容，而不是一整行(DONE)
+    // const match = change.match(/(\w+)="(\w+)+#?/)
+    const match = fileUtil.getChangeTextByCursor(change, position.character)
 
-  connection.console.log('Match: ')
-  connection.console.log(match)
-  // const segment = match.split('=')[1].replace(/"/g, '')
-  // connection.console.log('SEGMENT: ')
-  // connection.console.log(segment)
+    connection.console.log('Match: ')
+    connection.console.log(match)
+    // const segment = match.split('=')[1].replace(/"/g, '')
+    // connection.console.log('SEGMENT: ')
+    // connection.console.log(segment)
 
-  // connection.console.log('KEY: ')
-  // connection.console.log(fileUtil.parseIndexSyntaxSegment(segment))
+    // connection.console.log('KEY: ')
+    // connection.console.log(fileUtil.parseIndexSyntaxSegment(segment))
 
-  // generate completionItems
-  if (match) return completion.retriveCommandName(match, connection)
-// else return completion.completionSource
+    // generate completionItems
+    if (match) return completion.retriveCommandName(match, connection)
+  // else return completion.completionSource
+  } catch (error) {
+    connection.console.log(error.stack)
+  }
 })
 
 // completion reslove
