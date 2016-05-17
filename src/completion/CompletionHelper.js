@@ -1,15 +1,14 @@
 import * as reg from '../util/regexUtil'
 
-export const eachCommandSegments = (text, cb) => {
-  text.match(reg.commandRegex)
+export const parseCommandSegments = (text) => {
+  return text.match(reg.commandRegex)
     .map(e => {
       return e.match(reg.commandName)[1]
     })
-    .forEach(cb)
 }
 
-export const eachLocatorSegments = (text, cb) => {
-  text.match(reg.locatorBlock)
+export const parseLocatorSegments = (text) => {
+  return text.match(reg.locatorBlock)
     .map(e => {
       const locatorArray = []
 
@@ -21,5 +20,4 @@ export const eachLocatorSegments = (text, cb) => {
 
       return locatorArray
     })
-    .forEach(cb)
 }

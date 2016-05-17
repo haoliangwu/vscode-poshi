@@ -73,27 +73,29 @@ function retriveCommandName (match, connection) {
       let result = []
       // get all command segments, for testcase, macro, function
       if (type !== 'path') {
-        helper.eachCommandSegments(data, e => {
-          result.push({
-            label: `${e}`,
-            kind: CompletionItemKind.Text,
-            data: ++counter,
-            detail: 'command'
+        helper.parseCommandSegments(data)
+          .forEach(e => {
+            result.push({
+              label: `${e}`,
+              kind: CompletionItemKind.Text,
+              data: ++counter,
+              detail: 'command'
+            })
           })
-        })
       } else {
         // get all locator value segments, for path
         // TODO resolve the extends issue in Path PO
         // TODO implement util class for split locator segments(DONE)
-        helper.eachLocatorSegments(data, e => {
-          result.push({
-            label: `${e[0]}`,
-            kind: CompletionItemKind.Text,
-            data: ++counter,
-            detail: 'locator',
-            documentation: `${e[1]}`
+        helper.parseLocatorSegments(data)
+          .forEach(e => {
+            result.push({
+              label: `${e[0]}`,
+              kind: CompletionItemKind.Text,
+              data: ++counter,
+              detail: 'locator',
+              documentation: `${e[1]}`
+            })
           })
-        })
       }
 
       resolve(result)
