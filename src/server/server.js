@@ -63,9 +63,6 @@ function validateTextDocument (doc) {
 
 // completion
 connection.onCompletion((textDocumentPosition) => {
-  // connection.console.log(`Settings:`)
-  // connection.console.log(settings)
-
   try {
     const {textDocument, position} = textDocumentPosition
     const lines = documents.get(textDocument.uri).getText().split(/\r?\n/g)
@@ -73,27 +70,20 @@ connection.onCompletion((textDocumentPosition) => {
     // change line content
     const change = lines[position.line]
 
-    connection.console.log(`Change: `)
-    connection.console.log(change)
+    // connection.console.log(`Change: `)
+    // connection.console.log(change)
 
     // TODO 获取更为准确的change内容，而不是一整行(DONE)
     // const match = change.match(/(\w+)="(\w+)+#?/)
     const match = fileUtil.getChangeTextByCursor(change, position.character)
 
-    connection.console.log('Match: ')
-    connection.console.log(match)
-    // const segment = match.split('=')[1].replace(/"/g, '')
-    // connection.console.log('SEGMENT: ')
-    // connection.console.log(segment)
-
-    // connection.console.log('KEY: ')
-    // connection.console.log(fileUtil.parseIndexSyntaxSegment(segment))
+    // connection.console.log('Match: ')
+    // connection.console.log(match)
 
     // generate completionItems
     if (match) return completion.retriveCommandName(match, connection)
-  // else return completion.completionSource
   } catch (error) {
-    connection.console.log(error.stack)
+    connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
   }
 })
 

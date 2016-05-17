@@ -2,9 +2,10 @@ import { CompletionItemKind } from 'vscode-languageserver'
 import * as fs from 'fs'
 import * as rd from 'rd'
 
-import * as reg from '../util/regexUtil'
 import * as fileUtil from '../util/fileUtil'
 import { typeMapping } from '../util/mappingUtil'
+
+import * as helper from './CompletionHelper'
 
 const filter = ['testcase', 'macro', 'path', 'function']
 
@@ -22,14 +23,12 @@ const completionMapping = {
   'path': []
 }
 
-// let type = 'Type'
-
 function init (settings) {
   const {liferay, project} = settings.poshi
   const url = liferay.home + project.home
   let counter = 0
 
-  rd.each(url, function (f, s, next) {
+  rd.each(url, (f, s, next) => {
     // TODO 根据type类型动态生成(DONE)
     const ext = fileUtil.getExtName(f)
     const name = fileUtil.getFileName(f)
@@ -46,7 +45,7 @@ function init (settings) {
     }
 
     next()
-  }, function (err) {
+  }, err => {
     if (err) throw err
   })
 }
@@ -55,67 +54,46 @@ function retriveCommandName (match, connection) {
   const type = typeMapping[match.split('=')[0]]
   const segment = match.split('=')[1].replace(/"/g, '')
 
-  connection.console.log('Segment: ' + segment)
+  // the type is not po type
+  if (!sourceMapping[type]) return Promise.resolve([])
 
+  // the key is undefined or null
   const key = fileUtil.parseIndexSyntaxSegment(segment)
+  if (!key) return Promise.resolve(completionMapping[type])
 
-  // connection.console.log(segment)
-  connection.console.log('KEY: ' + key)
+  // uri is undefined, the mapping didn't exist
+  const uri = sourceMapping[type].get(key)
+  if (!uri) return Promise.resolve(completionMapping[type])
 
   return new Promise((resolve, reject) => {
-    // the type is not po type
-    if (!sourceMapping[type]) resolve([])
-
-    // the key is undefined or null
-    if (!key) resolve(completionMapping[type])
-
-    const uri = sourceMapping[type].get(key)
-    // uri is undefined, the mapping didn't exist
-    if (!uri) resolve(completionMapping[type])
-
     fs.readFile(uri, 'utf-8', (err, data) => {
+      if (err) reject(err)
+
       let counter = 0
       let result = []
-      if (err) reject(err)
       // get all command segments, for testcase, macro, function
       if (type !== 'path') {
-        data.match(reg.commandRegex)
-          .map(e => {
-            return e.match(reg.commandName)[1]
+        helper.eachCommandSegments(data, e => {
+          result.push({
+            label: `${e}`,
+            kind: CompletionItemKind.Text,
+            data: ++counter,
+            detail: 'command'
           })
-          .forEach(e => {
-            result.push({
-              label: `${e}`,
-              kind: CompletionItemKind.Text,
-              data: ++counter,
-              detail: 'command'
-            })
-          })
+        })
       } else {
-        data.match(reg.locatorBlock)
-          .map(e => {
-            const locatorArray = []
-
-            e.split(reg.linesRegex).forEach(e => {
-              const match = e.match(reg.locatorLine)
-
-              locatorArray.push(match ? match[1] : 'null')
-            })
-
-            return locatorArray
+        // get all locator value segments, for path
+        // TODO resolve the extends issue in Path PO
+        // TODO implement util class for split locator segments(DONE)
+        helper.eachLocatorSegments(data, e => {
+          result.push({
+            label: `${e[0]}`,
+            kind: CompletionItemKind.Text,
+            data: ++counter,
+            detail: 'locator',
+            documentation: `${e[1]}`
           })
-          .forEach(e => {
-            result.push({
-              label: `${e[0]}`,
-              kind: CompletionItemKind.Text,
-              data: ++counter,
-              detail: 'locator',
-              documentation: `${e[1]}`
-            })
-          })
-      // get all locator value segments, for path
-      // TODO resolve the extends issue in Path PO
-      // TODO implement util class for split locator segments(DONE)
+        })
       }
 
       resolve(result)
