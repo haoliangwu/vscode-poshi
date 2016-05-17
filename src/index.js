@@ -24,7 +24,8 @@ export function init () {
   } else if (!wholePath.match(/portal-web/)) {
     window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
   } else {
-    window.showInformationMessage(`POSHI Project initilized successfully.`)
+    // installed message
+    window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
     return initMapping(wholePath)
   }
 }
@@ -115,9 +116,6 @@ export function activate (context) {
 
     // hover provider
     context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
-
-    // installed message
-    window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
   } catch (error) {
     window.showInformationMessage(`There are some problems during initial process, please contact author by https://github.com/haoliangwu/vscode-poshi/issues.`)
     console.log(error.stack)

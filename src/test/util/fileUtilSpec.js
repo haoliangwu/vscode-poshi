@@ -2,16 +2,16 @@ import { assert } from 'chai'
 import * as fileUtil from '../../util/fileUtil'
 
 describe('fileUtil', function () {
-  it('getExtName(wholeName)', () => {
-    const wholeName = 'foo.bar'
+  const uri2 = '/aaa/bbb/ccc/foo.baz.bar'
 
-    assert.equal(fileUtil.getFileName(wholeName), 'foo')
+  it('getFileName(uri)', () => {
+    // only for linux
+    assert.equal(fileUtil.getFileName(uri2), 'foo.baz')
   })
 
-  it('getFileName(wholeName)', () => {
-    const wholeName = 'foo.bar'
-
-    assert.equal(fileUtil.getExtName(wholeName), 'bar')
+  it('getExtName(uri)', () => {
+    // only for linux
+    assert.equal(fileUtil.getExtName(uri2), 'bar')
   })
 
   it('getChangeTextByCursor', () => {

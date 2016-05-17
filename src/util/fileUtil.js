@@ -5,7 +5,7 @@ export const getExtName = (uri) => {
 }
 
 export const getFileName = (uri) => {
-  return path.basename(uri).split('.').shift()
+  return path.parse(uri).name
 }
 
 export const getChangeTextByCursor = (lineText, cursor) => {
