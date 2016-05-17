@@ -2,11 +2,17 @@ var gulp = require('gulp')
 var babel = require('gulp-babel')
 var plumber = require('gulp-plumber')
 var mocha = require('gulp-mocha')
+var clean = require('gulp-clean')
 
 var src = 'src/**/*.js'
 var testSrc = 'src/test/**Spec.js'
 var target = 'lib'
 var testTarget = 'lib/test'
+
+gulp.task('clean', function () {
+  return gulp.src([target, testTarget])
+    .pipe(clean())
+})
 
 gulp.task('compile', function () {
   return gulp.src(src)
@@ -36,6 +42,8 @@ gulp.task('test', ['compileTest', 'compile'], function () {
     .on('error', handleError)
 })
 
-gulp.task('default', ['test'], function () {
+gulp.task('default', ['clean'], function () {
+  gulp.start('test')
+
   return gulp.watch([src, testSrc], ['test'])
 })
