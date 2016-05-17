@@ -83,6 +83,7 @@ connection.onCompletion((textDocumentPosition) => {
     // generate completionItems
     if (match) return completion.retriveCommandName(match, connection)
   } catch (error) {
+    connection.console.log(`${error.stack}`)
     connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
   }
 })

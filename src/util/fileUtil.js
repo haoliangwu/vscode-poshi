@@ -11,6 +11,9 @@ export const getFileName = (uri) => {
 export const getChangeTextByCursor = (lineText, cursor) => {
   const reg = /\w+="[#(\w+)]*"/g
   const match = lineText.match(reg)
+
+  if (!match) return undefined
+
   let index = 0
 
   const segment = match.find(e => {

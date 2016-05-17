@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import * as fileUtil from '../../util/fileUtil'
 
 describe('fileUtil', function () {
-  const uri2 = '/aaa/bbb/ccc/foo.baz.bar'
+  const uri2 = '/aaa/bbb/ccc/ee-6.2.x/foo.baz.bar'
 
   it('getFileName(uri)', () => {
     // only for linux

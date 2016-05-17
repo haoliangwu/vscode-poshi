@@ -1,6 +1,7 @@
 import * as rd from 'rd'
 import * as fs from 'fs'
 import * as reg from './regexUtil'
+import * as fileUtil from './fileUtil'
 
 export const typeMapping = {
   testcase: 'testcase',
@@ -18,14 +19,11 @@ export const mapping = {
 
 export const initMapping = function (url) {
   rd.eachSync(url, function (f, s) {
-    const match = f.match(/(\w+)\.(\w+)/)
+    const ext = fileUtil.getExtName(f)
+    const name = fileUtil.getFileName(f)
 
-    if (match !== null) {
-      const [wholeName, name, type] = match
-
-      if (mapping[type]) {
-        mapping[type].set(name, {uri: f, name: wholeName})
-      }
+    if (mapping[ext]) {
+      mapping[ext].set(name, {uri: f, name: `${name}.${ext}`})
     }
   })
 }
