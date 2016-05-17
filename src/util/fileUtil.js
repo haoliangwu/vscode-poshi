@@ -1,15 +1,11 @@
 import * as path from 'path'
 
-export const getWholeName = (uri) => {
-  return path.basename(uri)
+export const getExtName = (uri) => {
+  return path.basename(uri).split('.').pop()
 }
 
-export const getExtName = (wholeName) => {
-  return wholeName.split('.').pop()
-}
-
-export const getFileName = (wholeName) => {
-  return wholeName.split('.').shift()
+export const getFileName = (uri) => {
+  return path.basename(uri).split('.').shift()
 }
 
 export const getChangeTextByCursor = (lineText, cursor) => {

@@ -31,9 +31,8 @@ function init (settings) {
 
   rd.each(url, function (f, s, next) {
     // TODO 根据type类型动态生成(DONE)
-    const wholeName = fileUtil.getWholeName(f)
-    const ext = fileUtil.getExtName(wholeName)
-    const name = fileUtil.getFileName(wholeName)
+    const ext = fileUtil.getExtName(f)
+    const name = fileUtil.getFileName(f)
 
     if (filter.indexOf(ext) > 0) {
       sourceMapping[ext].set(name, f)

@@ -2,12 +2,6 @@ import { assert } from 'chai'
 import * as fileUtil from '../../util/fileUtil'
 
 describe('fileUtil', function () {
-  it('getWholeName(uri)', () => {
-    const uri = 'aaa/bbb/ccc/foo.bar'
-
-    assert.equal(fileUtil.getWholeName(uri), 'foo.bar')
-  })
-
   it('getExtName(wholeName)', () => {
     const wholeName = 'foo.bar'
 
