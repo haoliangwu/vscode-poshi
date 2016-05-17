@@ -27,7 +27,5 @@ export const getChangeTextByCursor = (lineText, cursor) => {
 }
 
 export const parseIndexSyntaxSegment = (segment) => {
-  if (segment.indexOf('#') < 0) return segment
-
-  return segment.split('#')[0]
+  return segment.indexOf('#') < 0 ? segment : segment.split('#')[0]
 }
