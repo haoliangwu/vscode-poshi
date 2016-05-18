@@ -32,3 +32,5 @@ export const getChangeTextByCursor = (lineText, cursor) => {
 export const parseIndexSyntaxSegment = (segment) => {
   return segment.indexOf('#') < 0 ? segment : segment.split('#')[0]
 }
+
+// TODO 整理方法类，按功能，比如操作文件名字，parser等等

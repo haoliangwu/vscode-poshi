@@ -20,4 +20,12 @@ const HOVER_FILTER = [
   }
 ]
 
-export { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER }
+const MACRO_LENS_FILTER = [
+  {
+    language: 'xml',
+    scheme: 'file',
+    pattern: '**/**.testcase'
+  }
+]
+
+export { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER, MACRO_LENS_FILTER }

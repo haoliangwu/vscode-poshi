@@ -3,12 +3,13 @@ import * as path from 'path'
 import { workspace, languages, commands, window, Uri } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
-import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER } from './util/filterUtil'
+import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER, MACRO_LENS_FILTER } from './util/filterUtil'
 import { initMapping, mapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
 import HoverProvider from './hover/HoverProvider'
+import MacroLensProvider from './lens/MacroLensProvider'
 // import LogContentProvider from './content/LogContentProvider'
 
 export function init () {
@@ -116,6 +117,9 @@ export function activate (context) {
 
     // hover provider
     context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
+
+    // lens provider
+    context.subscriptions.push(languages.registerCodeLensProvider(MACRO_LENS_FILTER, new MacroLensProvider()))
   } catch (error) {
     window.showInformationMessage(`There are some problems during initial process, please contact author by https://github.com/haoliangwu/vscode-poshi/issues.`)
     console.log(error.stack)
