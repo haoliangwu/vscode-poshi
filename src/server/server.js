@@ -32,13 +32,12 @@ documents.onDidChangeContent(change => {
   //   connection.console.log('change event fire ..')
   //   connection.console.log('did change content obj:')
   //   connection.console.log(change)
-
   validateTextDocument(change.document)
 })
 
 function validateTextDocument (doc) {
   const lines = doc.getText().split(/\r?\n/g)
-  const ext = doc.uri.split('.')[1]
+  const ext = fileUtil.getExtName(doc.uri)
 
   let diagnostics = []
 
