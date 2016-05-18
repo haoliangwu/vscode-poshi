@@ -1,5 +1,6 @@
 import { CodeLens, Range, Position } from 'vscode'
 import * as reg from '../util/regexUtil'
+// import * as fileUtil from '../util/fileUtil'
 
 export default class MacroLensProvider {
   constructor (conf) {
@@ -11,17 +12,14 @@ export default class MacroLensProvider {
 
     const result = []
     lines.forEach((e, i) => {
-      const match = e.match(/<execute macro=".+"/)
+      const match = e.match(/<execute macro="(.+)"/)
 
       if (!match) return
 
-      console.log(e)
-      const range = new Range(new Position(i), new Position(i))
-      console.log(range)
-      const lens = new CodeLens(range,
-        {title: `Just Demo`,
-          command: undefined,
-        arguments: undefined})
+      const range = new Range(new Position(i, 0), new Position(i, 99))
+      const lens = new CodeLens(range)
+
+      lens.payload = {segment: match[1]}
 
       result.push(lens)
     })
@@ -38,6 +36,17 @@ export default class MacroLensProvider {
   }
 
   resolveCodeLens (codeLensItem, token) {
-    return Promise.resolve([ codeLensItem ])
+    const { segment } = codeLensItem.payload
+    // TODO use util method
+
+    if (segment.indexOf('#') < 0) return undefined
+
+    const [root, command] = segment.split('#')
+
+    codeLensItem.command = {title: `root: ${root}, command: ${command}`,
+      command: undefined,
+    arguments: undefined}
+
+    return codeLensItem
   }
 }

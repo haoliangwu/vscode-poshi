@@ -25,6 +25,11 @@ const MACRO_LENS_FILTER = [
     language: 'xml',
     scheme: 'file',
     pattern: '**/**.testcase'
+  },
+  {
+    language: 'xml',
+    scheme: 'file',
+    pattern: '**/**.macro'
   }
 ]
 
