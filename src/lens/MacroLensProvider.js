@@ -14,6 +14,8 @@ export default class MacroLensProvider {
     lines.forEach((e, i) => {
       const match = e.match(/<execute macro="(.+)"/)
 
+      // TODO 获取整个macro块，并解析已经赋值的var列表，之后加入payload
+
       if (!match) return
 
       const range = new Range(new Position(i, 0), new Position(i, 99))
@@ -23,6 +25,7 @@ export default class MacroLensProvider {
 
       result.push(lens)
     })
+
     // const range = new Range(new Position(0, 0), new Position(0, 1))
     // const lens = new CodeLens(range)
 
@@ -37,6 +40,7 @@ export default class MacroLensProvider {
 
   resolveCodeLens (codeLensItem, token) {
     const { segment } = codeLensItem.payload
+    // TODO 根据macro获取该macro所需的var列表，根据payload排除已赋值的var
     // TODO use util method
 
     if (segment.indexOf('#') < 0) return undefined
