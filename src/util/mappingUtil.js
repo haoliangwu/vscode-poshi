@@ -17,7 +17,21 @@ export const mapping = {
   path: new Map()
 }
 
-export const initMapping = function (url) {
+/* mappingLocator
+{ fileName: new Map() }
+*/
+export const mappingLocator = {}
+
+export const initMapping = function (opts) {
+  const {url} = opts
+
+  Promise.resolve(initMappingPO(url))
+    .then(() => {
+      initMappingLocator()
+    })
+}
+
+const initMappingPO = (url) => {
   rd.eachSync(url, function (f, s) {
     const ext = fileUtil.getExtName(f)
     const name = fileUtil.getFileName(f)
@@ -28,13 +42,7 @@ export const initMapping = function (url) {
   })
 }
 
-/* mappingLocator
-{ fileName: new Map() }
-*/
-
-export const mappingLocator = {}
-
-export const initMappingLocator = function () {
+const initMappingLocator = function () {
   const pathSources = mapping.path
   const promises = []
 

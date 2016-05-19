@@ -1,10 +1,12 @@
 import * as path from 'path'
 
-import { workspace, languages, commands, window, Uri } from 'vscode'
+import { workspace, languages, commands, window } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
+import { quickPickCommand } from './commands'
+
 // import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER, MACRO_LENS_FILTER } from './util/filterUtil'
-import { initMapping, mapping } from './util/mappingUtil'
+import { initMapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
@@ -38,7 +40,12 @@ export function init () {
   } else {
     // installed message
     window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
-    return initMapping(wholePath)
+
+    const opts = {
+      url: wholePath
+    }
+
+    return initMapping(opts)
   }
 }
 
@@ -49,51 +56,11 @@ export function activate (context) {
 
     init()
 
-    // preview log
-    commands.registerCommand('POSHI.previewlog', () => {
-      commands.executeCommand(
-        'vscode.previewHtml',
-        Uri.file('/home/lyon/liferay/portal/portal-6210/portal-web/test-results/ApplicationdisplaytemplatesUsecase_ADTWiki/index.html')
-      )
-    })
-
     // quick pick
-    commands.registerCommand('POSHI.quickpick', () => {
-      //   window.showInformationMessage(`${env.machineId}`)
-      try {
-        const inputOpts = {
-          placeHolder: 'eg:testcaseName#commandName',
-          validateInput: function (input) {
-            if (input.indexOf('#') < 0) return 'The input string should contian # mark.'
-
-            const reg = /\w+#\w+/i
-
-            if (!reg.test(input)) {
-              return 'The input string is not valid.'
-            }
-          }
-        }
-
-        const pending = window.showInputBox(inputOpts)
-
-        pending.then(input => {
-          if (!input) return
-
-          const {uri} = mapping.testcase.get(input.split('#')[0])
-
-          if (uri) {
-            workspace.openTextDocument(uri).then(doc => {
-              window.showTextDocument(doc)
-            })
-          } else window.showInformationMessage(`Cannot quick pick file by this testcase name.`)
-        })
-      } catch (error) {
-        console.log(error.stack)
-      }
-    })
+    commands.registerCommand('POSHI.quickpick', quickPickCommand)
 
     // lang server
-    let serverModule = path.join(__dirname, 'server/server.js')
+    let serverModule = path.join(__dirname, './server.js')
     let debugOptions = {
       execArgv: ['--nolazy', '--debug=5004']
     }

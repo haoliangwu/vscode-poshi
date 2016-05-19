@@ -1,8 +1,8 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
-import { validateCommand } from '../validator/testcaseValidator'
-import * as fileUtil from '../util/fileUtil'
+import { validateCommand } from './validator/testcaseValidator'
+import * as fileUtil from './util/fileUtil'
 
-const completion = require('../completion/CompletionProvider')
+const completion = require('./completion/CompletionProvider')
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()

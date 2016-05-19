@@ -1,12 +1,12 @@
 import { workspace, Hover, Range, Position } from 'vscode'
 import * as reg from '../util/regexUtil'
 
-import { mappingLocator, initMappingLocator } from '../util/mappingUtil'
+import { mappingLocator } from '../util/mappingUtil'
 
 export default class HoverProvider {
   constructor (props) {
     this._conf = workspace.getConfiguration('poshi')
-    initMappingLocator()
+  // initMappingLocator()
   }
 
   get type () {
