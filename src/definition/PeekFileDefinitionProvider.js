@@ -6,8 +6,8 @@ import * as reg from '../util/regexUtil'
 import { mapping, typeMapping } from '../util/mappingUtil'
 
 export default class PeekFileDefinitionProvider {
-  constructor (props) {
-    this._conf = workspace.getConfiguration('poshi')
+  constructor (conf) {
+    this.conf = conf
   }
 
   get type () {

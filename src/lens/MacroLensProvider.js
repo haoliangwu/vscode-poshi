@@ -4,7 +4,7 @@ import * as reg from '../util/regexUtil'
 
 export default class MacroLensProvider {
   constructor (conf) {
-    this._conf = conf
+    this.conf = conf
   }
 
   get type () {

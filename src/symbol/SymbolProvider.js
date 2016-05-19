@@ -1,9 +1,9 @@
-import { workspace, SymbolKind, Range, Position, SymbolInformation } from 'vscode'
+import { SymbolKind, Range, Position, SymbolInformation } from 'vscode'
 import * as reg from '../util/regexUtil'
 
 export default class SymbolProvider {
-  constructor (props) {
-    this._conf = workspace.getConfiguration('poshi')
+  constructor (conf) {
+    this.conf = conf
   }
 
   get type () {
