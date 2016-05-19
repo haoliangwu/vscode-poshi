@@ -21,6 +21,10 @@ export const mapping = {
 { fileName: new Map() }
 */
 export const mappingLocator = {}
+/* mappingMacroVars
+{fileName: [var0, var1, var2...]}
+*/
+export const mappingMacroVars = {}
 
 export const initMapping = function (opts) {
   const {url} = opts
@@ -73,5 +77,41 @@ const initMappingLocator = function () {
     }).then(map => {
       mappingLocator[name] = map
     }))
+  }
+}
+
+// TODO 增加一个var的mapping
+const initMappingMacroVars = function () {
+  const pathSources = mapping.macro
+  const promises = []
+
+  for (const [name, file] of pathSources) {
+    promises.push(new Promise((res, rej) => {
+      fs.readFile(file.uri, 'utf-8', (err, data) => {
+        if (err) rej(err)
+
+        // const match = data.match(reg.locatorBlock)
+        // const mapArray = []
+
+        // if (match) {
+        //   match.forEach((e, i) => {
+        //     const locatorArray = []
+
+        //     e.split(reg.linesRegex).forEach(e => {
+        //       const match = e.match(reg.locatorLine)
+
+        //       locatorArray.push(match ? match[1] : 'null')
+        //     })
+
+        //     mapArray.push(locatorArray)
+        //   })
+
+        //   res(new Map(mapArray))
+        // }
+        res([])
+      })
+    })).then(vars => {
+      mappingMacroVars[name] = vars
+    })
   }
 }
