@@ -9,6 +9,18 @@ export default class HoverProvider {
     initMappingLocator()
   }
 
+  get type () {
+    return 'hover'
+  }
+
+  get selector () {
+    return {
+      language: 'xml',
+      scheme: 'file',
+      pattern: '**/**.macro'
+    }
+  }
+
   provideHover (document, position, token) {
     // console.log('Document: ')
     // console.log(document)

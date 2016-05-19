@@ -6,6 +6,17 @@ export default class SymbolProvider {
     this._conf = workspace.getConfiguration('poshi')
   }
 
+  get type () {
+    return 'symbol'
+  }
+
+  get selector () {
+    return {
+      language: 'xml',
+      scheme: 'file'
+    }
+  }
+
   provideDocumentSymbols (document, token) {
     const symbolItems = []
     const content = document.getText()

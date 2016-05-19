@@ -3,7 +3,7 @@ import * as path from 'path'
 import { workspace, languages, commands, window, Uri } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient'
 
-import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER, MACRO_LENS_FILTER } from './util/filterUtil'
+// import { PEEK_FILTER, SYMBOL_FILTER, HOVER_FILTER, MACRO_LENS_FILTER } from './util/filterUtil'
 import { initMapping, mapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
@@ -11,6 +11,17 @@ import SymbolProvider from './symbol/SymbolProvider'
 import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
 // import LogContentProvider from './content/LogContentProvider'
+
+// disposable list
+const disposables = []
+
+// provider list
+const providers = [
+  new PeekFileDefinitionProvider(),
+  new SymbolProvider(),
+  new HoverProvider(),
+  new MacroLensProvider()
+]
 
 export function init () {
   const settings = workspace.getConfiguration('poshi')
@@ -35,6 +46,7 @@ export function activate (context) {
   try {
     // init
     workspace.onDidChangeConfiguration(init)
+
     init()
 
     // preview log
@@ -109,17 +121,45 @@ export function activate (context) {
     // lang server
     context.subscriptions.push(langServer)
 
-    // peek definition provider
-    context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+    providers.forEach(provider => {
+      let register
 
-    // symbol provider
-    context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
+      switch (provider.type) {
+        case 'definition':
+          register = languages.registerDefinitionProvider
+          break
+        case 'symbol':
+          register = languages.registerDocumentSymbolProvider
+          break
+        case 'hover':
+          register = languages.registerHoverProvider
+          break
+        case 'lens':
+          register = languages.registerCodeLensProvider
+          break
+      }
 
-    // hover provider
-    context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
+      disposables.push(
+        register(
+          provider.selector,
+          provider
+        )
+      )
+    })
 
-    // lens provider
-    context.subscriptions.push(languages.registerCodeLensProvider(MACRO_LENS_FILTER, new MacroLensProvider()))
+    // // peek definition provider
+    // context.subscriptions.push(languages.registerDefinitionProvider(PEEK_FILTER, new PeekFileDefinitionProvider()))
+
+    // // symbol provider
+    // context.subscriptions.push(languages.registerDocumentSymbolProvider(SYMBOL_FILTER, new SymbolProvider()))
+
+    // // hover provider
+    // context.subscriptions.push(languages.registerHoverProvider(HOVER_FILTER, new HoverProvider()))
+
+    // // lens provider
+    // context.subscriptions.push(languages.registerCodeLensProvider(MACRO_LENS_FILTER, new MacroLensProvider()))
+
+    context.subscriptions.push(...disposables)
   } catch (error) {
     window.showInformationMessage(`There are some problems during initial process, please contact author by https://github.com/haoliangwu/vscode-poshi/issues.`)
     console.log(error.stack)

@@ -7,6 +7,25 @@ export default class MacroLensProvider {
     this._conf = conf
   }
 
+  get type () {
+    return 'lens'
+  }
+
+  get selector () {
+    return [
+      {
+        language: 'xml',
+        scheme: 'file',
+        pattern: '**/**.testcase'
+      },
+      {
+        language: 'xml',
+        scheme: 'file',
+        pattern: '**/**.macro'
+      }
+    ]
+  }
+
   provideCodeLenses (doc, token) {
     const lines = doc.getText().split(reg.linesRegex)
 

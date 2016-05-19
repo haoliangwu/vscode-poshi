@@ -10,6 +10,17 @@ export default class PeekFileDefinitionProvider {
     this._conf = workspace.getConfiguration('poshi')
   }
 
+  get type () {
+    return 'definition'
+  }
+
+  get selector () {
+    return {
+      language: 'xml',
+      scheme: 'file'
+    }
+  }
+
   provideDefinition (document,
     position,
     token) {
