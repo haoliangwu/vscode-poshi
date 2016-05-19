@@ -2,10 +2,12 @@ import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } f
 import { validateCommand } from './validator/testcaseValidator'
 import * as fileUtil from './util/fileUtil'
 
-const completion = require('./completion/CompletionProvider')
-
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
+import CompletionProvider from './completion/CompletionProvider'
+
+const completionProvider = new CompletionProvider()
+
 let settings = {}
 
 documents.listen(connection)
@@ -80,7 +82,7 @@ connection.onCompletion((textDocumentPosition) => {
     // connection.console.log(match)
 
     // generate completionItems
-    if (match) return completion.retriveCommandName(match, connection)
+    if (match) return completionProvider.retriveCommandName(match, connection)
   } catch (error) {
     connection.console.log(`${error.stack}`)
     connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
@@ -103,8 +105,7 @@ connection.onCompletionResolve((item) => {
 
 connection.onDidChangeConfiguration((change) => {
   settings = change.settings
-  completion.init(settings)
-
+  completionProvider.init(settings, connection)
   //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
 
   documents.all().forEach(validateTextDocument)
