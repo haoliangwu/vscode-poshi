@@ -1,10 +1,10 @@
 .gitignore
 LICENSE
 CHANGELOG.md
-images
+images/**
 typings/**
 lib/test/**
-test/**
+example/**
 .vscode/**
 src/**
 test/**
