@@ -1,9 +1,7 @@
 import { CodeLens, Range, Position } from 'vscode'
-import * as path from 'path'
-import { workspace } from 'vscode'
 
 import * as reg from '../util/regexUtil'
-import { mapping, mappingMacroVars } from '../util/mappingUtil'
+import { mappingMacroVars } from '../util/mappingUtil'
 
 export default class MacroLensProvider {
   constructor (conf) {
@@ -94,8 +92,6 @@ export default class MacroLensProvider {
 
     const varsList = mappingMacroVars[root].get(command)
 
-    console.log(varsList)
-
     let title = ''
 
     varsList.forEach(e => {
@@ -104,7 +100,7 @@ export default class MacroLensProvider {
       title += e + ' '
     })
 
-    if (title.length === 0) title = 'No need to set any vars'
+    if (title.length === 0) title = 'No need to declare any vars'
 
     codeLensItem.command = {title,
       command: undefined,
