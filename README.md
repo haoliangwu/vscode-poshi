@@ -75,6 +75,15 @@ To use Linters, you just need to do nothing. The Linters will trigger automatica
 
 The Linters includes two level, **warning** and **error**. The warning level means the code could be more robust, the error level means the code has errors of syntax and format. 
 
+### Lens
+All PO Lens:
+* Macro(In Progress)
+* Function(Pending)
+* Path(Pending)
+To use Lens, you also need to do nothing. It also triggers automatically considering the file's extension.
+
+The Lens give the dynamic analysis about the code segments, like the vars should be set in Macro declaration. 
+
 ### Symbol & Hover
 * Symbol(In Progress)
 * Hover(Pending)
@@ -110,6 +119,10 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 ### Linter
 > Give you instant hints about syntax or format issues.
 ![linter for Testcase](images/linter.gif)
+
+### Lens
+> Give you vars list about the macro scope
+![lens for Macro](images/lens.gif)
 
 ### Completion
 > Offer word completion by input text.
