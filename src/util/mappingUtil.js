@@ -22,7 +22,7 @@ export const mapping = {
 */
 export const mappingLocator = {}
 /* mappingMacroVars
-{fileName: [var0, var1, var2...]}
+{fileName: new Map()}
 */
 export const mappingMacroVars = {}
 
@@ -32,11 +32,14 @@ export const initMapping = function (opts) {
   Promise.resolve(initMappingPO(url))
     .then(() => {
       initMappingLocator()
+      initMappingMacroVars()
     })
 }
 
 const initMappingPO = (url) => {
   rd.eachSync(url, function (f, s) {
+    if (s.isDirectory()) return
+
     const ext = fileUtil.getExtName(f)
     const name = fileUtil.getFileName(f)
 
@@ -90,28 +93,44 @@ const initMappingMacroVars = function () {
       fs.readFile(file.uri, 'utf-8', (err, data) => {
         if (err) rej(err)
 
-        // const match = data.match(reg.locatorBlock)
-        // const mapArray = []
+        const lines = data.split(reg.linesRegex)
+        const mapArray = []
 
-        // if (match) {
-        //   match.forEach((e, i) => {
-        //     const locatorArray = []
+        const $Names = []
+        let segment = ''
 
-        //     e.split(reg.linesRegex).forEach(e => {
-        //       const match = e.match(reg.locatorLine)
+        lines.forEach((e, i) => {
+          const match = e.match(/command name="(\w+)"/)
 
-        //       locatorArray.push(match ? match[1] : 'null')
-        //     })
+          // clean the arr and init
+          if (match) {
+            $Names.splice(0, $Names.length)
+            segment = match[1]
+            return
+          }
 
-        //     mapArray.push(locatorArray)
-        //   })
+          // means one command balck end
+          if (e.match(/<\/command>/)) {
+            const temp = {}
+            $Names.forEach(e => {
+              e = e.slice(2, e.length - 1)
 
-        //   res(new Map(mapArray))
-        // }
-        res([])
+              if (!temp[e]) temp[e] = 1
+            })
+
+            mapArray.push([segment, Object.keys(temp)])
+          }
+
+          // retrive the ${...} segment
+          const match$ = e.match(/\${([\w,]+)}/g)
+
+          if (match$) Array.prototype.push.apply($Names, match$)
+        })
+
+        res(new Map(mapArray))
       })
-    })).then(vars => {
+    }).then(vars => {
       mappingMacroVars[name] = vars
-    })
+    }))
   }
 }

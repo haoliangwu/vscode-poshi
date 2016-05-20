@@ -3,7 +3,7 @@ import * as path from 'path'
 import { workspace } from 'vscode'
 
 import * as reg from '../util/regexUtil'
-import { mapping } from '../util/mappingUtil'
+import { mapping, mappingMacroVars } from '../util/mappingUtil'
 
 export default class MacroLensProvider {
   constructor (conf) {
@@ -90,24 +90,26 @@ export default class MacroLensProvider {
 
     if (segment.indexOf('#') < 0) return
 
-    const [root] = segment.split('#')
-    const full_path = path.resolve(mapping['macro'].get(root).uri)
+    const [root, command] = segment.split('#')
 
-    return workspace.openTextDocument(full_path)
-      .then(doc => {
-        let title = ''
+    const varsList = mappingMacroVars[root].get(command)
 
-        vars.forEach(e => {
-          title += e + ' '
-        })
+    console.log(varsList)
 
-        if (title.length === 0) title = 'No Need to set any vars'
+    let title = ''
 
-        codeLensItem.command = {title,
-          command: undefined,
-        arguments: undefined}
+    varsList.forEach(e => {
+      if (vars.includes(e)) return
 
-        return codeLensItem
-      })
+      title += e + ' '
+    })
+
+    if (title.length === 0) title = 'No need to set any vars'
+
+    codeLensItem.command = {title,
+      command: undefined,
+    arguments: undefined}
+
+    return codeLensItem
   }
 }
