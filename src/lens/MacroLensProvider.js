@@ -33,35 +33,42 @@ export default class MacroLensProvider {
     const lines = doc.getText().split(reg.linesRegex)
 
     const result = []
+    const varNames = []
+    let lensLine = 0
+    let segment = ''
+
     lines.forEach((e, i) => {
-      let currentLine = i
+      if (e.match(/<execute macro="(.+)" \/>/)) return
+
       const match = e.match(/<execute macro="(.+)"/)
 
-      if (!match) return
-      // TODO 获取整个macro块，并解析已经赋值的var列表，之后加入payload(DONE)
+      if (match) {
+        // clean the arr and init
+        varNames.splice(0, varNames.length)
+        lensLine = i
+        segment = match[1]
 
-      const varNames = []
-
-      while (true) {
-        if (e.match(/<execute macro="(.+)" \/>/)) break
-
-        const line = doc.lineAt(++currentLine).text
-
-        if (line.match(/<\/execute>/)) {
-          break
-        }
-
-        const match = line.match(/<var name="(\w+)"/)
-
-        if (match) varNames.push(match[1])
+        return
       }
 
-      const range = new Range(new Position(i, 0), new Position(i, 99))
-      const lens = new CodeLens(range)
+      if (e.match(/<\/execute>/)) {
+        // means one macro block end
+        const range = new Range(new Position(lensLine, 0), new Position(lensLine, 99))
+        const lens = new CodeLens(range)
 
-      lens.payload = {segment: match[1], vars: varNames}
+        lens.payload = {segment: segment, vars: [].concat(varNames)}
 
-      result.push(lens)
+        result.push(lens)
+
+        return
+      }
+
+      // retrive the var segment
+      const matchVar = e.match(/<var name="(\w+)"/)
+
+      if (matchVar) varNames.push(matchVar[1])
+
+    // TODO 获取整个macro块，并解析已经赋值的var列表，之后加入payload(DONE)
     })
 
     // const range = new Range(new Position(0, 0), new Position(0, 1))
@@ -83,7 +90,7 @@ export default class MacroLensProvider {
 
     if (segment.indexOf('#') < 0) return
 
-    const [root, command] = segment.split('#')
+    const [root] = segment.split('#')
     const full_path = path.resolve(mapping['macro'].get(root).uri)
 
     return workspace.openTextDocument(full_path)
