@@ -4,7 +4,7 @@ import * as fileUtil from './util/fileUtil'
 
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 const documents = new TextDocuments()
-import CompletionProvider from './completion/CompletionProvider'
+import CompletionProvider from './server/CompletionProvider'
 
 const completionProvider = new CompletionProvider()
 
