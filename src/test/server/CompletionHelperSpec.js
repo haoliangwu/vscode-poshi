@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import * as helper from '../../completion/CompletionHelper'
+import * as helper from '../../server/CompletionHelper'
 
 describe('CompletionHelper', function () {
   it('parseCommandSegments(text)', () => {

@@ -83,7 +83,7 @@ export default class MacroLensProvider {
 
   resolveCodeLens (codeLensItem, token) {
     const { segment, vars } = codeLensItem.payload
-    // TODO 根据macro获取该macro所需的var列表，根据payload排除已赋值的var
+    // TODO 根据macro获取该macro所需的var列表，根据payload排除已赋值的var(DONE)
     // TODO use util method
 
     if (segment.indexOf('#') < 0) return

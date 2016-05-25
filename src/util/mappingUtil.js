@@ -9,7 +9,9 @@ export const typeMapping = {
   function: 'function',
   locator1: 'path'
 }
-
+/* mapping
+{ type: new Map([filename, {uri, name}]) }
+*/
 export const mapping = {
   testcase: new Map(),
   macro: new Map(),
@@ -18,18 +20,18 @@ export const mapping = {
 }
 
 /* mappingLocator
-{ fileName: new Map() }
+{ fileName: new Map([locatorKey, locatorValue]) }
 */
 export const mappingLocator = {}
 /* mappingMacroVars
-{fileName: new Map()}
+{fileName: new Map([macroName, varsArray])}
 */
 export const mappingMacroVars = {}
 
 export const initMapping = function (opts) {
   const {url} = opts
 
-  Promise.resolve(initMappingPO(url))
+  return Promise.resolve(initMappingPO(url))
     .then(() => {
       initMappingLocator()
       initMappingMacroVars()

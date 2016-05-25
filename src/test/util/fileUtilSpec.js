@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import * as fileUtil from '../../util/fileUtil'
 
 describe('fileUtil', function () {
-  const uri2 = '/home/lyon/liferay/portal/the-poshi-6.2.10/portal-web/test/functional/com/liferay/portalweb/tests/enduser/webformsanddatalists/dynamicdatalists/cpdynamicdatalists/block/macro'
+  const uri2 = '/aaa/bbb/foo.baz.bar'
 
   it('getFileName(uri)', () => {
     // only for linux
