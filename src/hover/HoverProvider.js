@@ -37,7 +37,7 @@ export default class HoverProvider {
       let curText = document.lineAt(position).text
       console.log(curText)
       let re_str = `locator1="(.*?${word}.*?)"`
-      let trigger = curText.match('Current Line: ' + re_str)
+      let trigger = curText.match(re_str)
 
       if (!trigger) return null
       // console.log('Trigger Text: ' + trigger[0])
