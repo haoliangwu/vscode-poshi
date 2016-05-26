@@ -1,7 +1,7 @@
-import { workspace } from 'vscode'
+import { workspace, window } from 'vscode'
 import { mapping } from './util/mappingUtil'
 
-export const quickPickCommand = () => () => {
+export const quickPickCommand = () => {
   const inputOpts = {
     placeHolder: 'eg:testcaseName#commandName',
     validateInput: function (input) {
