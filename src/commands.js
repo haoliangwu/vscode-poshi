@@ -2,9 +2,18 @@ import { workspace, window } from 'vscode'
 import { mapping } from './util/mappingUtil'
 
 export const quickPickCommand = () => {
+  // TODO 加一些文件联想操作、模糊查询操作
+  const quickPickOpts = {
+    placeHolder: 'Choose one file to open shortly'
+  }
+
+  quickPickOpts.onDidSelectItem = () => {
+    window.showInformationMessage(`quick pick list callback`)
+  }
+
   const inputOpts = {
-    placeHolder: 'eg:testcaseName#commandName',
-    validateInput: function (input) {
+    placeHolder: 'eg:fileName#commandName',
+    validateInput: (input) => {
       if (input.indexOf('#') < 0) return 'The input string should contian # mark.'
 
       const reg = /\w+#\w+/i
@@ -15,9 +24,13 @@ export const quickPickCommand = () => {
     }
   }
 
-  const pending = window.showInputBox(inputOpts)
+  // window.showQuickPick(['foo', 'bar', 'baz'], quickPickOpts)
 
-  pending.then(input => {
+  const InputSending = window.showInputBox(inputOpts)
+
+  // const quickPickPending = window.showQuickPick(mapping.testcase.get(input.split('#')[0]))
+
+  InputSending.then(input => {
     if (!input) return
 
     const {uri} = mapping.testcase.get(input.split('#')[0])
