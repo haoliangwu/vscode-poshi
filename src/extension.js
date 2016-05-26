@@ -12,6 +12,8 @@ import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
 
 export function init (conf) {
+  if (!conf) conf = new ExtensionConfiguration()
+
   try {
     const wholePath = conf.poshiHome
 
@@ -20,15 +22,16 @@ export function init (conf) {
     } else if (!wholePath.match(/portal-web/)) {
       window.showInformationMessage(`Your Liferay Home or POSHI Project HOME is not the valid path, please correct them or refer to example/package.json.`)
     } else {
-      window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
-
       const opts = {
         url: wholePath
       }
 
       initMapping(opts)
+
+      window.showInformationMessage(`The poshi source mapping has initilized successfully.`)
     }
   } catch (error) {
+    console.log(error.stack)
     window.showInformationMessage(`There are some problems during initial process, please contact author by https://github.com/haoliangwu/vscode-poshi/issues.`)
   }
 }
