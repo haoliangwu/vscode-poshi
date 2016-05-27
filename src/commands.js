@@ -1,5 +1,5 @@
-import { workspace, window, commands } from 'vscode'
-import { mapping, mappingWholeNames } from './util/mappingUtil'
+import { workspace, window, commands, Position, Range, TextEditorRevealType } from 'vscode'
+import { mappingWholeNames, mappingCommandLine } from './util/mappingUtil'
 
 export const quickPickCommand = () => {
   // TODO 加一些文件联想操作、模糊查询操作(DONE)
@@ -23,7 +23,7 @@ export const quickPickCommand = () => {
     if (!uri) return undefined
 
     workspace.openTextDocument(uri).then(doc => {
-      window.showTextDocument(doc).then(doc => {
+      window.showTextDocument(doc).then(editor => {
         commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
       })
     })
@@ -51,18 +51,43 @@ export const quickOpenCommand = () => {
 
   InputSending.then(input => {
     if (!input) return
+    const [root, command] = input.split('#')
+    const map = mappingCommandLine[root]
 
-    if (input.indexOf('#') < 0) {
-    } else {
-      const {uri} = mapping.testcase.get(input.split('#')[0])
+    if (!map) {
+      window.showInformationMessage("The target file didn't exist in mapping")
+      return
+    }
 
-      if (uri) {
-        workspace.openTextDocument(uri).then(doc => {
-          window.showTextDocument(doc).then(doc => {
-            commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
-          })
+    const file = map.get(command)
+
+    if (!file) {
+      window.showInformationMessage("The command segment didn't exist in mapping")
+      return
+    }
+
+    const {uri, start} = file
+
+    if (uri) {
+      workspace.openTextDocument(uri).then(doc => {
+        window.showTextDocument(doc).then(editor => {
+          const range = new Range(new Position(start, 0), new Position(start, 0))
+
+          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
+          editor.revealRange(range, TextEditorRevealType.InCenter)
+          // editor.edit((edit) => {
+          //   edit.insert(new Position(start, 0), 'demo')
+          // })
+          // const decorationTypeOpts = {
+          //   borderColor: 'border-color:red;'
+          // }
+          // const decorationType = window.createTextEditorDecorationType(decorationTypeOpts)
+
+          // editor.setDecorations(decorationType, [range])
         })
-      } else window.showInformationMessage(`Cannot quick pick file by this testcase name.`)
+      })
+    } else {
+      window.showInformationMessage("The target file or command segment didn't exist")
     }
   })
 }
