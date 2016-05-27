@@ -1,4 +1,4 @@
-import { workspace, window } from 'vscode'
+import { workspace, window, commands } from 'vscode'
 import { mapping, mappingWholeNames } from './util/mappingUtil'
 
 export const quickPickCommand = () => {
@@ -23,6 +23,7 @@ export const quickPickCommand = () => {
     if (!uri) return undefined
 
     workspace.openTextDocument(uri).then(doc => {
+      commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
       window.showTextDocument(doc)
     })
   })
@@ -56,6 +57,7 @@ export const quickOpenCommand = () => {
 
       if (uri) {
         workspace.openTextDocument(uri).then(doc => {
+          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
           window.showTextDocument(doc)
         })
       } else window.showInformationMessage(`Cannot quick pick file by this testcase name.`)
