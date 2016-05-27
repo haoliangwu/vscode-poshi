@@ -31,7 +31,7 @@ export const quickPickCommand = () => {
 export const quickOpenCommand = () => {
   // TODO 改为更通用的命令，可以打开所有的PO对象
   const inputOpts = {
-    placeHolder: 'eg:fileName#commandName',
+    placeHolder: 'Open file by POSHI invocation syntax, eg:fileName#commandName',
     validateInput: (input) => {
       if (input.indexOf('#') < 0) {
         return 'The input should contain "#" mark'
@@ -42,8 +42,7 @@ export const quickOpenCommand = () => {
       if (!reg.test(input)) {
         return 'The input string is not valid.'
       }
-    },
-    prompt: 'Press enter or continue type to process fuzzy query'
+    }
   }
 
   const InputSending = window.showInputBox(inputOpts)
