@@ -39,14 +39,18 @@
                 "title": "POSHI Quick Pick"
             },
             {
-                "command": "POSHI.previewlog",
-                "title": "POSHI Preview Log"
+                "command": "POSHI.quickopen",
+                "title": "POSHI Quick Open"
             }
         ],
         "keybindings": [
             {
                 "command": "POSHI.quickpick",
-                "key": "alt+p"
+                "key": "alt+["
+            },
+            {
+                "command": "POSHI.quickopen",
+                "key": "alt+]"
             }
         ],
         "configuration": {

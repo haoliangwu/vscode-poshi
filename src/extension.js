@@ -3,7 +3,7 @@ import { workspace, languages, commands, window } from 'vscode'
 import ExtensionConfiguration from './models/ExtensionConfiguration'
 import LangServer from './models/LangServer'
 
-import { quickPickCommand } from './commands'
+import { quickPickCommand, quickOpenCommand } from './commands'
 import { initMapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
@@ -59,6 +59,7 @@ export function activate (context) {
 
   // registe commands
   disposables.push(commands.registerCommand('POSHI.quickpick', quickPickCommand))
+  disposables.push(commands.registerCommand('POSHI.quickopen', quickOpenCommand))
 
   // registe lang server
   disposables.push(new LangServer().client)

@@ -3,6 +3,8 @@ import * as fs from 'fs'
 import * as reg from './regexUtil'
 import * as fileUtil from './fileUtil'
 
+export const typeFilter = ['testcase', 'macro', 'path', 'function']
+
 export const typeMapping = {
   testcase: 'testcase',
   macro: 'macro',
@@ -18,6 +20,11 @@ export const mapping = {
   function: new Map(),
   path: new Map()
 }
+
+/* mappingWholeName
+  {name1:.., name2:.., name3:..}
+*/
+export const mappingWholeNames = {}
 
 /* mappingLocator
 { fileName: new Map([locatorKey, locatorValue]) }
@@ -43,7 +50,13 @@ const initMappingPO = (url) => {
     if (s.isDirectory()) return
 
     const ext = fileUtil.getExtName(f)
+
+    if (typeFilter.indexOf(ext) < 0) return
+
     const name = fileUtil.getFileName(f)
+    const baseName = fileUtil.getBaseName(f)
+
+    if (!mappingWholeNames[baseName]) mappingWholeNames[baseName] = f
 
     if (mapping[ext]) {
       mapping[ext].set(name, {uri: f, name: `${name}.${ext}`})

@@ -1,5 +1,9 @@
 import * as path from 'path'
 
+export const getBaseName = (uri) => {
+  return path.basename(uri)
+}
+
 export const getExtName = (uri) => {
   return path.basename(uri).split('.').pop()
 }
