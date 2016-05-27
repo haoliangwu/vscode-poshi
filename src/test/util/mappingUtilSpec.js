@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { mapping, mappingLocator, mappingMacroVars, mappingWholeNames, initMapping } from '../../util/mappingUtil'
+import { mapping, mappingLocator, mappingMacroVars, mappingWholeNames, mappingCommandLine, initMapping } from '../../util/mappingUtil'
 
 const baseURL = '/home/lyon/liferay/portal/the-poshi-6.2.10/portal-web/test/functional/com/liferay/portalweb'
 
@@ -42,5 +42,18 @@ describe('utilMapping', function () {
 
     assert.deepEqual(map1.get('gotoCP'), target1)
     assert.deepEqual(map2.get('save'), target2)
+  })
+
+  it('mappingCommands', () => {
+    const map1 = mappingCommandLine['PGCalendar']
+    const map2 = mappingCommandLine['AkismetPortlet']
+    const map3 = mappingCommandLine['AssertClick']
+    const lineNumber1 = '468'
+    const lineNumber2 = '26'
+    const lineNumber3 = '60'
+
+    assert.equal(map1.get('AddCalendarEventRegularCommentToCurrentSiteCalendars').start, lineNumber1)
+    assert.equal(map2.get('tearDownConfiguration').start, lineNumber2)
+    assert.equal(map3.get('assertTextClickAndWait').start, lineNumber3)
   })
 })

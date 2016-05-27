@@ -11,6 +11,7 @@ export const typeMapping = {
   function: 'function',
   locator1: 'path'
 }
+
 /* mapping
 { type: new Map([filename, {uri, name}]) }
 */
@@ -22,16 +23,22 @@ export const mapping = {
 }
 
 /* mappingWholeName
-  {name1:.., name2:.., name3:..}
+{ name1:.., name2:.., name3:.. }
 */
 export const mappingWholeNames = {}
+
+/* mappingCommandLine
+{ fileName: new Map([commandName, lineNumber])}
+*/
+export const mappingCommandLine = {}
 
 /* mappingLocator
 { fileName: new Map([locatorKey, locatorValue]) }
 */
 export const mappingLocator = {}
+
 /* mappingMacroVars
-{fileName: new Map([macroName, varsArray])}
+{ fileName: new Map([macroName, varsArray]) }
 */
 export const mappingMacroVars = {}
 
@@ -40,8 +47,16 @@ export const initMapping = function (opts) {
 
   return Promise.resolve(initMappingPO(url))
     .then(() => {
+      // mapping locator
       initMappingLocator()
+
+      // mapping vars
       initMappingMacroVars()
+
+      // mapping command
+      initMappingCommandLine('testcase')
+      initMappingCommandLine('macro')
+      initMappingCommandLine('function')
     })
 }
 
@@ -56,11 +71,11 @@ const initMappingPO = (url) => {
     const name = fileUtil.getFileName(f)
     const baseName = fileUtil.getBaseName(f)
 
-    if (!mappingWholeNames[baseName]) mappingWholeNames[baseName] = f
-
     if (mapping[ext]) {
       mapping[ext].set(name, {uri: f, name: `${name}.${ext}`})
     }
+
+    if (!mappingWholeNames[baseName]) mappingWholeNames[baseName] = f
   })
 }
 
@@ -98,7 +113,7 @@ const initMappingLocator = function () {
   }
 }
 
-// TODO 增加一个var的mapping
+// TODO 增加一个var的mapping(DONE)
 const initMappingMacroVars = function () {
   const pathSources = mapping.macro
   const promises = []
@@ -146,6 +161,35 @@ const initMappingMacroVars = function () {
       })
     }).then(vars => {
       mappingMacroVars[name] = vars
+    }))
+  }
+}
+
+const initMappingCommandLine = function (type) {
+  const _mapping = mapping[type]
+  const promises = []
+
+  for (const [name, file] of _mapping) {
+    promises.push(new Promise((res, rej) => {
+      fs.readFile(file.uri, 'utf-8', (err, data) => {
+        if (err) rej(err)
+
+        const lines = data.split(reg.linesRegex)
+        const mapArray = []
+
+        lines.forEach((e, i) => {
+          const match = e.match(/command name="(\w+)"/)
+
+          // clean the arr and init
+          if (match) {
+            mapArray.push([match[1], {uri: file.uri, start: i + 1}])
+          }
+        })
+
+        res(new Map(mapArray))
+      })
+    }).then(commandLines => {
+      mappingCommandLine[name] = commandLines
     }))
   }
 }
