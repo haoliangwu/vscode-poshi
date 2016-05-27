@@ -4,6 +4,11 @@ import * as fileUtil from '../../util/fileUtil'
 describe('fileUtil', function () {
   const uri2 = '/aaa/bbb/foo.baz.bar'
 
+  it('getBaseName(uri)', () => {
+    // only for linux
+    assert.equal(fileUtil.getBaseName(uri2), 'foo.baz.bar')
+  })
+
   it('getFileName(uri)', () => {
     // only for linux
     assert.equal(fileUtil.getFileName(uri2), 'foo.baz')
