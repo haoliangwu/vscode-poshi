@@ -29,7 +29,7 @@
         "vscode.xml"
     ],
     "activationEvents": [
-        "onLanguage:xml"
+        "*"
     ],
     "main": "./lib/extension",
     "contributes": {
