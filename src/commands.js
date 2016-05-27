@@ -23,8 +23,9 @@ export const quickPickCommand = () => {
     if (!uri) return undefined
 
     workspace.openTextDocument(uri).then(doc => {
-      commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
-      window.showTextDocument(doc)
+      window.showTextDocument(doc).then(doc => {
+        commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
+      })
     })
   })
 }
@@ -57,8 +58,9 @@ export const quickOpenCommand = () => {
 
       if (uri) {
         workspace.openTextDocument(uri).then(doc => {
-          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
-          window.showTextDocument(doc)
+          window.showTextDocument(doc).then(doc => {
+            commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
+          })
         })
       } else window.showInformationMessage(`Cannot quick pick file by this testcase name.`)
     }
