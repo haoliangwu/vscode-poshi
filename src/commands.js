@@ -1,4 +1,4 @@
-import { workspace, window, commands, Position, Range, TextEditorRevealType } from 'vscode'
+import { workspace, window, commands, Position, Range, TextEditorRevealType, DecorationRenderOptions } from 'vscode'
 import { mappingWholeNames, mappingCommandLine } from './util/mappingUtil'
 
 export const quickPickCommand = () => {
@@ -71,19 +71,10 @@ export const quickOpenCommand = () => {
     if (uri) {
       workspace.openTextDocument(uri).then(doc => {
         window.showTextDocument(doc).then(editor => {
-          const range = new Range(new Position(start, 0), new Position(start, 0))
-
-          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
-          editor.revealRange(range, TextEditorRevealType.InCenter)
-          // editor.edit((edit) => {
-          //   edit.insert(new Position(start, 0), 'demo')
-          // })
-          // const decorationTypeOpts = {
-          //   borderColor: 'border-color:red;'
-          // }
-          // const decorationType = window.createTextEditorDecorationType(decorationTypeOpts)
-
-          // editor.setDecorations(decorationType, [range])
+          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc).then(doc => {
+            const range = new Range(new Position(start, 0), new Position(start, 99))
+            editor.revealRange(range, TextEditorRevealType.InCenter)
+          })
         })
       })
     } else {
