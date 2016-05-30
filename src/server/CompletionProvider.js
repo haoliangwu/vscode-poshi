@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import * as rd from 'rd'
 
 import * as fileUtil from '../util/fileUtil'
-import { typeMapping } from '../util/mappingUtil'
+import { typeMapping } from '../util/mappingServerUtil'
 
 import * as helper from './CompletionHelper'
 
