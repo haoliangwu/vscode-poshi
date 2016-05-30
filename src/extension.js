@@ -2,6 +2,8 @@ import { workspace, languages, commands, window } from 'vscode'
 
 import ExtensionConfiguration from './models/ExtensionConfiguration'
 import LangServer from './models/LangServer'
+import PoshiStatusBar from './models/PoshiStatusBar'
+import PoshiStatusBarController from './models/PoshiStatusBarController'
 
 import { quickPickCommand, quickOpenCommand } from './commands'
 import { initMapping } from './util/mappingUtil'
@@ -42,6 +44,12 @@ export function activate (context) {
 
   // disposable list
   const disposables = []
+
+  // custom controllers
+  const statusBar = new PoshiStatusBar()
+  const controller = new PoshiStatusBarController(statusBar)
+
+  disposables.push(controller)
 
   // provider list
   const providers = [
