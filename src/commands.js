@@ -1,4 +1,4 @@
-import { workspace, window, commands, Position, Range, TextEditorRevealType, DecorationRenderOptions } from 'vscode'
+import { workspace, window, commands, TextEditorRevealType } from 'vscode'
 import { mappingWholeNames, mappingCommandLine } from './util/mappingUtil'
 
 export const quickPickCommand = () => {
@@ -66,13 +66,12 @@ export const quickOpenCommand = () => {
       return
     }
 
-    const {uri, start} = file
+    const {uri, range} = file
 
     if (uri) {
       workspace.openTextDocument(uri).then(doc => {
         window.showTextDocument(doc).then(editor => {
-          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc).then(doc => {
-            const range = new Range(new Position(start, 0), new Position(start, 99))
+          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc).then(() => {
             editor.revealRange(range, TextEditorRevealType.InCenter)
           })
         })

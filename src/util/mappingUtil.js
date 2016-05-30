@@ -1,3 +1,4 @@
+import { Range, Position } from 'vscode'
 import * as rd from 'rd'
 import * as fs from 'fs'
 import * as reg from './regexUtil'
@@ -28,7 +29,7 @@ export const mapping = {
 export const mappingWholeNames = {}
 
 /* mappingCommandLine
-{ fileName: new Map([commandName, lineNumber])}
+{ fileName: new Map([commandName, range])}
 */
 export const mappingCommandLine = {}
 
@@ -81,115 +82,101 @@ const initMappingPO = (url) => {
 
 const initMappingLocator = function () {
   const pathSources = mapping.path
-  const promises = []
 
   for (const [name, file] of pathSources) {
-    promises.push(new Promise((res, rej) => {
-      fs.readFile(file.uri, 'utf-8', (err, data) => {
-        if (err) rej(err)
+    fs.readFile(file.uri, 'utf-8', (err, data) => {
+      if (err) throw err
 
-        const match = data.match(reg.locatorBlock)
-        const mapArray = []
+      const match = data.match(reg.locatorBlock)
+      const mapArray = []
 
-        if (match) {
-          match.forEach((e, i) => {
-            const locatorArray = []
+      if (match) {
+        match.forEach((e, i) => {
+          const locatorArray = []
 
-            e.split(reg.linesRegex).forEach(e => {
-              const match = e.match(reg.locatorLine)
+          e.split(reg.linesRegex).forEach(e => {
+            const match = e.match(reg.locatorLine)
 
-              locatorArray.push(match ? match[1] : 'null')
-            })
-
-            mapArray.push(locatorArray)
+            locatorArray.push(match ? match[1] : 'null')
           })
 
-          res(new Map(mapArray))
-        }
-      })
-    }).then(map => {
-      mappingLocator[name] = map
-    }))
+          mapArray.push(locatorArray)
+        })
+
+        mappingLocator[name] = new Map(mapArray)
+      }
+    })
   }
 }
 
 // TODO 增加一个var的mapping(DONE)
 const initMappingMacroVars = function () {
   const pathSources = mapping.macro
-  const promises = []
 
   for (const [name, file] of pathSources) {
-    promises.push(new Promise((res, rej) => {
-      fs.readFile(file.uri, 'utf-8', (err, data) => {
-        if (err) rej(err)
+    fs.readFile(file.uri, 'utf-8', (err, data) => {
+      if (err) throw err
 
-        const lines = data.split(reg.linesRegex)
-        const mapArray = []
+      const lines = data.split(reg.linesRegex)
+      const mapArray = []
 
-        const $Names = []
-        let segment = ''
+      const $Names = []
+      let segment = ''
 
-        lines.forEach((e, i) => {
-          const match = e.match(/command name="(\w+)"/)
+      lines.forEach((e, i) => {
+        const match = e.match(/command name="(\w+)"/)
 
-          // clean the arr and init
-          if (match) {
-            $Names.splice(0, $Names.length)
-            segment = match[1]
-            return
-          }
+        // clean the arr and init
+        if (match) {
+          $Names.splice(0, $Names.length)
+          segment = match[1]
+          return
+        }
 
-          // means one command balck end
-          if (e.match(/<\/command>/)) {
-            const temp = {}
-            $Names.forEach(e => {
-              e = e.slice(2, e.length - 1)
+        // means one command balck end
+        if (e.match(/<\/command>/)) {
+          const temp = {}
+          $Names.forEach(e => {
+            e = e.slice(2, e.length - 1)
 
-              if (!temp[e]) temp[e] = 1
-            })
+            if (!temp[e]) temp[e] = 1
+          })
 
-            mapArray.push([segment, Object.keys(temp)])
-          }
+          mapArray.push([segment, Object.keys(temp)])
+        }
 
-          // retrive the ${...} segment
-          const match$ = e.match(/\${([\w,]+)}/g)
+        // retrive the ${...} segment
+        const match$ = e.match(/\${([\w,]+)}/g)
 
-          if (match$) Array.prototype.push.apply($Names, match$)
-        })
-
-        res(new Map(mapArray))
+        if (match$) Array.prototype.push.apply($Names, match$)
       })
-    }).then(vars => {
-      mappingMacroVars[name] = vars
-    }))
+
+      mappingMacroVars[name] = new Map(mapArray)
+    })
   }
 }
 
 const initMappingCommandLine = function (type) {
   const _mapping = mapping[type]
-  const promises = []
 
   for (const [name, file] of _mapping) {
-    promises.push(new Promise((res, rej) => {
-      fs.readFile(file.uri, 'utf-8', (err, data) => {
-        if (err) rej(err)
+    fs.readFile(file.uri, 'utf-8', (err, data) => {
+      if (err) throw err
 
-        const lines = data.split(reg.linesRegex)
-        const mapArray = []
+      const lines = data.split(reg.linesRegex)
+      const mapArray = []
 
-        lines.forEach((e, i) => {
-          const match = e.match(/command name="(\w+)"/)
+      lines.forEach((e, i) => {
+        const match = e.match(reg.commandRegexGroup)
 
-          // clean the arr and init
-          if (match) {
-            mapArray.push([match[1], {uri: file.uri, start: i + 1}])
-          }
-        })
-
-        res(new Map(mapArray))
+        if (match) {
+          const start = Math.max(0, match[0].match(reg.commandName).index - 1)
+          const end = Math.max(0, match.index + match[1].length - 1)
+          mapArray.push([match[1], {uri: file.uri, range: new Range(new Position(i, start), new Position(i, end))}])
+        }
       })
-    }).then(commandLines => {
-      mappingCommandLine[name] = commandLines
-    }))
+
+      mappingCommandLine[name] = new Map(mapArray)
+    })
   }
 }
