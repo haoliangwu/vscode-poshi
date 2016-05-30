@@ -10,6 +10,7 @@ import { initMapping } from './util/mappingUtil'
 
 import PeekFileDefinitionProvider from './definition/PeekFileDefinitionProvider'
 import SymbolProvider from './symbol/SymbolProvider'
+import WorkspaceSymbolProvider from './symbol/WorkspaceSymbolProvider'
 import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
 
@@ -56,7 +57,8 @@ export function activate (context) {
     new PeekFileDefinitionProvider(conf),
     new SymbolProvider(conf),
     new HoverProvider(conf),
-    new MacroLensProvider(conf)
+    new MacroLensProvider(conf),
+    new WorkspaceSymbolProvider(conf)
   ]
 
   // init
@@ -89,14 +91,14 @@ export function activate (context) {
       case 'lens':
         register = languages.registerCodeLensProvider
         break
+      case 'workspaceSymbol':
+        register = languages.registerWorkspaceSymbolProvider
+        break
     }
 
-    disposables.push(
-      register(
-        provider.selector,
-        provider
-      )
-    )
+    const disposable = provider.selector ? register(provider.selector, provider) : register(provider)
+
+    disposables.push(disposable)
   })
 
   context.subscriptions.push(...disposables)
