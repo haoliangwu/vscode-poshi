@@ -2,8 +2,12 @@ import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } f
 import { validateCommand } from './validator/testcaseValidator'
 import * as fileUtil from './util/fileUtil'
 
+// conection instance
 const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
+
+// sync documents
 const documents = new TextDocuments()
+
 import CompletionProvider from './server/CompletionProvider'
 
 const completionProvider = new CompletionProvider()
