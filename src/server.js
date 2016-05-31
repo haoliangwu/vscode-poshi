@@ -8,8 +8,10 @@ const connection = createConnection(new IPCMessageReader(process), new IPCMessag
 // sync documents
 const documents = new TextDocuments()
 
+import LinterProvider from './server/LinterProvider'
 import CompletionProvider from './server/CompletionProvider'
 
+const linterProvider = new LinterProvider()
 const completionProvider = new CompletionProvider()
 
 let settings = {}
@@ -35,34 +37,13 @@ connection.onInitialize((params) => {
 
 // doc content change event
 documents.onDidChangeContent(change => {
+  const doc = change.document
+
   // linters
-  validateTextDocument(change.document)
-})
-
-function validateTextDocument (doc) {
-  const lines = doc.getText().split(/\r?\n/g)
-  const ext = fileUtil.getExtName(doc.uri)
-
-  let diagnostics = []
-
-  for (let entry of lines.entries()) {
-    switch (ext) {
-      case 'testcase':
-        validateCommand(entry, diagnostics)
-        break
-      case 'macro':
-        break
-      case 'function':
-        break
-      case 'path':
-        break
-      default:
-        break
-    }
-  }
+  const diagnostics = linterProvider.doLinter(doc)
 
   connection.sendDiagnostics({uri: doc.uri, diagnostics})
-}
+})
 
 // completion
 connection.onCompletion((textDocumentPosition) => {
@@ -111,7 +92,7 @@ connection.onDidChangeConfiguration((change) => {
   completionProvider.init(settings, connection)
   //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
 
-  documents.all().forEach(validateTextDocument)
+  documents.all().forEach(linterProvider.doLinter)
 })
 
 /*
