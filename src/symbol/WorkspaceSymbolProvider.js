@@ -21,7 +21,7 @@ export default class WorkspaceSymbolProvider {
     }
 
     const symbolItems = this._symbolItems.filter(e => {
-      return e.name.indexOf(query) > 0
+      return e.name.indexOf(query) >= 0
     })
 
     return symbolItems

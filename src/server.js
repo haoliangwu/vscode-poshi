@@ -1,5 +1,4 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
-import { validateCommand } from './validator/testcaseValidator'
 import * as fileUtil from './util/fileUtil'
 
 // conection instance
