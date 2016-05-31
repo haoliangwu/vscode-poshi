@@ -29,11 +29,9 @@ connection.onInitialize((params) => {
   }
 })
 
-// bind events
+// doc content change event
 documents.onDidChangeContent(change => {
-  //   connection.console.log('change event fire ..')
-  //   connection.console.log('did change content obj:')
-  //   connection.console.log(change)
+  // linters
   validateTextDocument(change.document)
 })
 
@@ -103,6 +101,7 @@ connection.onCompletionResolve((item) => {
   return item
 })
 
+// option change event
 connection.onDidChangeConfiguration((change) => {
   settings = change.settings
   completionProvider.init(settings, connection)
@@ -130,4 +129,9 @@ connection.onDidCloseTextDocument((params) => {
   connection.console.log(`${params.uri} closed.`)
 })*/
 
-connection.listen()
+try {
+  connection.listen()
+  connection.window.showInformationMessage(`Lang Server is listening the editor client.`)
+} catch (error) {
+  connection.window.showErrorMessage(`Lang Server failed to start up due to: ${error.stack}.`)
+}
