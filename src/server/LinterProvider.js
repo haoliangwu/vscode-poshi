@@ -2,6 +2,10 @@ import * as fileUtil from '../util/fileUtil'
 import * as general from './LinterGeneralRules'
 
 export default class LinterProvider {
+  constructor (connection) {
+    this._connection = connection
+  }
+
   doLinter (doc) {
     const diagnositics = []
     const rules = []
@@ -9,7 +13,7 @@ export default class LinterProvider {
 
     // general
     for (const rule in general) {
-      rules.push(rule)
+      rules.push(general[rule])
     }
 
     // by po type

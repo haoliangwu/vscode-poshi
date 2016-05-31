@@ -10,7 +10,7 @@ const documents = new TextDocuments()
 import LinterProvider from './server/LinterProvider'
 import CompletionProvider from './server/CompletionProvider'
 
-const linterProvider = new LinterProvider()
+const linterProvider = new LinterProvider(connection)
 const completionProvider = new CompletionProvider()
 
 let settings = {}
@@ -39,9 +39,14 @@ documents.onDidChangeContent(change => {
   const doc = change.document
 
   // linters
-  const diagnostics = linterProvider.doLinter(doc)
+  try {
+    const diagnostics = linterProvider.doLinter(doc)
 
-  connection.sendDiagnostics({uri: doc.uri, diagnostics})
+    connection.console.log(diagnostics.length)
+    connection.sendDiagnostics({uri: doc.uri, diagnostics})
+  } catch (error) {
+    connection.console.log(error.stack)
+  }
 })
 
 // completion
