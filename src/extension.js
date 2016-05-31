@@ -31,7 +31,7 @@ export function init (conf) {
 
       initMapping(opts)
 
-      window.showInformationMessage(`The source mapping of POSHI extension has initilized successfully.`)
+      window.showInformationMessage(`The source mapping of POSHI extension has initialized successfully.`)
     }
   } catch (error) {
     console.log(error.stack)
