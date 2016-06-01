@@ -85,7 +85,7 @@ export function noNewLineAfterLastChild (lines, diagnositics, connection) {
       severity: DiagnosticSeverity.Error,
       message: 'no new line after last child tag',
       source: 'poshi linter',
-      code: 'g-1-2',
+      code: 'g-1-3',
       range: range
     }
 
