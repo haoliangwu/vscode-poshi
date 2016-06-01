@@ -1,5 +1,6 @@
 import * as fileUtil from '../util/fileUtil'
 import * as general from './LinterGeneralRules'
+import * as testcase from './LinterTestcaseRules'
 import * as reg from '../util/regexUtil'
 
 export default class LinterProvider {
@@ -21,6 +22,9 @@ export default class LinterProvider {
     // by po type
     switch (ext) {
       case 'testcase':
+        for (const rule in testcase) {
+          rules.push(testcase[rule])
+        }
         break
       case 'macro':
         break
