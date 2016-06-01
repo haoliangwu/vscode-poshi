@@ -1,6 +1,8 @@
 import * as fileUtil from '../util/fileUtil'
-import * as general from './LinterGeneralRules'
-import * as testcase from './LinterTestcaseRules'
+import * as _general from './LinterGeneralRules'
+import * as _testcase from './LinterTestcaseRules'
+import * as _macro from './LinterMacroRules'
+
 import * as reg from '../util/regexUtil'
 
 export default class LinterProvider {
@@ -14,19 +16,22 @@ export default class LinterProvider {
     const ext = fileUtil.getExtName(doc.uri)
     const lines = doc.getText().split(reg.linesRegex)
 
-    // general
-    for (const rule in general) {
-      rules.push(general[rule])
+    // _general
+    for (const rule in _general) {
+      rules.push(_general[rule])
     }
 
     // by po type
     switch (ext) {
       case 'testcase':
-        for (const rule in testcase) {
-          rules.push(testcase[rule])
+        for (const rule in _testcase) {
+          rules.push(_testcase[rule])
         }
         break
       case 'macro':
+        for (const rule in _macro) {
+          rules.push(_macro[rule])
+        }
         break
       case 'function':
         break

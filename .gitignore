@@ -4,3 +4,4 @@ typings
 lib
 test/source
 npm-debug.log
+sync.js

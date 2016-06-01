@@ -1,25 +1,31 @@
 import { DiagnosticSeverity } from 'vscode-languageserver'
-// import * as reg from '../util/regexUtil'
+import * as path from 'path'
+import * as fs from 'fs'
+import * as reg from '../util/regexUtil'
 
-export function selfClosedWithNoChild (lines, diagnositics, connection) {
+export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
-    const match = e.match(/<(\w+)\s.*><\/\1>/)
+    const match = e.match(reg.commandRegexGroup)
     let range
 
     if (!match) {
       return
     }
 
+    if (reg.commandStandardRegex.macro.test(match[1])) return
+
+    const offset = e.indexOf('=')
+
     range = {
-      start: {line: i, character: match.index},
-      end: {line: i, character: e.length}
+      start: { line: i, character: match.index + offset + 1 },
+      end: { line: i, character: match.index + offset + 1 + match[1].length }
     }
 
     const diagnostic = {
       severity: DiagnosticSeverity.Error,
-      message: 'Use self-closed tag without child tags',
+      message: 'Use upper camel case to name testcase command',
       source: 'poshi linter',
-      code: 'g-1-1',
+      code: 'm-1-1',
       range: range
     }
 
@@ -27,32 +33,29 @@ export function selfClosedWithNoChild (lines, diagnositics, connection) {
   })
 }
 
-export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
-  let temp = ''
-  let range
-
+export function scopeOfCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
-    const match = temp.match(/<(definition|command|execute|tear-down|set-up)[\w\s"=#]*>\s{2,}/)
+    const match = e.match(reg.commandRegexGroup)
+    let range
 
     if (!match) {
-      temp += e.trim() + '\n'
       return
     }
 
-    connection.console.log(temp)
+    if (reg.macroCommandOrderRegex.scope.test(match[1])) return
 
-    temp = ''
+    const offset = e.indexOf('=')
 
     range = {
-      start: {line: i, character: 0},
-      end: {line: i, character: 1}
+      start: { line: i, character: match.index + offset + 1 },
+      end: { line: i, character: match.index + offset + 1 + match[1].length }
     }
 
     const diagnostic = {
-      severity: DiagnosticSeverity.Error,
-      message: 'no new line before first child tag',
+      severity: DiagnosticSeverity.Hint,
+      message: 'Lack of [CP/PG] limit, eg: tearDownCP',
       source: 'poshi linter',
-      code: 'g-1-2',
+      code: 'm-2-1',
       range: range
     }
 
@@ -60,32 +63,75 @@ export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
   })
 }
 
-export function noNewLineAfterLastChild (lines, diagnositics, connection) {
-  let temp = ''
-  let range
-
+export function modifierOfCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
-    const match = temp.match(/\s{2,}<\/(definition|command|execute|tear-down|set-up)>/)
+    const match = e.match(reg.commandRegexGroup)
+    let range
 
     if (!match) {
-      temp += e.trim() + '\n'
       return
     }
 
-    connection.console.log(temp)
+    if (reg.macroCommandOrderRegex.method.test(match[1])) return
 
-    temp = ''
+    const offset = e.indexOf('=')
 
     range = {
-      start: {line: i - 1, character: 0},
-      end: {line: i - 1, character: 1}
+      start: { line: i, character: match.index + offset + 1 },
+      end: { line: i, character: match.index + offset + 1 + match[1].length }
     }
 
     const diagnostic = {
-      severity: DiagnosticSeverity.Error,
-      message: 'no new line after last child tag',
+      severity: DiagnosticSeverity.Hint,
+      message: 'Lack of [method] limit, eg: ViaActions, ViaAP',
       source: 'poshi linter',
-      code: 'g-1-2',
+      code: 'm-2-2',
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
+  })
+}
+
+export function actionOfCommandName (lines, diagnositics, connection) {
+  lines.forEach((e, i) => {
+    const match = e.match(reg.commandRegexGroup)
+    let range
+    let message
+    let code
+
+    if (!match) {
+      return
+    }
+
+    const action = match[1].match(reg.macroCommandOrderRegex.action)
+
+    if (!action) {
+      message = 'Lack of [action] segment, eg: add, edit, delete.'
+      code = 'm-2-3'
+    }
+
+    // undefined or value is 0
+    const DefinedActions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../metrics/definedActions.json'), 'utf-8'))
+    connection.console.log(DefinedActions)
+
+    if (DefinedActions[action[1]] > 0) return
+
+    message = 'The action is not in defined action list'
+    code = 'm-2-4'
+
+    const offset = e.indexOf('=')
+
+    range = {
+      start: { line: i, character: match.index + offset + 1 },
+      end: { line: i, character: match.index + offset + 1 + match[1].length }
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Warning,
+      message: message,
+      source: 'poshi linter',
+      code: code,
       range: range
     }
 

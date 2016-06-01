@@ -7,7 +7,14 @@ export const commandRegexGroup = /<command name="(\w+)"/
 export const commandName = /"(\w+)"/
 
 export const commandStandardRegex = {
-  testcase: /^(([A-Z]|[0-9])([a-z])*)+$/
+  testcase: /^(([A-Z]|[0-9])[a-z]*)+$/,
+  macro: /^[a-z]+(([A-Z]|[0-9])[a-z]*)+$/
+}
+
+export const macroCommandOrderRegex = {
+  scope: /CP|PG/,
+  action: /^([a-z]+)/,
+  method: /Via\w+/
 }
 
 export const _varLineRegex = /<var.*\/>/
