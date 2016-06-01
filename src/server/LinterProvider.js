@@ -1,5 +1,6 @@
 import * as fileUtil from '../util/fileUtil'
 import * as general from './LinterGeneralRules'
+import * as reg from '../util/regexUtil'
 
 export default class LinterProvider {
   constructor (connection) {
@@ -10,6 +11,7 @@ export default class LinterProvider {
     const diagnositics = []
     const rules = []
     const ext = fileUtil.getExtName(doc.uri)
+    const lines = doc.getText().split(reg.linesRegex)
 
     // general
     for (const rule in general) {
@@ -29,7 +31,7 @@ export default class LinterProvider {
     }
 
     rules.forEach(rule => {
-      Array.prototype.push.apply(diagnositics, rule(doc))
+      rule(lines, diagnositics, this._connection)
     })
 
     return diagnositics

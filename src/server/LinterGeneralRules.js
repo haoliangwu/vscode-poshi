@@ -1,37 +1,19 @@
 import { DiagnosticSeverity } from 'vscode-languageserver'
-import * as reg from '../util/regexUtil'
+// import * as reg from '../util/regexUtil'
 
-export function selfClosedWithNoChild (doc) {
-  const lines = doc.getText().split(reg.linesRegex)
-  const diagnostics = []
-
-  let temp = ''
-
+export function selfClosedWithNoChild (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
     const match = e.match(/<(\w+)\s.*><\/\1>/)
     let range
 
-    if (match) {
-      range = {
-        start: {line: i, character: match.index},
-        end: {line: i, character: e.length}
-      }
-    } else {
-      temp += e
-
-      const match = temp.match(/<.*\s>[\s\S]*?<\/.*>/)
-
-      if (match) {
-        range = {
-          start: {line: i, character: match.index},
-          end: {line: i, character: e.length}
-        }
-
-        temp = ''
-      }
+    if (!match) {
+      return
     }
 
-    if (!range) return
+    range = {
+      start: {line: i, character: match.index},
+      end: {line: i, character: e.length}
+    }
 
     const diagnostic = {
       severity: DiagnosticSeverity.Error,
@@ -41,8 +23,40 @@ export function selfClosedWithNoChild (doc) {
       range: range
     }
 
-    diagnostics.push(diagnostic)
+    diagnositics.push(diagnostic)
   })
+}
 
-  return diagnostics
+export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
+  let temp = ''
+  // let line = 0
+  let range
+
+  lines.forEach((e, i) => {
+    const match = temp.match(/<(definition|command|execute)[\w\s"=#]+>\s{2,}/)
+
+    if (!match) {
+      temp += e.trim() + '\n'
+      return
+    }
+
+    connection.console.log(temp)
+
+    temp = ''
+
+    range = {
+      start: {line: i, character: 0},
+      end: {line: i, character: e.length}
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Error,
+      message: 'no new line before first child tag',
+      source: 'poshi linter',
+      code: 'g-1-2',
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
+  })
 }
