@@ -125,6 +125,43 @@ export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics, connecti
 }
 
 export function invalidAttrsCheck (lines, diagnositics, connection) {
-  lines.forEach(e => {
+  lines.forEach((e, i) => {
+    let range
+    let message
+    let code
+
+    const attrs = e.match(/[\w-]+=".+?"/g)
+
+    if (!attrs) return
+
+    attrs.forEach(attr => {
+      const match = attr.match(/([\w-]+)(?=\=)/)
+
+      if (!match) return
+
+      if (DefinedAttrs[match[1]] > 0) return
+
+      connection.console.log(match[1])
+
+      message = `The attr ${match[1]} is not in defined attr list`
+      code = 'g-2-1'
+
+      const start = e.indexOf(match[1])
+
+      range = {
+        start: { line: i, character: start },
+        end: { line: i, character: start + match[1].length }
+      }
+
+      const diagnostic = {
+        severity: DiagnosticSeverity.Warning,
+        message: message,
+        source: 'poshi linter',
+        code: code,
+        range: range
+      }
+
+      diagnositics.push(diagnostic)
+    })
   })
 }

@@ -12,6 +12,17 @@
     "arg2": 1,
     "attribute": 1,
     "component-name": 1,
+    "known-issues": 1,
     "description": 1,
-    "priority": 1
+    "priority": 1,
+    "message": 1,
+    "list": 1,
+    "param": 1,
+    "method": 1,
+    // useless attrs for .path files
+    "cellpadding": 1,
+    "cellspacing": 1,
+    "border": 1,
+    "rowspan": 1,
+    "colspan": 1
 }
