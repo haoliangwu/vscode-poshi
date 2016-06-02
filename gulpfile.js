@@ -3,7 +3,6 @@ var babel = require('gulp-babel')
 var plumber = require('gulp-plumber')
 var mocha = require('gulp-mocha')
 var clean = require('gulp-clean')
-var copy = require('gulp-copy')
 
 var src = 'src/**/*.js'
 var testSrc = 'src/test/**Spec.js'
@@ -22,10 +21,10 @@ gulp.task('compile', function () {
     .pipe(gulp.dest(target))
 })
 
-// gulp.task('moveResource', function () {
-//   return gulp.src(['./metrics/definedActions.json'], {base: './src'})
-//     .pipe(copy('lib/metrics'))
-// })
+gulp.task('moveResource', function () {
+  return gulp.src(['./src/metrics/definedActions.json'])
+    .pipe(gulp.dest('lib/metrics'))
+})
 
 gulp.task('compileTest', function () {
   return gulp.src(testSrc)
@@ -34,7 +33,7 @@ gulp.task('compileTest', function () {
     .pipe(gulp.dest(testTarget))
 })
 
-gulp.task('test', ['compileTest', 'compile', 'moveResource'], function () {
+gulp.task('test', ['compileTest', 'compile'], function () {
   var handleError = function (err) {
     console.log(err.toString())
     this.emit('end')

@@ -3,6 +3,8 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as reg from '../util/regexUtil'
 
+const DefinedActions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedActions.json'), 'utf-8'))
+
 export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
@@ -112,12 +114,9 @@ export function actionOfCommandName (lines, diagnositics, connection) {
     }
 
     // undefined or value is 0
-    const DefinedActions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../metrics/definedActions.json'), 'utf-8'))
-    connection.console.log(DefinedActions)
-
     if (DefinedActions[action[1]] > 0) return
 
-    message = 'The action is not in defined action list'
+    message = `The action ${action[1]} is not in defined action list`
     code = 'm-2-4'
 
     const offset = e.indexOf('=')
