@@ -184,7 +184,7 @@
         "description": "Creates 'if-then' condition code segment"
     },
     "ifThenElse": {
-        "prefix": "ifthel",
+        "prefix": "ifthe",
         "body": [
             "<if>",
             "\t${1:conditionSegment}",
