@@ -1,111 +1,111 @@
 {
-  "name": "poshi",
-  "version": "1.4.2",
-  "publisher": "lyon",
-  "engines": {
-    "vscode": "^0.10.10"
-  },
-  "license": "MIT",
-  "displayName": "The POSHI Support",
-  "description": "Contains helpful tools for POSHI development in VS Code editor",
-  "categories": [
-    "Languages",
-    "Snippets",
-    "Linters"
-  ],
-  "keywords": [
-    "poshi",
-    "POSHI"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/haoliangwu/vscode-poshi"
-  },
-  "scripts": {
-    "compile": "./node_modules/.bin/babel src -d lib --source-maps inline",
-    "test": "./node_modules/.bin/gulp"
-  },
-  "extensionDependencies": [
-    "vscode.xml"
-  ],
-  "activationEvents": [
-    "*"
-  ],
-  "main": "./lib/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "POSHI.quickpick",
-        "title": "POSHI Quick Pick"
-      },
-      {
-        "command": "POSHI.quickopen",
-        "title": "POSHI Quick Open"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "POSHI.quickpick",
-        "key": "alt+["
-      },
-      {
-        "command": "POSHI.quickopen",
-        "key": "alt+]"
-      }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "POSHI extension configuration",
-      "properties": {
-        "poshi.liferay.home": {
-          "type": "string",
-          "default": "${liferay-home}",
-          "description": "The absolute project path of Liferay Portal."
-        },
-        "poshi.project.home": {
-          "type": "string",
-          "default": "${poshi-home}",
-          "description": "The relative project path of Liferay Portal."
-        }
-      }
+    "name": "poshi",
+    "version": "1.4.3",
+    "publisher": "lyon",
+    "engines": {
+        "vscode": "^0.10.10"
     },
-    "languages": [
-      {
-        "id": "xml",
-        "aliases": [
-          "POSHI"
-        ],
-        "extensions": [
-          ".function",
-          ".macro",
-          ".testcase",
-          ".path"
-        ],
-        "configuration": "./poshi.configuration.json"
-      }
+    "license": "MIT",
+    "displayName": "The POSHI Support",
+    "description": "Contains helpful tools for POSHI development in VS Code editor",
+    "categories": [
+        "Languages",
+        "Snippets",
+        "Linters"
     ],
-    "snippets": [
-      {
-        "language": "xml",
-        "path": "./snippets/snippets.json"
-      }
-    ]
-  },
-  "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-preset-es2015": "^6.6.0",
-    "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-clean": "^0.3.2",
-    "gulp-mocha": "^2.2.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-watch": "^4.3.5"
-  },
-  "dependencies": {
-    "rd": "0.0.2",
-    "vscode": "^0.11.0",
-    "vscode-languageclient": "^2.2.1",
-    "vscode-languageserver": "^2.2.0"
-  }
+    "keywords": [
+        "poshi",
+        "POSHI"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/haoliangwu/vscode-poshi"
+    },
+    "scripts": {
+        "compile": "./node_modules/.bin/babel src -d lib --source-maps inline",
+        "test": "./node_modules/.bin/gulp"
+    },
+    "extensionDependencies": [
+        "vscode.xml"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./lib/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "POSHI.quickpick",
+                "title": "POSHI Quick Pick"
+            },
+            {
+                "command": "POSHI.quickopen",
+                "title": "POSHI Quick Open"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "POSHI.quickpick",
+                "key": "alt+["
+            },
+            {
+                "command": "POSHI.quickopen",
+                "key": "alt+]"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "POSHI extension configuration",
+            "properties": {
+                "poshi.liferay.home": {
+                    "type": "string",
+                    "default": "${liferay-home}",
+                    "description": "The absolute project path of Liferay Portal."
+                },
+                "poshi.project.home": {
+                    "type": "string",
+                    "default": "${poshi-home}",
+                    "description": "The relative project path of Liferay Portal."
+                }
+            }
+        },
+        "languages": [
+            {
+                "id": "xml",
+                "aliases": [
+                    "POSHI"
+                ],
+                "extensions": [
+                    ".function",
+                    ".macro",
+                    ".testcase",
+                    ".path"
+                ],
+                "configuration": "./poshi.configuration.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "xml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "babel-cli": "^6.6.5",
+        "babel-preset-es2015": "^6.6.0",
+        "chai": "^3.5.0",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-clean": "^0.3.2",
+        "gulp-mocha": "^2.2.0",
+        "gulp-plumber": "^1.1.0",
+        "gulp-watch": "^4.3.5"
+    },
+    "dependencies": {
+        "rd": "0.0.2",
+        "vscode": "^0.11.0",
+        "vscode-languageclient": "^2.2.1",
+        "vscode-languageserver": "^2.2.0"
+    }
 }
