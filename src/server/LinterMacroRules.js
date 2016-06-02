@@ -5,6 +5,7 @@ import * as reg from '../util/regexUtil'
 
 const DefinedActions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedActions.json'), 'utf-8'))
 
+// error level
 export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
@@ -35,6 +36,52 @@ export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
   })
 }
 
+
+// warning level
+export function actionOfCommandName (lines, diagnositics, connection) {
+  lines.forEach((e, i) => {
+    const match = e.match(reg.commandRegexGroup)
+    let range
+    let message
+    let code
+
+    if (!match) {
+      return
+    }
+
+    const action = match[1].match(reg.macroCommandOrderRegex.action)
+
+    if (!action) {
+      message = 'Lack of [action] segment, eg: add, edit, delete.'
+      code = 'm-2-2'
+    }
+
+    // undefined or value is 0
+    if (DefinedActions[action[1]] > 0) return
+
+    message = `The action ${action[1]} is not in defined action list`
+    code = 'm-2-3'
+
+    const offset = e.indexOf('=')
+
+    range = {
+      start: { line: i, character: match.index + offset + 1 },
+      end: { line: i, character: match.index + offset + 1 + match[1].length }
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Warning,
+      message: message,
+      source: 'poshi linter',
+      code: code,
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
+  })
+}
+
+// hint level
 export function scopeOfCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
@@ -57,7 +104,7 @@ export function scopeOfCommandName (lines, diagnositics, connection) {
       severity: DiagnosticSeverity.Hint,
       message: 'Lack of [CP/PG] limit, eg: tearDownCP',
       source: 'poshi linter',
-      code: 'm-2-1',
+      code: 'm-3-1',
       range: range
     }
 
@@ -87,50 +134,7 @@ export function modifierOfCommandName (lines, diagnositics, connection) {
       severity: DiagnosticSeverity.Hint,
       message: 'Lack of [method] limit, eg: ViaActions, ViaAP',
       source: 'poshi linter',
-      code: 'm-2-2',
-      range: range
-    }
-
-    diagnositics.push(diagnostic)
-  })
-}
-
-export function actionOfCommandName (lines, diagnositics, connection) {
-  lines.forEach((e, i) => {
-    const match = e.match(reg.commandRegexGroup)
-    let range
-    let message
-    let code
-
-    if (!match) {
-      return
-    }
-
-    const action = match[1].match(reg.macroCommandOrderRegex.action)
-
-    if (!action) {
-      message = 'Lack of [action] segment, eg: add, edit, delete.'
-      code = 'm-2-3'
-    }
-
-    // undefined or value is 0
-    if (DefinedActions[action[1]] > 0) return
-
-    message = `The action ${action[1]} is not in defined action list`
-    code = 'm-2-4'
-
-    const offset = e.indexOf('=')
-
-    range = {
-      start: { line: i, character: match.index + offset + 1 },
-      end: { line: i, character: match.index + offset + 1 + match[1].length }
-    }
-
-    const diagnostic = {
-      severity: DiagnosticSeverity.Warning,
-      message: message,
-      source: 'poshi linter',
-      code: code,
+      code: 'm-3-2',
       range: range
     }
 
