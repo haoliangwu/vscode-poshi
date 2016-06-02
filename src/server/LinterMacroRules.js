@@ -36,7 +36,6 @@ export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
   })
 }
 
-
 // warning level
 export function actionOfCommandName (lines, diagnositics, connection) {
   lines.forEach((e, i) => {

@@ -92,3 +92,30 @@ export function noNewLineAfterLastChild (lines, diagnositics, connection) {
     diagnositics.push(diagnostic)
   })
 }
+
+export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics, connection) {
+  lines.forEach((e, i) => {
+    const match = e.match(/<.*\/>/)
+
+    if (!match) return
+
+    const ruleMatch = e.match(/<.*(\s)\/>/)
+
+    if (ruleMatch) return
+
+    const range = {
+      start: {line: i, character: e.length - 2},
+      end: {line: i, character: e.length - 1}
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Error,
+      message: 'should have one space as delimiter in self closed tag',
+      source: 'poshi linter',
+      code: 'g-1-4',
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
+  })
+}
