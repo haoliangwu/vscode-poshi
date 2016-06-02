@@ -8,6 +8,7 @@
     "value1": 1,
     "argument1": 1,
     "locator1": 1,
+    "locator2": 1,
     "arg1": 1,
     "arg2": 1,
     "attribute": 1,
@@ -19,5 +20,12 @@
     "list": 1,
     "var": 1,
     "param": 1,
-    "method": 1
+    "method": 1,
+    "string": 1,
+    "substring": 1,
+    "group": 1,
+    "input": 1,
+    "pattern": 1,
+    "summary": 1,
+    "task": 1
 }
