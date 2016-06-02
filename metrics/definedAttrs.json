@@ -1,0 +1,17 @@
+{
+    "default": 1,
+    "selenium": 1,
+    "function": 1,
+    "macro": 1,
+    "name": 1,
+    "value": 1,
+    "value1": 1,
+    "argument1": 1,
+    "locator1": 1,
+    "arg1": 1,
+    "arg2": 1,
+    "attribute": 1,
+    "component-name": 1,
+    "description": 1,
+    "priority": 1
+}

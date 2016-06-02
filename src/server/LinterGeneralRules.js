@@ -1,5 +1,9 @@
 import { DiagnosticSeverity } from 'vscode-languageserver'
+import * as fs from 'fs'
+import * as path from 'path'
 // import * as reg from '../util/regexUtil'
+
+const DefinedAttrs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedAttrs.json'), 'utf-8'))
 
 export function selfClosedWithNoChild (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
@@ -117,5 +121,10 @@ export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics, connecti
     }
 
     diagnositics.push(diagnostic)
+  })
+}
+
+export function invalidAttrsCheck (lines, diagnositics, connection) {
+  lines.forEach(e => {
   })
 }
