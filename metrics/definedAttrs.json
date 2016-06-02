@@ -7,6 +7,8 @@
     "value": 1,
     "value1": 1,
     "argument1": 1,
+    "argument2": 1,
+    "locator":1,
     "locator1": 1,
     "locator2": 1,
     "arg1": 1,
@@ -27,5 +29,6 @@
     "input": 1,
     "pattern": 1,
     "summary": 1,
-    "task": 1
+    "summary-ignore": 1,
+    "macro-summary": 1
 }
