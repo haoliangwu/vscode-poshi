@@ -1,0 +1,20 @@
+{
+    "definition": 1,
+    "command": 1,
+    "execute": 1,
+    "if": 1,
+    "elseif": 1,
+    "then": 1,
+    "else": 1,
+    "equals": 1,
+    "var": 1,
+    "set-up": 1,
+    "tear-down": 1,
+    "property": 1,
+    "for": 1,
+    "condition": 1,
+    "description": 1,
+    "isset": 1,
+    "while": 1,
+    "echo": 1
+}

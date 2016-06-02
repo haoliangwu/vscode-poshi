@@ -17,12 +17,7 @@
     "priority": 1,
     "message": 1,
     "list": 1,
+    "var": 1,
     "param": 1,
-    "method": 1,
-    // useless attrs for .path files
-    "cellpadding": 1,
-    "cellspacing": 1,
-    "border": 1,
-    "rowspan": 1,
-    "colspan": 1
+    "method": 1
 }

@@ -3,7 +3,9 @@ import * as fs from 'fs'
 import * as path from 'path'
 // import * as reg from '../util/regexUtil'
 
+const IgnoreSegments = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/ignoreSegments.json'), 'utf-8'))
 const DefinedAttrs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedAttrs.json'), 'utf-8'))
+const DefinedTags = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedTags.json'), 'utf-8'))
 
 export function selfClosedWithNoChild (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
@@ -42,7 +44,6 @@ export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
       temp += e.trim() + '\n'
       return
     }
-
     connection.console.log(temp)
 
     temp = ''
@@ -75,8 +76,6 @@ export function noNewLineAfterLastChild (lines, diagnositics, connection) {
       temp += e.trim() + '\n'
       return
     }
-
-    connection.console.log(temp)
 
     temp = ''
 
@@ -137,11 +136,7 @@ export function invalidAttrsCheck (lines, diagnositics, connection) {
     attrs.forEach(attr => {
       const match = attr.match(/([\w-]+)(?=\=)/)
 
-      if (!match) return
-
-      if (DefinedAttrs[match[1]] > 0) return
-
-      connection.console.log(match[1])
+      if (!match || IgnoreSegments[match[1]] > 0 || DefinedAttrs[match[1]] > 0) return
 
       message = `The attr ${match[1]} is not in defined attr list`
       code = 'g-2-1'
@@ -163,5 +158,37 @@ export function invalidAttrsCheck (lines, diagnositics, connection) {
 
       diagnositics.push(diagnostic)
     })
+  })
+}
+
+export function invalidTagsCheck (lines, diagnositics, connection) {
+  lines.forEach((e, i) => {
+    let range
+    let message
+    let code
+
+    const match = e.match(/<\/?([\w-]+).*\s?\/?>/)
+
+    if (!match || IgnoreSegments[match[1]] > 0 || DefinedTags[match[1]] > 0) return
+
+    message = `The tag ${match[1]} is not in defined tag list`
+    code = 'g-2-2'
+
+    const start = e.indexOf(match[1])
+
+    range = {
+      start: { line: i, character: start },
+      end: { line: i, character: start + match[1].length }
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Warning,
+      message: message,
+      source: 'poshi linter',
+      code: code,
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
   })
 }

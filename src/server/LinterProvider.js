@@ -39,6 +39,7 @@ export default class LinterProvider {
         break
     }
 
+    // do linter
     rules.forEach(rule => {
       rule(lines, diagnositics, this._connection)
     })
