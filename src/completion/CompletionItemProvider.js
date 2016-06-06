@@ -51,7 +51,7 @@ export default class CompletionItemProvider {
     if (DefinedAttrs[label] > 0) {
       item.insertText = `${label}=""`
     } else if (DefinedTags[label]) {
-      item.insertText = `<${label}></${label}>`
+      item.insertText = `<${label}>\n</${label}>`
     }
 
     return item

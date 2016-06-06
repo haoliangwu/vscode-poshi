@@ -36,9 +36,9 @@ export default class MacroLensProvider {
     let segment = ''
 
     lines.forEach((e, i) => {
-      if (e.match(/<execute macro="(.+)" \/>/)) return
+      if (e.match(/<execute macro="(\w+#\w+)" \/>/)) return
 
-      const match = e.match(/<execute macro="(.+)"/)
+      const match = e.match(/<execute macro="(\w+#\w+)">/)
 
       if (match) {
         // clean the arr and init
@@ -53,6 +53,8 @@ export default class MacroLensProvider {
         // means one macro block end
         const range = new Range(new Position(lensLine, 0), new Position(lensLine, 99))
         const lens = new CodeLens(range)
+
+        if (lensLine === 0 && varNames.length === 0) return
 
         lens.payload = {segment: segment, vars: [].concat(varNames)}
 
