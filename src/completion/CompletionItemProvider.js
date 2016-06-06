@@ -46,6 +46,14 @@ export default class CompletionItemProvider {
   }
 
   resolveCompletionItem (item, token) {
+    const { label } = item
+
+    if (DefinedAttrs[label] > 0) {
+      item.insertText = `${label}=""`
+    } else if (DefinedTags[label]) {
+      item.insertText = `<${label}></${label}>`
+    }
+
     return item
   }
 }
