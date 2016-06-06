@@ -62,13 +62,13 @@ export default class CompletionProvider {
     // the type is not po type
     if (!sourceMap) return
 
-    // the key is undefined or null
+    // the key is undefined
     const key = fileUtil.parseIndexSyntaxSegment(segment)
-    if (!key) return Promise.resolve(this.completionMapping[type])
+    if (!key) return Promise.resolve([])
 
     // uri is undefined, the mapping didn't exist
     const uri = sourceMap.get(key)
-    if (!uri) return Promise.resolve(this.completionMapping[type])
+    if (!uri) return Promise.resolve([])
 
     return new Promise((resolve, reject) => {
       fs.readFile(uri, 'utf-8', (err, data) => {
