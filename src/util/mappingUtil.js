@@ -10,7 +10,9 @@ export const typeMapping = {
   testcase: 'testcase',
   macro: 'macro',
   function: 'function',
-  locator1: 'path'
+  locator1: 'path',
+  locator2: 'path',
+  locator: 'path'
 }
 
 /* mapping

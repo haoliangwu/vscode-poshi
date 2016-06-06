@@ -57,11 +57,10 @@ export default class CompletionProvider {
   retriveCommandName (match, connection) {
     const type = typeMapping[match.split('=')[0]]
     const sourceMap = this.sourceMapping[type]
-    connection.console.log(sourceMap)
     const segment = match.split('=')[1].replace(/"/g, '')
 
     // the type is not po type
-    if (!sourceMap) return Promise.resolve([])
+    if (!sourceMap) return
 
     // the key is undefined or null
     const key = fileUtil.parseIndexSyntaxSegment(segment)

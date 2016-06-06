@@ -13,9 +13,12 @@ import SymbolProvider from './symbol/SymbolProvider'
 import WorkspaceSymbolProvider from './symbol/WorkspaceSymbolProvider'
 import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
+import CompletionItemProvider from './completion/CompletionItemProvider'
 
 export function init (conf) {
   if (!conf) conf = new ExtensionConfiguration()
+
+  // languages.setLanguageConfiguration('xml', {wordPattern: /(-?\d.\d\w)|([^`~!\@@\%\^\&*()-\=+[{\]}\|\;\:\'\"\,.\<>\/\?\s]+)/g})
 
   try {
     const wholePath = conf.poshiHome
@@ -58,7 +61,8 @@ export function activate (context) {
     new SymbolProvider(conf),
     new HoverProvider(conf),
     new MacroLensProvider(conf),
-    new WorkspaceSymbolProvider(conf)
+    new WorkspaceSymbolProvider(conf),
+    new CompletionItemProvider(conf)
   ]
 
   // init
@@ -90,6 +94,9 @@ export function activate (context) {
         break
       case 'lens':
         register = languages.registerCodeLensProvider
+        break
+      case 'completion':
+        register = languages.registerCompletionItemProvider
         break
       case 'workspaceSymbol':
         register = languages.registerWorkspaceSymbolProvider
