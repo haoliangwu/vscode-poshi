@@ -22,7 +22,7 @@ export default class LangServer {
         fileEvents: workspace.createFileSystemWatcher('package.json')
       }
     }
-    return new LanguageClient('POSHI Language Server', serverOptions, clientOptions).start()
+    return new LanguageClient('poshi', serverOptions, clientOptions).start()
   }
 
 }

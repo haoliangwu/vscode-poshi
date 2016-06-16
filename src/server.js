@@ -17,108 +17,108 @@ let settings = {}
 
 documents.listen(connection)
 
-// init
-connection.onInitialize((params) => {
-  //   connection.console.log('init obj:')
-  //   connection.console.log(params)
+try {
+  // init
+  connection.onInitialize((params) => {
+    //   connection.console.log('init obj:')
+    //   connection.console.log(params)
 
-  //   const workspaceRoot = params.rootPath
-  return {
-    capabilities: {
-      textDocumentSync: documents.syncKind,
-      completionProvider: {
-        resolveProvider: true,
-        triggerCharacters: ['#']
+    //   const workspaceRoot = params.rootPath
+    return {
+      capabilities: {
+        textDocumentSync: documents.syncKind,
+        completionProvider: {
+          resolveProvider: true,
+          triggerCharacters: ['#']
+        }
       }
     }
-  }
-})
+  })
 
-// doc content change event
-documents.onDidChangeContent(change => {
-  const doc = change.document
+  // doc content change event
+  documents.onDidChangeContent(change => {
+    const doc = change.document
 
-  // linters
-  try {
-    const diagnostics = linterProvider.doLinter(doc)
+    // linters
+    try {
+      const diagnostics = linterProvider.doLinter(doc)
 
-    connection.console.log(diagnostics.length)
-    connection.sendDiagnostics({uri: doc.uri, diagnostics})
-  } catch (error) {
-    connection.console.log(error.stack)
-  }
-})
+      connection.console.log(diagnostics.length)
+      connection.sendDiagnostics({uri: doc.uri, diagnostics})
+    } catch (error) {
+      connection.console.log(error.stack)
+    }
+  })
 
-// completion
-connection.onCompletion((textDocumentPosition) => {
-  try {
-    const {textDocument, position} = textDocumentPosition
-    const lines = documents.get(textDocument.uri).getText().split(/\r?\n/g)
+  // completion
+  connection.onCompletion((textDocumentPosition) => {
+    try {
+      const {textDocument, position} = textDocumentPosition
+      const lines = documents.get(textDocument.uri).getText().split(/\r?\n/g)
 
-    // change line content
-    const change = lines[position.line]
+      // change line content
+      const change = lines[position.line]
 
-    // connection.console.log(`Change: `)
-    // connection.console.log(change)
+      // connection.console.log(`Change: `)
+      // connection.console.log(change)
 
-    // TODO 获取更为准确的change内容，而不是一整行(DONE)
-    // const match = change.match(/(\w+)="(\w+)+#?/)
-    const match = fileUtil.getChangeTextByCursor(change, position.character)
+      // TODO 获取更为准确的change内容，而不是一整行(DONE)
+      // const match = change.match(/(\w+)="(\w+)+#?/)
+      const match = fileUtil.getChangeTextByCursor(change, position.character)
 
-    // connection.console.log('Match: ')
-    // connection.console.log(match)
+      // connection.console.log('Match: ')
+      // connection.console.log(match)
 
-    // generate completionItems
-    if (match) return completionProvider.retriveCommandName(match, connection)
-  } catch (error) {
-    connection.console.log(`${error.stack}`)
-    connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
-  }
-})
+      // generate completionItems
+      if (match) return completionProvider.retriveCommandName(match, connection)
+    } catch (error) {
+      connection.console.log(`${error.stack}`)
+      connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
+    }
+  })
 
-// completion reslove
-connection.onCompletionResolve((item) => {
-  //   try {
-  //     const {detail, documentation} = completion.completionInfoSource[item.data - 1]
-  //     item.detail = detail
-  //     item.documentation = documentation
+  // completion reslove
+  connection.onCompletionResolve((item) => {
+    //   try {
+    //     const {detail, documentation} = completion.completionInfoSource[item.data - 1]
+    //     item.detail = detail
+    //     item.documentation = documentation
 
-  //     return item
-  //   } catch (error) {
-  //     console.log(error.stack)
-  //   }
-  return item
-})
+    //     return item
+    //   } catch (error) {
+    //     console.log(error.stack)
+    //   }
+    return item
+  })
 
-// option change event
-connection.onDidChangeConfiguration((change) => {
-  settings = change.settings
-  completionProvider.init(settings, connection)
-  //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
+  // option change event
+  connection.onDidChangeConfiguration((change) => {
+    settings = change.settings
+    completionProvider.init(settings, connection)
+    //   maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100
 
-  documents.all().forEach(linterProvider.doLinter)
-})
+    documents.all().forEach(linterProvider.doLinter)
+  })
 
-/*
-connection.onDidOpenTextDocument((params) => {
-  // A text document got opened in VSCode.
-  // params.uri uniquely identifies the document. For documents store on disk this is a file URI.
-  // params.text the initial full content of the document.
-  connection.console.log(`${params.uri} opened.`)
-})
-connection.onDidChangeTextDocument((params) => {
-  // The content of a text document did change in VSCode.
-  // params.uri uniquely identifies the document.
-  // params.contentChanges describe the content changes to the document.
-  connection.console.log(`${params.uri} changed: ${JSON.stringify(params.contentChanges)}`)
-})
-connection.onDidCloseTextDocument((params) => {
-  // A text document got closed in VSCode.
-  // params.uri uniquely identifies the document.
-  connection.console.log(`${params.uri} closed.`)
-})*/
+  /*
+  connection.onDidOpenTextDocument((params) => {
+    // A text document got opened in VSCode.
+    // params.uri uniquely identifies the document. For documents store on disk this is a file URI.
+    // params.text the initial full content of the document.
+    connection.console.log(`${params.uri} opened.`)
+  })
+  connection.onDidChangeTextDocument((params) => {
+    // The content of a text document did change in VSCode.
+    // params.uri uniquely identifies the document.
+    // params.contentChanges describe the content changes to the document.
+    connection.console.log(`${params.uri} changed: ${JSON.stringify(params.contentChanges)}`)
+  })
+  connection.onDidCloseTextDocument((params) => {
+    // A text document got closed in VSCode.
+    // params.uri uniquely identifies the document.
+    connection.console.log(`${params.uri} closed.`)
+  })*/
 
-try {
   connection.listen()
   connection.window.showInformationMessage(`Lang Server is listening the editor client.`)
 } catch (error) {
