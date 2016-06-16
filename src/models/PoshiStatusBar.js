@@ -31,8 +31,6 @@ export default class PoshiStatusBar {
       const plugins = this._getDependencyPlugins(doc)
       const testcasesTotal = this._getTestcaseTotal(doc)
 
-      console.log(testcasesTotal)
-
       this._pluginsItem.text = `Dependency Plugins: ${plugins.length > 0 ? plugins : 'None'}`
       this._pluginsItem.show()
 

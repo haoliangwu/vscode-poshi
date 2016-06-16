@@ -43,7 +43,6 @@ try {
     try {
       const diagnostics = linterProvider.doLinter(doc)
 
-      connection.console.log(diagnostics.length)
       connection.sendDiagnostics({uri: doc.uri, diagnostics})
     } catch (error) {
       connection.console.log(error.stack)
