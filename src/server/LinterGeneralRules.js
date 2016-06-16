@@ -44,7 +44,6 @@ export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
       temp += e.trim() + '\n'
       return
     }
-    connection.console.log(temp)
 
     temp = ''
 

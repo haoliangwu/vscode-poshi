@@ -28,70 +28,41 @@ export default class HoverProvider {
   }
 
   provideHover (document, position, token) {
-    // console.log('Document: ')
-    // console.log(document)
-    try {
-      let word = document.getText(document.getWordRangeAtPosition(position))
+    let word = document.getText(document.getWordRangeAtPosition(position))
 
-      let curLine = position.line
-      let curText = document.lineAt(position).text
-      console.log(curText)
-      let re_str = `locator1="(.*?${word}.*?)"`
-      let trigger = curText.match(re_str)
+    let curLine = position.line
+    let curText = document.lineAt(position).text
 
-      if (!trigger) return null
-      // console.log('Trigger Text: ' + trigger[0])
+    let re_str = `locator1="(.*?${word}.*?)"`
+    let trigger = curText.match(re_str)
 
-      // console.log('Line: ')
-      // console.log(line)
+    if (!trigger) return null
 
-      // the mapping key
-      const match = curText.match(reg.locator1Group)
-      const root = match ? match[1] : ''
-      const key = match ? match[2] : ''
+    // the mapping key
+    const match = curText.match(reg.locator1Group)
+    const root = match ? match[1] : ''
+    const key = match ? match[2] : ''
 
-      if (!match) return null
+    if (!match) return null
 
-      const match_start = match.index
-      const match_end = match_start + match[0].length
-      console.log('HoverKEY: ' + match[0])
-      console.log('Root: ' + root)
-      console.log('Locator Key: ' + key)
+    const match_start = match.index
+    const match_end = match_start + match[0].length
 
-      // get the hover in which command block
-      //   let commandBlock = ''
+    const infoMap = mappingLocator[root]
 
-      //   while (true) {
-      //     const match = curText.match(reg.commandRegexGroup)
-      //     if (match || curLine === 0) {
-      //       commandBlock = match[1]
-      //       break
-      //     } else {
-      //       curLine--
-      //       line = document.lineAt(curLine)
-      //       curText = line.text
-      //     }
-      //   }
-      //   console.log('Command Block: ' + commandBlock)
+    if (!infoMap) return null
 
-      const infoMap = mappingLocator[root]
+    const info = infoMap.get(key)
 
-      if (!infoMap) return null
+    const message = info || 'No locator info'
 
-      const info = infoMap.get(key)
+    // TODO use template generator will be better
+    const markdownText = `**${message}**`
 
-      const message = info || 'No locator info'
+    const range = new Range(
+      new Position(curLine, match_start),
+      new Position(curLine, match_end))
 
-      // TODO use template generator will be better
-      const markdownText = `**${message}**`
-
-      const range = new Range(
-        new Position(curLine, match_start),
-        new Position(curLine, match_end))
-
-      return new Hover(markdownText, range)
-    } catch (error) {
-      console.log(error.stack)
-    }
+    return new Hover(markdownText, range)
   }
 }

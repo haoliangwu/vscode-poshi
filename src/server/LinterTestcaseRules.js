@@ -10,8 +10,6 @@ export function upperCamelCaseCommandName (lines, diagnositics, connection) {
       return
     }
 
-    connection.console.log(match.index)
-
     if (reg.commandStandardRegex.testcase.test(match[1])) return
 
     const offset = e.indexOf('=')
