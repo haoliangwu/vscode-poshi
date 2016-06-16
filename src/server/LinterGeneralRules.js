@@ -168,7 +168,7 @@ export function invalidTagsCheck (lines, diagnositics, connection) {
 
     const match = e.match(/<\/?([\w-]+).*\s?\/?>/)
 
-    if (!match || IgnoreSegments[match[1]] > 0 || DefinedTags[match[1]] > 0) return
+    if (!match || DefinedTags[match[1]] > 0) return
 
     message = `The tag ${match[1]} is not in defined tag list`
     code = 'g-2-2'
