@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 // import * as reg from '../util/regexUtil'
 
-const IgnoreSegments = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/ignoreSegments.json'), 'utf-8'))
+// const IgnoreSegments = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/ignoreSegments.json'), 'utf-8'))
 const DefinedAttrs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedAttrs.json'), 'utf-8'))
 const DefinedTags = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedTags.json'), 'utf-8'))
 
@@ -135,7 +135,7 @@ export function invalidAttrsCheck (lines, diagnositics, connection) {
     attrs.forEach(attr => {
       const match = attr.match(/([\w-]+)(?=\=)/)
 
-      if (!match || IgnoreSegments[match[1]] > 0 || DefinedAttrs[match[1]] > 0) return
+      if (!match || DefinedAttrs[match[1]] > 0) return
 
       message = `The attr ${match[1]} is not in defined attr list`
       code = 'g-2-1'

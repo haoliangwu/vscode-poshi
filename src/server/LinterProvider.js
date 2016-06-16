@@ -17,8 +17,10 @@ export default class LinterProvider {
     const lines = doc.getText().split(reg.linesRegex)
 
     // _general
-    for (const rule in _general) {
-      rules.push(_general[rule])
+    if (ext !== 'path') {
+      for (const rule in _general) {
+        rules.push(_general[rule])
+      }
     }
 
     // by po type
