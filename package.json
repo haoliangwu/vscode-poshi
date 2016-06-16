@@ -66,6 +66,16 @@
                     "type": "string",
                     "default": "${poshi-home}",
                     "description": "The relative project path of Liferay Portal."
+                },
+                "poshi.trace.server": {
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "messages",
+                    "description": "language server log level"
                 }
             }
         },
