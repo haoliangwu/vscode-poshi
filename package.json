@@ -1,6 +1,6 @@
 {
     "name": "poshi",
-    "version": "1.4.5",
+    "version": "1.4.6",
     "publisher": "lyon",
     "engines": {
         "vscode": "^0.10.10"
