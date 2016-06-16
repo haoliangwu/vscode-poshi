@@ -9,7 +9,7 @@ const DefinedTags = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../me
 
 export function selfClosedWithNoChild (lines, diagnositics, connection) {
   lines.forEach((e, i) => {
-    const match = e.match(/<(\w+)\s.*><\/\1>/)
+    const match = e.match(/<(\w+)\s.*>[\w\s]+<\/\1>/)
     let range
 
     if (!match) {
@@ -182,6 +182,35 @@ export function invalidTagsCheck (lines, diagnositics, connection) {
 
     const diagnostic = {
       severity: DiagnosticSeverity.Warning,
+      message: message,
+      source: 'poshi linter',
+      code: code,
+      range: range
+    }
+
+    diagnositics.push(diagnostic)
+  })
+}
+
+export function pureLinesCheck (lines, diagnositics, connection) {
+  lines.forEach((e, i) => {
+    let range
+    let message = 'The line should be pure'
+    let code = 'g-1-5'
+
+    const match = e.match(/<[\s\S]+>/)
+
+    if (!match) return
+
+    if (match[0].length === e.trim().length) return
+
+    range = {
+      start: { line: i, character: 0 },
+      end: { line: i, character: e.length }
+    }
+
+    const diagnostic = {
+      severity: DiagnosticSeverity.Error,
       message: message,
       source: 'poshi linter',
       code: code,
