@@ -40,8 +40,8 @@ describe('fileUtil', function () {
     const _ = fileUtil.parseIndexSyntaxSegment
 
     assert.equal(_(segment1), 'foo')
-    assert.equal(_(segment2), 'baz')
+    assert.equal(_(segment2), undefined)
     assert.equal(_(segment3), 'foo')
-    assert.equal(_(segment4), '')
+    assert.equal(_(segment4), undefined)
   })
 })

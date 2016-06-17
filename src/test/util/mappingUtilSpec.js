@@ -48,12 +48,9 @@ describe('utilMapping', function () {
     const map1 = mappingCommandLine['PGCalendar']
     const map2 = mappingCommandLine['AkismetPortlet']
     const map3 = mappingCommandLine['AssertClick']
-    const lineNumber1 = '468'
-    const lineNumber2 = '26'
-    const lineNumber3 = '60'
 
-    assert.equal(map1.get('AddCalendarEventRegularCommentToCurrentSiteCalendars').start, lineNumber1)
-    assert.equal(map2.get('tearDownConfiguration').start, lineNumber2)
-    assert.equal(map3.get('assertTextClickAndWait').start, lineNumber3)
+    assert.deepEqual(map1.get('AddCalendarEventRegularCommentToCurrentSiteCalendars').location, [468, 13, 52])
+    assert.deepEqual(map2.get('tearDownConfiguration').location, [26, 13, 21])
+    assert.deepEqual(map3.get('assertTextClickAndWait').location, [60, 13, 22])
   })
 })

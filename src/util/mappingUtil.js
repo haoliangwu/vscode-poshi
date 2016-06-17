@@ -173,7 +173,7 @@ const initMappingCommandLine = function (type) {
         if (match) {
           const start = Math.max(0, match[0].match(reg.commandName).index - 1)
           const end = Math.max(0, match.index + match[1].length - 1)
-          mapArray.push([match[1], {uri: file.uri, location: [i, start, end]}])
+          mapArray.push([match[1], {uri: file.uri, location: [i + 1, start, end]}])
         }
       })
 
