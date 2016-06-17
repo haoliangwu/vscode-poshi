@@ -7,7 +7,7 @@ import * as path from 'path'
 const DefinedAttrs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedAttrs.json'), 'utf-8'))
 const DefinedTags = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedTags.json'), 'utf-8'))
 
-export function selfClosedWithNoChild (lines, diagnositics, connection) {
+export function selfClosedWithNoChild (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(/<(\w+)\s.*>[\w\s]+<\/\1>/)
     let range
@@ -33,7 +33,7 @@ export function selfClosedWithNoChild (lines, diagnositics, connection) {
   })
 }
 
-export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
+export function noNewLineBeforeFirstChild (lines, diagnositics) {
   let temp = ''
   let range
 
@@ -64,7 +64,7 @@ export function noNewLineBeforeFirstChild (lines, diagnositics, connection) {
   })
 }
 
-export function noNewLineAfterLastChild (lines, diagnositics, connection) {
+export function noNewLineAfterLastChild (lines, diagnositics) {
   let temp = ''
   let range
 
@@ -95,7 +95,7 @@ export function noNewLineAfterLastChild (lines, diagnositics, connection) {
   })
 }
 
-export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics, connection) {
+export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(/<.*\/>/)
 
@@ -122,7 +122,7 @@ export function withSpaceDelimiterInSelfClosedTag (lines, diagnositics, connecti
   })
 }
 
-export function invalidAttrsCheck (lines, diagnositics, connection) {
+export function invalidAttrsCheck (lines, diagnositics) {
   lines.forEach((e, i) => {
     let range
     let message
@@ -160,7 +160,7 @@ export function invalidAttrsCheck (lines, diagnositics, connection) {
   })
 }
 
-export function invalidTagsCheck (lines, diagnositics, connection) {
+export function invalidTagsCheck (lines, diagnositics) {
   lines.forEach((e, i) => {
     let range
     let message
@@ -192,7 +192,7 @@ export function invalidTagsCheck (lines, diagnositics, connection) {
   })
 }
 
-export function pureLinesCheck (lines, diagnositics, connection) {
+export function pureLinesCheck (lines, diagnositics) {
   lines.forEach((e, i) => {
     let range
     let message = 'The line should be pure'

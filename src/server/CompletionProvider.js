@@ -26,7 +26,7 @@ export default class CompletionProvider {
     }
   }
 
-  init (conf, connection) {
+  init (conf) {
     const {liferay, project} = conf.poshi
     const url = liferay.home + project.home
 
@@ -54,7 +54,7 @@ export default class CompletionProvider {
     })
   }
 
-  retriveCommandName (match, connection) {
+  retriveCommandName (match) {
     const type = typeMapping[match.split('=')[0]]
     const sourceMap = this.sourceMapping[type]
     const segment = match.split('=')[1].replace(/"/g, '')
@@ -64,7 +64,6 @@ export default class CompletionProvider {
 
     // the key is undefined
     const key = fileUtil.parseIndexSyntaxSegment(segment)
-    connection.console.log(key)
     if (!key) return Promise.resolve(this.completionMapping[type])
 
     // uri is undefined, the mapping didn't exist

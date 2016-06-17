@@ -3,7 +3,7 @@ import * as fileUtil from '../util/fileUtil'
 import LinterProvider from '../server/LinterProvider'
 import CompletionProvider from '../server/CompletionProvider'
 
-const linterProvider = new LinterProvider(connection)
+const linterProvider = new LinterProvider()
 const completionProvider = new CompletionProvider()
 
 let settings = {}
@@ -54,7 +54,7 @@ connection.onCompletion((textDocumentPosition) => {
     const match = fileUtil.getChangeTextByCursor(change, position.character)
 
     // generate completionItems
-    if (match) return completionProvider.retriveCommandName(match, connection)
+    if (match) return completionProvider.retriveCommandName(match)
   } catch (error) {
     connection.console.log(`${error.stack}`)
     connection.window.showErrorMessage(`Lang Server completion request failed by error: ${error.stack}`)
@@ -69,7 +69,7 @@ connection.onCompletionResolve((item) => {
 // option change event
 connection.onDidChangeConfiguration((change) => {
   settings = change.settings
-  completionProvider.init(settings, connection)
+  completionProvider.init(settings)
 
   documents.all().forEach(linterProvider.doLinter)
 })

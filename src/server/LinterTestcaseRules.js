@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from 'vscode-languageserver'
 import * as reg from '../util/regexUtil'
 
-export function upperCamelCaseCommandName (lines, diagnositics, connection) {
+export function upperCamelCaseCommandName (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
     let range

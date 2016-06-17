@@ -6,10 +6,6 @@ import * as _macro from './LinterMacroRules'
 import * as reg from '../util/regexUtil'
 
 export default class LinterProvider {
-  constructor (connection) {
-    this._connection = connection
-  }
-
   doLinter (doc) {
     const diagnositics = []
     const rules = []

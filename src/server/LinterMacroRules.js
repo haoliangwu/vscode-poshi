@@ -6,7 +6,7 @@ import * as reg from '../util/regexUtil'
 const DefinedActions = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../metrics/definedActions.json'), 'utf-8'))
 
 // error level
-export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
+export function lowerCamelCaseCommandName (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
     let range
@@ -37,7 +37,7 @@ export function lowerCamelCaseCommandName (lines, diagnositics, connection) {
 }
 
 // warning level
-export function actionOfCommandName (lines, diagnositics, connection) {
+export function actionOfCommandName (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
     let range
@@ -81,7 +81,7 @@ export function actionOfCommandName (lines, diagnositics, connection) {
 }
 
 // hint level
-export function scopeOfCommandName (lines, diagnositics, connection) {
+export function scopeOfCommandName (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
     let range
@@ -111,7 +111,7 @@ export function scopeOfCommandName (lines, diagnositics, connection) {
   })
 }
 
-export function modifierOfCommandName (lines, diagnositics, connection) {
+export function modifierOfCommandName (lines, diagnositics) {
   lines.forEach((e, i) => {
     const match = e.match(reg.commandRegexGroup)
     let range
