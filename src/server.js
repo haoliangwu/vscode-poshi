@@ -1,8 +1,6 @@
-import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
+import { TextDocuments } from 'vscode-languageserver'
+import { connection } from './models/ConnectionProxy'
 import * as fileUtil from './util/fileUtil'
-
-// conection instance
-const connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process))
 
 // sync documents
 const documents = new TextDocuments()
