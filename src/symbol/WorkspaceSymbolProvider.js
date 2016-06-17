@@ -1,5 +1,6 @@
 import { SymbolKind, SymbolInformation, Uri } from 'vscode'
 import { mappingCommandLine } from '../util/mappingUtil'
+import * as vscodeUtil from '../util/vscodeUtil'
 
 export default class WorkspaceSymbolProvider {
   constructor (conf) {
@@ -15,7 +16,8 @@ export default class WorkspaceSymbolProvider {
     if (this._symbolItems.length === 0) {
       for (const fileName in mappingCommandLine) {
         for (const [name, props] of mappingCommandLine[fileName]) {
-          this._symbolItems.push(new SymbolInformation(`${fileName}#${name}`, SymbolKind.Method, props.range, Uri.file(props.uri)))
+          const [line, start, end] = props.location
+          this._symbolItems.push(new SymbolInformation(`${fileName}#${name}`, SymbolKind.Method, vscodeUtil.getRange(line, start, end), Uri.file(props.uri)))
         }
       }
     }

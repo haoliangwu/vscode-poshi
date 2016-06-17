@@ -1,4 +1,3 @@
-import { Range, Position } from 'vscode'
 import * as rd from 'rd'
 import * as fs from 'fs'
 import * as reg from './regexUtil'
@@ -174,7 +173,7 @@ const initMappingCommandLine = function (type) {
         if (match) {
           const start = Math.max(0, match[0].match(reg.commandName).index - 1)
           const end = Math.max(0, match.index + match[1].length - 1)
-          mapArray.push([match[1], {uri: file.uri, range: new Range(new Position(i, start), new Position(i, end))}])
+          mapArray.push([match[1], {uri: file.uri, location: [i, start, end]}])
         }
       })
 

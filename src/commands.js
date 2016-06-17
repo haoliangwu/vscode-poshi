@@ -1,5 +1,6 @@
 import { workspace, window, commands, TextEditorRevealType } from 'vscode'
 import { mappingWholeNames, mappingCommandLine } from './util/mappingUtil'
+import * as vscodeUtil from './util/vscodeUtil'
 
 export const quickPickCommand = () => {
   // TODO 加一些文件联想操作、模糊查询操作(DONE)
@@ -66,13 +67,14 @@ export const quickOpenCommand = () => {
       return
     }
 
-    const {uri, range} = file
+    const {uri, location} = file
+    const [line, start, end] = location
 
     if (uri) {
       workspace.openTextDocument(uri).then(doc => {
         window.showTextDocument(doc).then(editor => {
           commands.executeCommand('workbench.files.action.addToWorkingFiles', doc).then(() => {
-            editor.revealRange(range, TextEditorRevealType.InCenter)
+            editor.revealRange(vscodeUtil.getRange(line, start, end), TextEditorRevealType.InCenter)
           })
         })
       })

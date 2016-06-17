@@ -1,6 +1,7 @@
 import { SymbolKind, SymbolInformation } from 'vscode'
 import { mappingCommandLine } from '../util/mappingUtil'
 import * as fileUtil from '../util/fileUtil'
+import * as vscodeUtil from '../util/vscodeUtil'
 
 export default class SymbolProvider {
   constructor (conf) {
@@ -26,8 +27,9 @@ export default class SymbolProvider {
 
     if (!map) return
 
-    for (const [name, file] of map) {
-      symbolItems.push(new SymbolInformation(name, SymbolKind.Method, file.range))
+    for (const [name, props] of map) {
+      const [line, start, end] = props.location
+      symbolItems.push(new SymbolInformation(name, SymbolKind.Method, vscodeUtil.getRange(line, start, end)))
     }
 
     return symbolItems
