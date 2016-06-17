@@ -64,7 +64,8 @@ export default class CompletionProvider {
 
     // the key is undefined
     const key = fileUtil.parseIndexSyntaxSegment(segment)
-    if (!key) return Promise.resolve([])
+    connection.console.log(key)
+    if (!key) return Promise.resolve(this.completionMapping[type])
 
     // uri is undefined, the mapping didn't exist
     const uri = sourceMap.get(key)
