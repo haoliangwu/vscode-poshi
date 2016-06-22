@@ -1,5 +1,7 @@
 import { workspace, languages, commands, window } from 'vscode'
 
+import * as reference from '../metrics/reference'
+
 import ExtensionConfiguration from './models/ExtensionConfiguration'
 import LangServer from './models/LangServer'
 import PoshiStatusBar from './models/PoshiStatusBar'
@@ -17,6 +19,8 @@ import CompletionItemProvider from './completion/CompletionItemProvider'
 import LocatorReferenceProvider from './reference/LocatorReferenceProvider'
 
 export function init (conf) {
+  reference.demo()
+
   if (!conf) conf = new ExtensionConfiguration()
 
   // languages.setLanguageConfiguration('xml', {wordPattern: /(-?\d.\d\w)|([^`~!\@@\%\^\&*()-\=+[{\]}\|\;\:\'\"\,.\<>\/\?\s]+)/g})

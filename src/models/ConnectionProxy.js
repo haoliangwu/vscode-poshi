@@ -13,7 +13,6 @@ const connection = createConnection(new IPCMessageReader(process), new IPCMessag
 
 documents.listen(connection)
 
-
 // init
 connection.onInitialize((params) => {
   //   const workspaceRoot = params.rootPath
