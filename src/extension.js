@@ -14,6 +14,7 @@ import WorkspaceSymbolProvider from './symbol/WorkspaceSymbolProvider'
 import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
 import CompletionItemProvider from './completion/CompletionItemProvider'
+import LocatorReferenceProvider from './reference/LocatorReferenceProvider'
 
 export function init (conf) {
   if (!conf) conf = new ExtensionConfiguration()
@@ -62,7 +63,8 @@ export function activate (context) {
     new HoverProvider(conf),
     new MacroLensProvider(conf),
     new WorkspaceSymbolProvider(conf),
-    new CompletionItemProvider(conf)
+    new CompletionItemProvider(conf),
+    new LocatorReferenceProvider(conf)
   ]
 
   // init
@@ -100,6 +102,9 @@ export function activate (context) {
         break
       case 'workspaceSymbol':
         register = languages.registerWorkspaceSymbolProvider
+        break
+      case 'reference':
+        register = languages.registerReferenceProvider
         break
     }
 
