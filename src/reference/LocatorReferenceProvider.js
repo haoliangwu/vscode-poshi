@@ -17,7 +17,13 @@ export default class LocatorReferenceProvider {
     }
   }
 
-  provideReferences (document, position, context, token) {
+  provideReferences (doc, position, context, token) {
+    const text = doc.lineAt(position).text
+
+    const match = text.match(/<td>([A-Z0-9_]*)<\/td>/)
+
+    if (!match) return
+
     return []
   }
 }
