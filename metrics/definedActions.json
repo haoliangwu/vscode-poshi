@@ -177,5 +177,7 @@
 	"switch": 1,
 	"loop": 1,
 	"nested": 1,
-	"macro": 1
+	"macro": 1,
+	"localized": 1,
+	"exit": 1
 }
