@@ -4,7 +4,6 @@ const rd = require('rd')
 const fs = require('fs-extra')
 const path = require('path')
 
-const branches = ['6210', '62', 'master']
 const typeFilter = ['.testcase', '.macro']
 
 function generateLocatorsReference (url) {
