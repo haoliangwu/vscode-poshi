@@ -14,4 +14,4 @@ jsconfig.json
 typings.json
 .babelrc
 sync.js
-metrics/**
+metrics/reference/**

@@ -5,4 +5,4 @@ lib
 test/source
 npm-debug.log
 sync.js
-metrics
+metrics/reference
