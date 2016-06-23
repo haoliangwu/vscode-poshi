@@ -1,5 +1,6 @@
 import { IPCMessageReader, IPCMessageWriter, createConnection, TextDocuments } from 'vscode-languageserver'
 import * as fileUtil from '../util/fileUtil'
+import * as reference from '../../metrics/reference'
 import LinterProvider from '../server/LinterProvider'
 import CompletionProvider from '../server/CompletionProvider'
 
@@ -15,7 +16,10 @@ documents.listen(connection)
 
 // init
 connection.onInitialize((params) => {
-  //   const workspaceRoot = params.rootPath
+  connection.console.log(params)
+  // init references
+  reference.generate(params.rootPath)
+
   return {
     capabilities: {
       textDocumentSync: documents.syncKind,

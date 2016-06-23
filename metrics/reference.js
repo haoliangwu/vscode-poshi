@@ -58,12 +58,8 @@ function generateLocatorsReference (url) {
   })
 }
 
-exports.generate = function () {
-  branches.forEach(e => {
-    var url = `/home/lyon/liferay/portal/portal-${e}/portal-web/test/functional/com/liferay/portalweb`
+exports.generate = function (url) {
+  // var url = `/home/lyon/liferay/portal/portal-${e}/portal-web/test/functional/com/liferay/portalweb`
 
-    generateLocatorsReference(url)
-  })
+  generateLocatorsReference(url)
 }
-
-exports.generate()
