@@ -129,12 +129,16 @@ To use InterlliSense, just same as other rich editor. The extension initialize t
 ![completion](images/completion.gif)
 
 ### Peek
-> You can view reference files through Peek View, even edit.
+> You can view reference source files through Peek View, even edit.
 ![peek to file](images/peek.gif)
 
 ### Definition
-> Go to reference files directly by clicking the key word.
+> Go to source files directly by clicking the key word.
 ![go to definition](images/definition.gif)
+
+### Reference
+> Find all reference feature for POSHI
+![find all reference](images/reference.gif)
 
 ### Hover
 > Give you instant value of variates, eg: locator and its value.
