@@ -16,7 +16,6 @@ documents.listen(connection)
 
 // init
 connection.onInitialize((params) => {
-  connection.console.log(params)
   // init references
   reference.generate(params.rootPath)
 
@@ -72,6 +71,7 @@ connection.onCompletionResolve((item) => {
 // option change event
 connection.onDidChangeConfiguration((change) => {
   settings = change.settings
+
   completionProvider.init(settings)
 
   documents.all().forEach(linterProvider.doLinter)

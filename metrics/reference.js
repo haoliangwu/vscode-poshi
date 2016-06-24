@@ -6,59 +6,95 @@ const path = require('path')
 
 const typeFilter = ['.testcase', '.macro']
 
-function generateLocatorsReference (url) {
-  rd.eachSync(url, function (f, s) {
-    if (s.isDirectory()) return
+function generateLocatorsReference (f, lines) {
+  const fileName = path.parse(f).base
 
-    const fileName = path.parse(f).base
-    const ext = path.parse(f).ext
+  lines.forEach(function (e, i) {
+    var match = e.match(/([a-zA-Z0-9]+#[A-Z0-9_]+)/)
 
-    if (typeFilter.indexOf(ext) < 0) return
+    // if (!match || match[1] !== 'CPMyworkflowtasks#ASSIGNED_TO_MY_ROLES_TABLE_ASSET_TITLE') return
+    if (!match) return
 
-    var p = new Promise(function (res) {
-      fs.readFile(f, function (err, data) {
-        if (err) throw err
+    const reference = path.resolve(__dirname, `./reference/locators/${match[1]}.json`)
 
-        const lines = data.toString().split(/\r?\n/g)
+    fs.ensureFileSync(reference)
 
-        res(lines)
-      })
-    })
+    let source = fs.readJsonSync(reference, {throws: false})
 
-    p.then(lines => {
-      lines.forEach(function (e, i) {
-        var match = e.match(/([a-zA-Z0-9]+#[A-Z0-9_]+)/)
+    if (source === null) source = {}
 
-        // if (!match || match[1] !== 'CPMyworkflowtasks#ASSIGNED_TO_MY_ROLES_TABLE_ASSET_TITLE') return
-        if (!match) return
+    const file = fileName
+    const start = match.index
+    const end = start + match[1].length
+    const line = i
 
-        const reference = path.resolve(__dirname, `./reference/locators/${match[1]}.json`)
+    if (!source[file]) source[file] = []
 
-        fs.ensureFileSync(reference)
+    source[file].push({line, start, end})
 
-        let source = fs.readJsonSync(reference, {throws: false})
+    fs.writeJsonSync(reference, source)
 
-        if (source === null) source = {}
+  // console.log(`writing ${match[1]} finished.`)
+  })
+}
 
-        const file = fileName
-        const start = match.index
-        const end = start + match[1].length
-        const line = i
+function generateMacrosReference (f, lines) {
+  const fileName = path.parse(f).base
 
-        if (!source[file]) source[file] = []
+  lines.forEach(function (e, i) {
+    var match = e.match(/([a-zA-Z0-9]+#[a-z0-9]+[a-zA-Z0-9_]*)/)
 
-        source[file].push({line, start, end})
+    // if (!match || match[1] !== 'CPMyworkflowtasks#ASSIGNED_TO_MY_ROLES_TABLE_ASSET_TITLE') return
+    if (!match) return
 
-        fs.writeJsonSync(reference, source)
+    const reference = path.resolve(__dirname, `./reference/macros/${match[1]}.json`)
 
-      // console.log(`writing ${match[1]} finished.`)
+    fs.ensureFileSync(reference)
+
+    let source = fs.readJsonSync(reference, {throws: false})
+
+    if (source === null) source = {}
+
+    const file = fileName
+    const start = match.index
+    const end = start + match[1].length
+    const line = i
+
+    if (!source[file]) source[file] = []
+
+    source[file].push({line, start, end})
+
+    fs.writeJsonSync(reference, source)
+
+  // console.log(`writing ${match[1]} finished.`)
+  })
+}
+
+exports.generate = function (url) {
+  fs.remove(path.resolve(__dirname, `./reference`), function (err) {
+    if (err) return console.error(err)
+
+    rd.eachSync(url, function (f, s) {
+      if (s.isDirectory()) return
+
+      const ext = path.parse(f).ext
+
+      if (typeFilter.indexOf(ext) < 0) return
+
+      new Promise(function (res) {
+        fs.readFile(f, function (err, data) {
+          if (err) throw err
+
+          const lines = data.toString().split(/\r?\n/g)
+
+          res(lines)
+        })
+      }).then(lines => {
+        generateLocatorsReference(f, lines)
+        generateMacrosReference(f, lines)
       })
     })
   })
 }
 
-exports.generate = function (url) {
-  // var url = `/home/lyon/liferay/portal/portal-${e}/portal-web/test/functional/com/liferay/portalweb`
-
-  generateLocatorsReference(url)
-}
+// exports.generate('/home/lyon/liferay/portal/portal-62/portal-web/test/functional/com/liferay/portalweb')

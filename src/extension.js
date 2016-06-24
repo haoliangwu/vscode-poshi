@@ -17,6 +17,7 @@ import HoverProvider from './hover/HoverProvider'
 import MacroLensProvider from './lens/MacroLensProvider'
 import CompletionItemProvider from './completion/CompletionItemProvider'
 import LocatorReferenceProvider from './reference/LocatorReferenceProvider'
+import MacroReferenceProvider from './reference/MacroReferenceProvider'
 
 export function init (conf) {
   if (!conf) conf = new ExtensionConfiguration()
@@ -66,7 +67,8 @@ export function activate (context) {
     new MacroLensProvider(conf),
     new WorkspaceSymbolProvider(conf),
     new CompletionItemProvider(conf),
-    new LocatorReferenceProvider(conf)
+    new LocatorReferenceProvider(conf),
+    new MacroReferenceProvider(conf)
   ]
 
   // init
