@@ -25,7 +25,7 @@ export const quickPickCommand = () => {
 
     workspace.openTextDocument(uri).then(doc => {
       window.showTextDocument(doc).then(editor => {
-        commands.executeCommand('workbench.files.action.addToWorkingFiles', doc)
+        commands.executeCommand('workbench.action.keepEditor', doc)
       })
     })
   })
@@ -73,7 +73,7 @@ export const quickOpenCommand = () => {
     if (uri) {
       workspace.openTextDocument(uri).then(doc => {
         window.showTextDocument(doc).then(editor => {
-          commands.executeCommand('workbench.files.action.addToWorkingFiles', doc).then(() => {
+          commands.executeCommand('workbench.action.keepEditor', doc).then(() => {
             editor.revealRange(vscodeUtil.getRange(line, start, end), TextEditorRevealType.InCenter)
           })
         })
